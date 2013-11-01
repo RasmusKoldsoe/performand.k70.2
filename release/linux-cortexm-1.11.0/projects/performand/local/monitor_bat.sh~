@@ -1,0 +1,8 @@
+#!/bin/sh
+
+while :
+do
+	./batstat >> /mnt/temp/batlog.txt
+	echo "Measure"
+	sleep 10
+done

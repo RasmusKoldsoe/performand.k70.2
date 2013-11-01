@@ -1,0 +1,78 @@
+Installing and configuring a TFTP server on Ubuntu
+
+ 
+
+To install and configure a TFTP server on Ubuntu, you need is to follow these steps:
+
+ 
+
+-  Install the software required for the TFTP server.
+
+ 
+
+   $ sudo apt-get install tftp tftpd xinetd
+
+ 
+
+-  Create a file called /etc/xinetd.d/tftp and fill it with the following contents.  Note that, along with almost everyone else, we use /tftpboot for the TFTP root directory. 
+        
+        service tftp
+        {
+        protocol        = udp
+        port            = 69
+        socket_type     = dgram
+        wait            = yes
+        user            = nobody
+        server          = /usr/sbin/in.tftpd
+        server_args     = /tftpboot
+        disable         = no
+        }
+        
+- Create the /tftpboot directory and make it writable by user (this way we don't have to sudo everytime we want to put something in the /tftpboot directory).
+
+ 
+
+    $ sudo mkdir /tftpboot
+    $ sudo chown <your user name>.<your user name> /tftpboot
+        
+- Restart xinetd so that it re-reads the configuration files:
+
+    $ sudo /etc/init.d/xinetd restart
+ 
+
+Testing your TFTP Server Prior to Embedded Board Boot
+
+ 
+
+You can test the TFTP server easily enough by starting a session and copying a file using the localhost interface.  In our case, we are using the Xinetd daemon to automatically start a TFTP server process on the host when (and only when) a remote client attempts to connect to it.  This keeps the number of running processes down on the Linux host and makes more efficient use of system resources.  The main thing that we are testing is the proper functioning of Xinetd, and that our TFTP server is using the correct root directory from which to serve files.
+ 
+First, create a file in /tftpboot with some text in it:
+
+ 
+
+   $ echo "THIS IS A FILE" > /tftpboot/myfile
+ 
+Check to make sure the file contains the text:
+    
+    $ cat /tftpboot/myfile
+    THIS IS A FILE
+ 
+
+Change directories to somewhere else:
+
+ 
+    $ cd ~
+
+ 
+
+Start a TFTP session with your localhost to 'download' the file:
+    
+    $ tftp localhost
+    tftp> get myfile
+    Received 16 bytes in 0.0 seconds
+    tftp> quit
+ 
+Check to make sure that the file is the one that you created in /tftpboot:
+
+    $ cat myfile
+    THIS IS A FILE

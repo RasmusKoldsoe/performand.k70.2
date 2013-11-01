@@ -1,0 +1,21 @@
+# mmc0: new SD card at address e624
+mmcblk0: mmc0:e624 SU02G 1.84 GiB
+ mmcblk0: p1 p2
+~ # fdisk -l /dev/mmcblk0
+
+Disk /dev/mmcblk0: 1977 MB, 1977614336 bytes
+4 heads, 16 sectors/track, 60352 cylinders
+Units = cylinders of 64 * 512 = 32768 bytes
+
+        Device Boot      Start         End      Blocks  Id System
+/dev/mmcblk0p1              33         192        5120   c Win95 FAT32 (LBA)
+Partition 1 does not end on cylinder boundary
+/dev/mmcblk0p2             193       60352     1925120  83 Linux
+Partition 2 does not end on cylinder boundary
+~ # mount /dev/mmcblk0p1 /mnt
+~ # ls -l /mnt
+drwxr-xr-x    2 root     root          2048 Mar 26  2013 LOST.DIR
+-rwxr-xr-x    1 root     root            26 Jan  1  1980 passwd
+-rwxr-xr-x    1 root     root       2650876 Apr 22  2013 uImage
+-rwxr-xr-x    1 root     root       2390172 Mar 22  2013 uImage-3.0-ts-armv7l
+~ # 

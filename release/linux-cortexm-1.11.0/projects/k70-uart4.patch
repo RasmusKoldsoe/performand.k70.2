@@ -1,0 +1,76 @@
+diff --git a/networking/local/inittab.K70 b/networking/local/inittab.K70
+index 7b6c0f4..caa87dc 100644
+--- a/networking/local/inittab.K70
++++ b/networking/local/inittab.K70
+@@ -1,2 +1,4 @@
+ ::sysinit:/etc/rc
+ ttyS2::respawn:/bin/hush -i
++#ttyS4::respawn:/bin/hush -i
++ttyS4::respawn:/bin/getty 115200 ttyS4 vt100
+diff --git a/networking/networking.busybox b/networking/networking.busybox
+index f3a2969..e6d55ae 100644
+--- a/networking/networking.busybox
++++ b/networking/networking.busybox
+@@ -256,7 +256,7 @@ CONFIG_SLEEP=y
+ # CONFIG_FEATURE_SPLIT_FANCY is not set
+ # CONFIG_STAT is not set
+ # CONFIG_FEATURE_STAT_FORMAT is not set
+-# CONFIG_STTY is not set
++CONFIG_STTY=y
+ # CONFIG_SUM is not set
+ # CONFIG_SYNC is not set
+ # CONFIG_TAC is not set
+@@ -438,7 +438,7 @@ CONFIG_FEATURE_SHADOWPASSWDS=y
+ CONFIG_FIRST_SYSTEM_ID=0
+ CONFIG_LAST_SYSTEM_ID=0
+ # CONFIG_DELUSER is not set
+-# CONFIG_GETTY is not set
++CONFIG_GETTY=y
+ CONFIG_LOGIN=y
+ # CONFIG_PAM is not set
+ # CONFIG_LOGIN_SCRIPTS is not set
+diff --git a/networking/networking.initramfs b/networking/networking.initramfs
+index 963b322..35e964b 100644
+--- a/networking/networking.initramfs
++++ b/networking/networking.initramfs
+@@ -31,6 +31,8 @@ nod /dev/ptmx 0666 0 0 c 5 2
+ nod /dev/ttyS0 0666 0 0 c 4 64
+ nod /dev/ttyS1 0666 0 0 c 4 65
+ nod /dev/ttyS2 0666 0 0 c 4 66
++nod /dev/ttyS3 0666 0 0 c 4 67
++nod /dev/ttyS4 0666 0 0 c 4 68
+ 
+ dir /root 0700 0 0
+ dir /proc 0755 0 0
+@@ -138,6 +140,8 @@ slink /bin/fdisk busybox 777 0 0
+ slink /bin/time busybox 777 0 0
+ slink /bin/ftpget busybox 777 0 0
+ slink /bin/ftpput busybox 777 0 0
++slink /bin/stty busybox 777 0 0
++slink /bin/getty busybox 777 0 0
+ 
+ dir /usr/share 755 0 0
+ dir /usr/share/udhcpc 755 0 0
+diff --git a/networking/networking.kernel.K70 b/networking/networking.kernel.K70
+index 3cfe796..322c5b4 100644
+--- a/networking/networking.kernel.K70
++++ b/networking/networking.kernel.K70
+@@ -1,7 +1,7 @@
+ #
+ # Automatically generated make config: don't edit
+ # Linux kernel version: 2.6.33
+-# Wed Feb 27 20:18:21 2013
++# Fri Jun 14 19:39:35 2013
+ #
+ CONFIG_ARM=y
+ CONFIG_SYS_SUPPORTS_APM_EMULATION=y
+@@ -236,7 +236,8 @@ CONFIG_MACH_KINETIS=y
+ CONFIG_KINETIS_UART2=y
+ # CONFIG_KINETIS_UART2_CTSRTS is not set
+ # CONFIG_KINETIS_UART3 is not set
+-# CONFIG_KINETIS_UART4 is not set
++CONFIG_KINETIS_UART4=y
++# CONFIG_KINETIS_UART4_CTSRTS is not set
+ # CONFIG_KINETIS_UART5 is not set
+ CONFIG_KINETIS_MAC=y
+ CONFIG_KINETIS_EDMA=y

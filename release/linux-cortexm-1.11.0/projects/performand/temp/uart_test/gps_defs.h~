@@ -1,0 +1,25 @@
+#ifndef _GPS_DEFS_H_
+#define _GPS_DEFS_H_
+
+typedef struct RMC_DATA{
+    unsigned long timeHour;
+    unsigned long timeMinute;
+    unsigned long timeSecond;
+    unsigned long timeMillisecond;
+    enum POSITION_FIX_STATUS positionFix;
+    unsigned long latitudeDegrees;
+    unsigned long latitudeMinutes;
+    unsigned long latitudeSeconds;
+    unsigned char latitudeHemisphere;
+    unsigned long longitudeDegrees;
+    unsigned long longitudeMinutes;
+    unsigned long longitudeSeconds;
+    unsigned char longitudeHemisphere;
+    float speedOverGround;//in m/s
+    float courseOverGround;//in degrees
+    long dateDay;
+    long dateMonth;
+    long dateYear;
+}RMC_DATA;
+
+#endif

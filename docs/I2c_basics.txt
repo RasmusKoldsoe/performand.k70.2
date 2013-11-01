@@ -1,0 +1,23 @@
+The platform bus is not a real bus but used to manage typical miscellaneous hardware you can find in embedded systems. Usually the 'platform devices' are registered by the machine setup code. The code you pasted above is registering a 'platform device' called i2c-gpio. This will typically trigger the i2c-gpio driver that will do all I2C bitbanging for you using the GPIO pins you defined in the platform_data (the data that is contained in the registered platform device.
+
+Now. Indeed, as you can see in sysfs, both the platform device and the platform driver are matched and active. This means that you have a i2c-adapter from this moment.
+
+But an i2c-adapter is something that lives and breathes (if all goes well) in kernel land. You cannot access it from user space as you are trying via /dev. The fact that it lives in sysfs does not automatically mean that you can use it through sysfs. Basically every important (k)object in the kernel will show up in sysfs.
+
+The problem you now have is described in your kernel sources in Documentation/i2c/dev-interface
+Read this file and it will become clear to you that you need another module to access the kernel i2c adapters from user land. From your first post, everything seems to be working since you see i2c-0 pop up in your /dev directory.
+
+> "How does Linux kernel knows for I2C-0 it has to use TWI0 interface? "
+Well, when you register the platform device, you see that it also has an 'id' field. This is set to 0 in your first platform device. So this is likely to become adapter 0 in your system (check sysfs for details). This is automatically matched with i2c-0 by the i2c-dev driver (as you have read by now in Documentation/i2c/dev-interface)
+
+>"Now i need to creare /dev/I2C-1 device to use TWI1 interface, how do i do that? "
+First, the i2c-dev driver will never create an interface that you can use via /dev/i2c-1 if adapter 1 does not show up in sysfs (which means it doesn't exist at all).
+
+This is indeed likely due to the fact that nobody calls the at91_add_device_i2c() function with a i2c_id other than 1.
+
+If you want to know who called your at91_add_device_i2c() at all, you can simple grep for this as this is the first thing you are supposed to do when you are looking for something. Take a bash shell and execute the following:
+
+cd <root of linux source tree>; grep -r 'at91_add_device_i2c' *
+
+and you should see which code is calling it or not....
+

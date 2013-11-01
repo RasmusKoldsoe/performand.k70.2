@@ -1,0 +1,47 @@
+#!/bin/sh
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devpts none /dev/pts
+# To do NFS-mount of a development host directory for your project,
+# replace the IP and host directory in the line below with your
+# values matching your local settings
+mount -o nolock,rsize=1024 192.168.1.2:/home/rasmus/performand.k70/release/linux-cortexm-1.11.0/projects/performand /mnt
+ifconfig lo 127.0.0.1
+# ifconfig eth0 192.168.0.100
+
+echo "Mounting NAND drive"
+mkdir /nand
+mount -t jffs2 /dev/mtdblock2 /nand
+
+#echo "hih6130: Humidity and Temperature sensor driver."
+#insmod hih6130.ko
+
+#echo "GPS: Changing serial port settings to 9600 Baud."
+#stty -F /dev/ttyS1 9600 
+
+#echo "GS1500M: Changing serial port settings to 9600 Baud."
+#stty -F /dev/ttyS3 115200 
+
+echo "CC2541: Changing serial port settings to 115200 Baud."
+stty -F /dev/ttyS3 115200 
+
+#echo "Preparing cgi appliaction."
+#cp read_humtemp
+#/httpd/html
+
+#echo "Starting HTML server."
+#httpd -h /httpd/html
+
+#echo "Starting battery log."
+#./monitor_bat.sh &
+
+echo "Mounting SD Card ..."
+mkdir sdcard
+mount /dev/mmcblk0p1 /sdcard
+
+echo "Starting IMU driver ..."
+insmod /performand/driver/imu.ko
+
+echo "Starting GPS daemon ..."
+./performand/apps/gps_daemon &
+

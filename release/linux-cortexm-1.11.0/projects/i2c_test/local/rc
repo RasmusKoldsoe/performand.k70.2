@@ -1,0 +1,10 @@
+#!/bin/sh
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devpts none /dev/pts
+mkdir /mnt
+#mount -o nolock,rsize=1024 172.17.0.1:/home/vlad/test/linux-cortexm-1.6.0-farelogistics-1/projects/i2c_test/app /mnt
+#ifconfig lo 127.0.0.1
+# ifconfig eth0 172.17.0.199
+
+

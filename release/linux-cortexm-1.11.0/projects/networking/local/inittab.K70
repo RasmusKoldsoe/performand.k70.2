@@ -1,0 +1,4 @@
+::sysinit:/etc/rc
+ttyS2::respawn:/bin/hush -i
+#ttyS4::respawn:/bin/hush -i
+ttyS4::respawn:/bin/getty 115200 ttyS4 vt100
