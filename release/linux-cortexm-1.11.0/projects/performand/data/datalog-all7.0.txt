@@ -1,0 +1,5064 @@
+<dataset id="0">
+<timestamp>19.651</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.75</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="99">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+</dataset>
+<dataset id="1">
+<timestamp>20.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="100">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="101">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="102">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="103">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="104">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="17">
+<Timestamp>19.874</Timestamp>
+<Orientation>
+<pitch>-1.08</pitch>
+<roll>-1.76</roll>
+<yaw>9.36</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00586</x>
+<y id="1">00156</y>
+<z id="1">24644</z>
+<time id="1">19.486</time>
+<x id="2">00593</x>
+<y id="2">00235</y>
+<z id="2">24582</z>
+<time id="2">19.536</time>
+<x id="3">00416</x>
+<y id="3">00211</y>
+<z id="3">24686</z>
+<time id="3">19.759</time>
+<x id="4">00586</x>
+<y id="4">00211</y>
+<z id="4">24725</z>
+<time id="4">19.806</time>
+<x id="5">00471</x>
+<y id="5">00372</y>
+<z id="5">24822</z>
+<time id="5">19.849</time>
+</Accelerometer>
+</imu>
+
+<imu id="18">
+<Timestamp>20.164</Timestamp>
+<Orientation>
+<pitch>-1.09</pitch>
+<roll>-1.76</roll>
+<yaw>7.81</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00457</x>
+<y id="1">00313</y>
+<z id="1">24679</z>
+<time id="1">19.934</time>
+<x id="2">00544</x>
+<y id="2">00172</y>
+<z id="2">24683</z>
+<time id="2">19.994</time>
+<x id="3">00471</x>
+<y id="3">00270</y>
+<z id="3">24744</z>
+<time id="3">20.45</time>
+<x id="4">00568</x>
+<y id="4">00348</y>
+<z id="4">24871</z>
+<time id="4">20.89</time>
+<x id="5">00513</x>
+<y id="5">00227</y>
+<z id="5">24673</z>
+<time id="5">20.137</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="2">
+<timestamp>20.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="105">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="106">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="107">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="108">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="109">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="19">
+<Timestamp>20.514</Timestamp>
+<Orientation>
+<pitch>-1.10</pitch>
+<roll>-1.77</roll>
+<yaw>8.75</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00499</x>
+<y id="1">00305</y>
+<z id="1">24748</z>
+<time id="1">20.270</time>
+<x id="2">00540</x>
+<y id="2">00368</y>
+<z id="2">24647</z>
+<time id="2">20.334</time>
+<x id="3">00610</x>
+<y id="3">00180</y>
+<z id="3">24367</z>
+<time id="3">20.394</time>
+<x id="4">00638</x>
+<y id="4">00341</y>
+<z id="4">25021</z>
+<time id="4">20.446</time>
+<x id="5">00537</x>
+<y id="5">00313</y>
+<z id="5">24816</z>
+<time id="5">20.489</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="3">
+<timestamp>21.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.90</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="110">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="111">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="112">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="113">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="114">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="20">
+<Timestamp>20.844</Timestamp>
+<Orientation>
+<pitch>-1.12</pitch>
+<roll>-1.75</roll>
+<yaw>8.85</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00464</x>
+<y id="1">00121</y>
+<z id="1">24566</z>
+<time id="1">20.546</time>
+<x id="2">00700</x>
+<y id="2">00595</y>
+<z id="2">24858</z>
+<time id="2">20.589</time>
+<x id="3">00388</x>
+<y id="3">00195</y>
+<z id="3">24949</z>
+<time id="3">20.633</time>
+<x id="4">00419</x>
+<y id="4">00097</y>
+<z id="4">24618</z>
+<time id="4">20.764</time>
+<x id="5">00561</x>
+<y id="5">00411</y>
+<z id="5">24796</z>
+<time id="5">20.822</time>
+</Accelerometer>
+</imu>
+
+<imu id="21">
+<Timestamp>21.104</Timestamp>
+<Orientation>
+<pitch>-1.15</pitch>
+<roll>-1.73</roll>
+<yaw>9.44</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00409</x>
+<y id="1">00282</y>
+<z id="1">24439</z>
+<time id="1">20.876</time>
+<x id="2">00575</x>
+<y id="2">00109</y>
+<z id="2">24605</z>
+<time id="2">20.926</time>
+<x id="3">00450</x>
+<y id="3">00391</y>
+<z id="3">24536</z>
+<time id="3">20.974</time>
+<x id="4">00447</x>
+<y id="4">00023</y>
+<z id="4">24767</z>
+<time id="4">21.26</time>
+<x id="5">00540</x>
+<y id="5">00411</y>
+<z id="5">24868</z>
+<time id="5">21.74</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="4">
+<timestamp>21.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.90</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="115">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="116">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="117">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="118">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="119">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="22">
+<Timestamp>21.424</Timestamp>
+<Orientation>
+<pitch>-1.15</pitch>
+<roll>-1.73</roll>
+<yaw>9.34</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00430</x>
+<y id="1">00301</y>
+<z id="1">24686</z>
+<time id="1">21.142</time>
+<x id="2">00513</x>
+<y id="2">00313</y>
+<z id="2">24988</z>
+<time id="2">21.198</time>
+<x id="3">00402</x>
+<y id="3">00094</y>
+<z id="3">24878</z>
+<time id="3">21.269</time>
+<x id="4">00482</x>
+<y id="4">00337</y>
+<z id="4">24631</z>
+<time id="4">21.346</time>
+<x id="5">00395</x>
+<y id="5">00047</y>
+<z id="5">24598</z>
+<time id="5">21.402</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="5">
+<timestamp>22.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.89</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="120">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="121">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="122">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="123">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="124">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="23">
+<Timestamp>21.804</Timestamp>
+<Orientation>
+<pitch>-1.15</pitch>
+<roll>-1.73</roll>
+<yaw>7.34</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00544</x>
+<y id="1">00419</y>
+<z id="1">24709</z>
+<time id="1">21.456</time>
+<x id="2">00520</x>
+<y id="2">00066</y>
+<z id="2">24436</z>
+<time id="2">21.522</time>
+<x id="3">00638</x>
+<y id="3">00219</y>
+<z id="3">24985</z>
+<time id="3">21.559</time>
+<x id="4">00482</x>
+<y id="4">00188</y>
+<z id="4">24813</z>
+<time id="4">21.623</time>
+<x id="5">00475</x>
+<y id="5">00207</y>
+<z id="5">24540</z>
+<time id="5">21.769</time>
+</Accelerometer>
+</imu>
+
+<imu id="24">
+<Timestamp>22.164</Timestamp>
+<Orientation>
+<pitch>-1.14</pitch>
+<roll>-1.75</roll>
+<yaw>7.95</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00353</x>
+<y id="1">00270</y>
+<z id="1">24897</z>
+<time id="1">21.846</time>
+<x id="2">00655</x>
+<y id="2">00176</y>
+<z id="2">24302</z>
+<time id="2">21.903</time>
+<x id="3">00530</x>
+<y id="3">00337</y>
+<z id="3">24917</z>
+<time id="3">21.947</time>
+<x id="4">00485</x>
+<y id="4">00360</y>
+<z id="4">24780</z>
+<time id="4">22.68</time>
+<x id="5">00450</x>
+<y id="5">00180</y>
+<z id="5">24631</z>
+<time id="5">22.140</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="6">
+<timestamp>22.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="125">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="126">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="127">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="128">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="129">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="25">
+<Timestamp>22.544</Timestamp>
+<Orientation>
+<pitch>-1.14</pitch>
+<roll>-1.75</roll>
+<yaw>7.31</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00537</x>
+<y id="1">00195</y>
+<z id="1">24510</z>
+<time id="1">22.285</time>
+<x id="2">00530</x>
+<y id="2">00380</y>
+<z id="2">24618</z>
+<time id="2">22.358</time>
+<x id="3">00530</x>
+<y id="3">00246</y>
+<z id="3">24900</z>
+<time id="3">22.422</time>
+<x id="4">00488</x>
+<y id="4">00407</y>
+<z id="4">24969</z>
+<time id="4">22.459</time>
+<x id="5">00457</x>
+<y id="5">00152</y>
+<z id="5">24770</z>
+<time id="5">22.522</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="7">
+<timestamp>23.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.89</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="130">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="131">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="132">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="133">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="134">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="26">
+<Timestamp>22.894</Timestamp>
+<Orientation>
+<pitch>-1.15</pitch>
+<roll>-1.74</roll>
+<yaw>8.42</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00499</x>
+<y id="1">00199</y>
+<z id="1">24894</z>
+<time id="1">22.575</time>
+<x id="2">00530</x>
+<y id="2">00231</y>
+<z id="2">24962</z>
+<time id="2">22.626</time>
+<x id="3">00436</x>
+<y id="3">00274</y>
+<z id="3">24614</z>
+<time id="3">22.708</time>
+<x id="4">00565</x>
+<y id="4">00239</y>
+<z id="4">24624</z>
+<time id="4">22.822</time>
+<x id="5">00520</x>
+<y id="5">00199</y>
+<z id="5">24754</z>
+<time id="5">22.860</time>
+</Accelerometer>
+</imu>
+
+<imu id="27">
+<Timestamp>23.154</Timestamp>
+<Orientation>
+<pitch>-1.15</pitch>
+<roll>-1.75</roll>
+<yaw>10.86</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00461</x>
+<y id="1">00148</y>
+<z id="1">24754</z>
+<time id="1">22.939</time>
+<x id="2">00468</x>
+<y id="2">00223</y>
+<z id="2">24699</z>
+<time id="2">22.979</time>
+<x id="3">00520</x>
+<y id="3">00380</y>
+<z id="3">24553</z>
+<time id="3">23.26</time>
+<x id="4">00537</x>
+<y id="4">00254</y>
+<z id="4">24592</z>
+<time id="4">23.74</time>
+<x id="5">00631</x>
+<y id="5">00274</y>
+<z id="5">24992</z>
+<time id="5">23.133</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="8">
+<timestamp>23.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.89</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="135">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="136">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="137">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="138">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="139">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="28">
+<Timestamp>23.504</Timestamp>
+<Orientation>
+<pitch>-1.14</pitch>
+<roll>-1.77</roll>
+<yaw>8.85</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00586</x>
+<y id="1">00407</y>
+<z id="1">24754</z>
+<time id="1">23.282</time>
+<x id="2">00357</x>
+<y id="2">00274</y>
+<z id="2">24637</z>
+<time id="2">23.342</time>
+<x id="3">00655</x>
+<y id="3">00141</y>
+<z id="3">24790</z>
+<time id="3">23.380</time>
+<x id="4">00634</x>
+<y id="4">00231</y>
+<z id="4">24757</z>
+<time id="4">23.426</time>
+<x id="5">00450</x>
+<y id="5">00199</y>
+<z id="5">24608</z>
+<time id="5">23.476</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="9">
+<timestamp>24.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.89</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="140">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="141">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="142">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="143">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="144">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="29">
+<Timestamp>23.774</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.77</roll>
+<yaw>8.34</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00547</x>
+<y id="1">00399</y>
+<z id="1">24676</z>
+<time id="1">23.540</time>
+<x id="2">00440</x>
+<y id="2">00317</y>
+<z id="2">24530</z>
+<time id="2">23.579</time>
+<x id="3">00461</x>
+<y id="3">00231</y>
+<z id="3">24631</z>
+<time id="3">23.626</time>
+<x id="4">00544</x>
+<y id="4">00262</y>
+<z id="4">24887</z>
+<time id="4">23.690</time>
+<x id="5">00457</x>
+<y id="5">00137</y>
+<z id="5">24705</z>
+<time id="5">23.746</time>
+</Accelerometer>
+</imu>
+
+<imu id="30">
+<Timestamp>24.44</Timestamp>
+<Orientation>
+<pitch>-1.14</pitch>
+<roll>-1.77</roll>
+<yaw>8.88</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00534</x>
+<y id="1">00317</y>
+<z id="1">24858</z>
+<time id="1">23.822</time>
+<x id="2">00357</x>
+<y id="2">00168</y>
+<z id="2">24595</z>
+<time id="2">23.859</time>
+<x id="3">00509</x>
+<y id="3">00278</y>
+<z id="3">24848</z>
+<time id="3">23.922</time>
+<x id="4">00384</x>
+<y id="4">00243</y>
+<z id="4">24549</z>
+<time id="4">23.959</time>
+<x id="5">00516</x>
+<y id="5">00215</y>
+<z id="5">24631</z>
+<time id="5">24.22</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="10">
+<timestamp>24.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.89</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="145">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="146">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="147">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="148">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="149">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="31">
+<Timestamp>24.434</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.77</roll>
+<yaw>10.32</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00537</x>
+<y id="1">00148</y>
+<z id="1">24764</z>
+<time id="1">24.75</time>
+<x id="2">00457</x>
+<y id="2">00207</y>
+<z id="2">24647</z>
+<time id="2">24.126</time>
+<x id="3">00551</x>
+<y id="3">00356</y>
+<z id="3">24822</z>
+<time id="3">24.224</time>
+<x id="4">00492</x>
+<y id="4">00293</y>
+<z id="4">24705</z>
+<time id="4">24.362</time>
+<x id="5">00499</x>
+<y id="5">00325</y>
+<z id="5">24712</z>
+<time id="5">24.406</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="11">
+<timestamp>25.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.89</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="150">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="151">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="152">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="153">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="154">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="32">
+<Timestamp>24.804</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.77</roll>
+<yaw>8.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00416</x>
+<y id="1">00293</y>
+<z id="1">24780</z>
+<time id="1">24.471</time>
+<x id="2">00551</x>
+<y id="2">00270</y>
+<z id="2">24722</z>
+<time id="2">24.516</time>
+<x id="3">00638</x>
+<y id="3">00293</y>
+<z id="3">24764</z>
+<time id="3">24.559</time>
+<x id="4">00367</x>
+<y id="4">00250</y>
+<z id="4">24644</z>
+<time id="4">24.622</time>
+<x id="5">00568</x>
+<y id="5">00250</y>
+<z id="5">24777</z>
+<time id="5">24.782</time>
+</Accelerometer>
+</imu>
+
+<imu id="33">
+<Timestamp>25.54</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.77</roll>
+<yaw>9.13</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00527</x>
+<y id="1">00372</y>
+<z id="1">24751</z>
+<time id="1">24.840</time>
+<x id="2">00575</x>
+<y id="2">00246</y>
+<z id="2">24845</z>
+<time id="2">24.879</time>
+<x id="3">00547</x>
+<y id="3">00215</y>
+<z id="3">24644</z>
+<time id="3">24.926</time>
+<x id="4">00447</x>
+<y id="4">00356</y>
+<z id="4">24683</z>
+<time id="4">24.974</time>
+<x id="5">00586</x>
+<y id="5">00388</y>
+<z id="5">24751</z>
+<time id="5">25.26</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="12">
+<timestamp>25.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="155">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="156">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="157">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="158">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="159">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="34">
+<Timestamp>25.344</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.77</roll>
+<yaw>7.38</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00554</x>
+<y id="1">00270</y>
+<z id="1">24777</z>
+<time id="1">25.101</time>
+<x id="2">00554</x>
+<y id="2">00223</y>
+<z id="2">24683</z>
+<time id="2">25.140</time>
+<x id="3">00596</x>
+<y id="3">00227</y>
+<z id="3">24829</z>
+<time id="3">25.188</time>
+<x id="4">00516</x>
+<y id="4">00305</y>
+<z id="4">24816</z>
+<time id="4">25.259</time>
+<x id="5">00579</x>
+<y id="5">00223</y>
+<z id="5">24637</z>
+<time id="5">25.318</time>
+</Accelerometer>
+</imu>
+
+<imu id="35">
+<Timestamp>25.604</Timestamp>
+<Orientation>
+<pitch>-1.12</pitch>
+<roll>-1.76</roll>
+<yaw>7.84</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00537</x>
+<y id="1">00188</y>
+<z id="1">24692</z>
+<time id="1">25.376</time>
+<x id="2">00534</x>
+<y id="2">00356</y>
+<z id="2">24744</z>
+<time id="2">25.426</time>
+<x id="3">00520</x>
+<y id="3">00207</y>
+<z id="3">24835</z>
+<time id="3">25.475</time>
+<x id="4">00475</x>
+<y id="4">00301</y>
+<z id="4">24738</z>
+<time id="4">25.526</time>
+<x id="5">00485</x>
+<y id="5">00360</y>
+<z id="5">24679</z>
+<time id="5">25.574</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="13">
+<timestamp>26.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.89</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="160">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="161">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="162">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="163">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="164">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="36">
+<Timestamp>25.964</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.76</roll>
+<yaw>7.65</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00516</x>
+<y id="1">00223</y>
+<z id="1">24748</z>
+<time id="1">25.640</time>
+<x id="2">00478</x>
+<y id="2">00411</y>
+<z id="2">24897</z>
+<time id="2">25.698</time>
+<x id="3">00443</x>
+<y id="3">00199</y>
+<z id="3">24478</z>
+<time id="3">25.787</time>
+<x id="4">00527</x>
+<y id="4">00250</y>
+<z id="4">24683</z>
+<time id="4">25.858</time>
+<x id="5">00468</x>
+<y id="5">00360</y>
+<z id="5">24699</z>
+<time id="5">25.934</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="14">
+<timestamp>26.645</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.89</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="165">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="166">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="167">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="168">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="169">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="37">
+<Timestamp>26.334</Timestamp>
+<Orientation>
+<pitch>-1.12</pitch>
+<roll>-1.77</roll>
+<yaw>7.71</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00454</x>
+<y id="1">00246</y>
+<z id="1">24585</z>
+<time id="1">26.16</time>
+<x id="2">00534</x>
+<y id="2">00254</y>
+<z id="2">24640</z>
+<time id="2">26.59</time>
+<x id="3">00482</x>
+<y id="3">00246</y>
+<z id="3">24705</z>
+<time id="3">26.135</time>
+<x id="4">00617</x>
+<y id="4">00231</y>
+<z id="4">24871</z>
+<time id="4">26.261</time>
+<x id="5">00534</x>
+<y id="5">00262</y>
+<z id="5">24718</z>
+<time id="5">26.306</time>
+</Accelerometer>
+</imu>
+
+<imu id="38">
+<Timestamp>26.604</Timestamp>
+<Orientation>
+<pitch>-1.12</pitch>
+<roll>-1.77</roll>
+<yaw>8.72</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00461</x>
+<y id="1">00231</y>
+<z id="1">24738</z>
+<time id="1">26.371</time>
+<x id="2">00527</x>
+<y id="2">00246</y>
+<z id="2">24533</z>
+<time id="2">26.416</time>
+<x id="3">00464</x>
+<y id="3">00235</y>
+<z id="3">24803</z>
+<time id="3">26.459</time>
+<x id="4">00565</x>
+<y id="4">00258</y>
+<z id="4">24809</z>
+<time id="4">26.535</time>
+<x id="5">00478</x>
+<y id="5">00282</y>
+<z id="5">24741</z>
+<time id="5">26.580</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="15">
+<timestamp>27.145</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="170">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="171">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="172">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="173">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="174">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="39">
+<Timestamp>26.974</Timestamp>
+<Orientation>
+<pitch>-0.93</pitch>
+<roll>-1.69</roll>
+<yaw>9.88</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00488</x>
+<y id="1">00274</y>
+<z id="1">24881</z>
+<time id="1">26.655</time>
+<x id="2">00468</x>
+<y id="2">00270</y>
+<z id="2">24722</z>
+<time id="2">26.727</time>
+<x id="3">00589</x>
+<y id="3">00168</y>
+<z id="3">24780</z>
+<time id="3">26.843</time>
+<x id="4">00516</x>
+<y id="4">00192</y>
+<z id="4">24725</z>
+<time id="4">26.894</time>
+<x id="5">00540</x>
+<y id="5">00348</y>
+<z id="5">24712</z>
+<time id="5">26.946</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="16">
+<timestamp>27.645</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="175">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="176">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="177">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="178">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="179">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="40">
+<Timestamp>27.294</Timestamp>
+<Orientation>
+<pitch>-0.67</pitch>
+<roll>-1.57</roll>
+<yaw>10.81</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00520</x>
+<y id="1">00156</y>
+<z id="1">24715</z>
+<time id="1">27.12</time>
+<x id="2">00516</x>
+<y id="2">00262</y>
+<z id="2">24725</z>
+<time id="2">27.49</time>
+<x id="3">00492</x>
+<y id="3">00207</y>
+<z id="3">24650</z>
+<time id="3">27.96</time>
+<x id="4">00374</x>
+<y id="4">00250</y>
+<z id="4">24627</z>
+<time id="4">27.155</time>
+<x id="5">00450</x>
+<y id="5">00333</y>
+<z id="5">24715</z>
+<time id="5">27.271</time>
+</Accelerometer>
+</imu>
+
+<imu id="41">
+<Timestamp>27.544</Timestamp>
+<Orientation>
+<pitch>-0.46</pitch>
+<roll>-1.48</roll>
+<yaw>8.83</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00610</x>
+<y id="1">00333</y>
+<z id="1">24725</z>
+<time id="1">27.332</time>
+<x id="2">00561</x>
+<y id="2">00333</y>
+<z id="2">24650</z>
+<time id="2">27.369</time>
+<x id="3">00502</x>
+<y id="3">00160</y>
+<z id="3">24770</z>
+<time id="3">27.416</time>
+<x id="4">00520</x>
+<y id="4">00270</y>
+<z id="4">24816</z>
+<time id="4">27.465</time>
+<x id="5">00502</x>
+<y id="5">00293</y>
+<z id="5">24748</z>
+<time id="5">27.516</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="17">
+<timestamp>28.145</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="180">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="181">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="182">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="183">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="184">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="42">
+<Timestamp>27.914</Timestamp>
+<Orientation>
+<pitch>-0.28</pitch>
+<roll>-1.40</roll>
+<yaw>9.90</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00540</x>
+<y id="1">00348</y>
+<z id="1">24484</z>
+<time id="1">27.575</time>
+<x id="2">00499</x>
+<y id="2">00282</y>
+<z id="2">24540</z>
+<time id="2">27.655</time>
+<x id="3">00433</x>
+<y id="3">00380</y>
+<z id="3">24848</z>
+<time id="3">27.761</time>
+<x id="4">00482</x>
+<y id="4">00356</y>
+<z id="4">24660</z>
+<time id="4">27.846</time>
+<x id="5">00482</x>
+<y id="5">00313</y>
+<z id="5">24930</z>
+<time id="5">27.889</time>
+</Accelerometer>
+</imu>
+
+<imu id="43">
+<Timestamp>28.184</Timestamp>
+<Orientation>
+<pitch>-0.16</pitch>
+<roll>-1.34</roll>
+<yaw>10.33</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00603</x>
+<y id="1">00266</y>
+<z id="1">24715</z>
+<time id="1">27.947</time>
+<x id="2">00665</x>
+<y id="2">00195</y>
+<z id="2">24839</z>
+<time id="2">27.989</time>
+<x id="3">00398</x>
+<y id="3">00223</y>
+<z id="3">24471</z>
+<time id="3">28.34</time>
+<x id="4">00586</x>
+<y id="4">00293</y>
+<z id="4">24943</z>
+<time id="4">28.94</time>
+<x id="5">00565</x>
+<y id="5">00160</y>
+<z id="5">24530</z>
+<time id="5">28.155</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="18">
+<timestamp>28.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="185">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="186">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="187">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="188">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="189">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="44">
+<Timestamp>28.514</Timestamp>
+<Orientation>
+<pitch>-0.02</pitch>
+<roll>-1.30</roll>
+<yaw>10.77</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00530</x>
+<y id="1">00286</y>
+<z id="1">24780</z>
+<time id="1">28.267</time>
+<x id="2">00551</x>
+<y id="2">00337</y>
+<z id="2">24913</z>
+<time id="2">28.352</time>
+<x id="3">00409</x>
+<y id="3">00344</y>
+<z id="3">24761</z>
+<time id="3">28.396</time>
+<x id="4">00617</x>
+<y id="4">00207</y>
+<z id="4">24624</z>
+<time id="4">28.447</time>
+<x id="5">00513</x>
+<y id="5">00286</y>
+<z id="5">24891</z>
+<time id="5">28.489</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="19">
+<timestamp>29.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="190">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="191">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="192">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="193">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="194">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="45">
+<Timestamp>28.834</Timestamp>
+<Orientation>
+<pitch>0.06</pitch>
+<roll>-1.27</roll>
+<yaw>9.58</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00426</x>
+<y id="1">00203</y>
+<z id="1">24744</z>
+<time id="1">28.546</time>
+<x id="2">00426</x>
+<y id="2">00317</y>
+<z id="2">24660</z>
+<time id="2">28.589</time>
+<x id="3">00589</x>
+<y id="3">00219</y>
+<z id="3">24936</z>
+<time id="3">28.634</time>
+<x id="4">00516</x>
+<y id="4">00293</y>
+<z id="4">24653</z>
+<time id="4">28.739</time>
+<x id="5">00454</x>
+<y id="5">00156</y>
+<z id="5">24718</z>
+<time id="5">28.811</time>
+</Accelerometer>
+</imu>
+
+<imu id="46">
+<Timestamp>29.94</Timestamp>
+<Orientation>
+<pitch>0.12</pitch>
+<roll>-1.24</roll>
+<yaw>9.89</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00534</x>
+<y id="1">00223</y>
+<z id="1">24696</z>
+<time id="1">28.866</time>
+<x id="2">00447</x>
+<y id="2">00152</y>
+<z id="2">24588</z>
+<time id="2">28.916</time>
+<x id="3">00554</x>
+<y id="3">00094</y>
+<z id="3">24998</z>
+<time id="3">28.965</time>
+<x id="4">00471</x>
+<y id="4">00223</y>
+<z id="4">24517</z>
+<time id="4">29.16</time>
+<x id="5">00582</x>
+<y id="5">00380</y>
+<z id="5">24813</z>
+<time id="5">29.65</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="20">
+<timestamp>29.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="195">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="196">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="197">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="198">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="199">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="47">
+<Timestamp>29.394</Timestamp>
+<Orientation>
+<pitch>0.18</pitch>
+<roll>-1.22</roll>
+<yaw>10.55</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00534</x>
+<y id="1">00282</y>
+<z id="1">24657</z>
+<time id="1">29.132</time>
+<x id="2">00423</x>
+<y id="2">00360</y>
+<z id="2">24751</z>
+<time id="2">29.173</time>
+<x id="3">00506</x>
+<y id="3">00203</y>
+<z id="3">24663</z>
+<time id="3">29.239</time>
+<x id="4">00409</x>
+<y id="4">00215</y>
+<z id="4">24767</z>
+<time id="4">29.307</time>
+<x id="5">00527</x>
+<y id="5">00215</y>
+<z id="5">24735</z>
+<time id="5">29.361</time>
+</Accelerometer>
+</imu>
+
+<imu id="48">
+<Timestamp>29.652</Timestamp>
+<Orientation>
+<pitch>0.22</pitch>
+<roll>-1.20</roll>
+<yaw>11.04</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00367</x>
+<y id="1">00262</y>
+<z id="1">24718</z>
+<time id="1">29.432</time>
+<x id="2">00547</x>
+<y id="2">00250</y>
+<z id="2">24660</z>
+<time id="2">29.469</time>
+<x id="3">00603</x>
+<y id="3">00211</y>
+<z id="3">24585</z>
+<time id="3">29.516</time>
+<x id="4">00443</x>
+<y id="4">00282</y>
+<z id="4">24809</z>
+<time id="4">29.565</time>
+<x id="5">00530</x>
+<y id="5">00239</y>
+<z id="5">24715</z>
+<time id="5">29.616</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="21">
+<timestamp>30.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="200">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="201">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="202">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="203">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="204">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="49">
+<Timestamp>30.24</Timestamp>
+<Orientation>
+<pitch>0.27</pitch>
+<roll>-1.17</roll>
+<yaw>11.23</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00516</x>
+<y id="1">00254</y>
+<z id="1">24835</z>
+<time id="1">29.777</time>
+<x id="2">00513</x>
+<y id="2">00372</y>
+<z id="2">24686</z>
+<time id="2">29.848</time>
+<x id="3">00499</x>
+<y id="3">00282</y>
+<z id="3">24767</z>
+<time id="3">29.889</time>
+<x id="4">00509</x>
+<y id="4">00278</y>
+<z id="4">24728</z>
+<time id="4">29.934</time>
+<x id="5">00485</x>
+<y id="5">00262</y>
+<z id="5">24692</z>
+<time id="5">29.994</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="22">
+<timestamp>30.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="205">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="206">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="207">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="208">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="209">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="50">
+<Timestamp>30.424</Timestamp>
+<Orientation>
+<pitch>0.30</pitch>
+<roll>-1.16</roll>
+<yaw>11.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00631</x>
+<y id="1">00278</y>
+<z id="1">24962</z>
+<time id="1">30.61</time>
+<x id="2">00572</x>
+<y id="2">00199</y>
+<z id="2">24621</z>
+<time id="2">30.116</time>
+<x id="3">00457</x>
+<y id="3">00164</y>
+<z id="3">24702</z>
+<time id="3">30.285</time>
+<x id="4">00572</x>
+<y id="4">00391</y>
+<z id="4">24887</z>
+<time id="4">30.346</time>
+<x id="5">00450</x>
+<y id="5">00274</y>
+<z id="5">24494</z>
+<time id="5">30.396</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="23">
+<timestamp>31.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="210">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="211">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="212">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="213">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="214">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="51">
+<Timestamp>30.784</Timestamp>
+<Orientation>
+<pitch>0.33</pitch>
+<roll>-1.15</roll>
+<yaw>12.87</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00485</x>
+<y id="1">00211</y>
+<z id="1">24800</z>
+<time id="1">30.461</time>
+<x id="2">00454</x>
+<y id="2">00231</y>
+<z id="2">24722</z>
+<time id="2">30.516</time>
+<x id="3">00516</x>
+<y id="3">00192</y>
+<z id="3">24832</z>
+<time id="3">30.565</time>
+<x id="4">00572</x>
+<y id="4">00317</y>
+<z id="4">24705</z>
+<time id="4">30.616</time>
+<x id="5">00391</x>
+<y id="5">00301</y>
+<z id="5">24754</z>
+<time id="5">30.759</time>
+</Accelerometer>
+</imu>
+
+<imu id="52">
+<Timestamp>31.74</Timestamp>
+<Orientation>
+<pitch>0.35</pitch>
+<roll>-1.13</roll>
+<yaw>9.58</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00516</x>
+<y id="1">00215</y>
+<z id="1">24780</z>
+<time id="1">30.845</time>
+<x id="2">00468</x>
+<y id="2">00215</y>
+<z id="2">24738</z>
+<time id="2">30.889</time>
+<x id="3">00482</x>
+<y id="3">00293</y>
+<z id="3">24813</z>
+<time id="3">30.935</time>
+<x id="4">00426</x>
+<y id="4">00309</y>
+<z id="4">24842</z>
+<time id="4">30.994</time>
+<x id="5">00475</x>
+<y id="5">00262</y>
+<z id="5">24728</z>
+<time id="5">31.45</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="24">
+<timestamp>31.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="215">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="216">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="217">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="218">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="219">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="53">
+<Timestamp>31.494</Timestamp>
+<Orientation>
+<pitch>0.39</pitch>
+<roll>-1.14</roll>
+<yaw>11.49</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00540</x>
+<y id="1">00411</y>
+<z id="1">24783</z>
+<time id="1">31.126</time>
+<x id="2">00502</x>
+<y id="2">00246</y>
+<z id="2">24735</z>
+<time id="2">31.208</time>
+<x id="3">00547</x>
+<y id="3">00258</y>
+<z id="3">24679</z>
+<time id="3">31.362</time>
+<x id="4">00579</x>
+<y id="4">00301</y>
+<z id="4">24458</z>
+<time id="4">31.416</time>
+<x id="5">00662</x>
+<y id="5">00380</y>
+<z id="5">24783</z>
+<time id="5">31.465</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="25">
+<timestamp>32.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="220">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="221">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="222">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="223">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="224">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="54">
+<Timestamp>31.864</Timestamp>
+<Orientation>
+<pitch>0.42</pitch>
+<roll>-1.15</roll>
+<yaw>12.81</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00520</x>
+<y id="1">00227</y>
+<z id="1">24276</z>
+<time id="1">31.539</time>
+<x id="2">00613</x>
+<y id="2">00305</y>
+<z id="2">24686</z>
+<time id="2">31.579</time>
+<x id="3">00499</x>
+<y id="3">00427</y>
+<z id="3">24848</z>
+<time id="3">31.626</time>
+<x id="4">00443</x>
+<y id="4">00246</y>
+<z id="4">24657</z>
+<time id="4">31.708</time>
+<x id="5">00568</x>
+<y id="5">00286</y>
+<z id="5">24618</z>
+<time id="5">31.834</time>
+</Accelerometer>
+</imu>
+
+<imu id="55">
+<Timestamp>32.152</Timestamp>
+<Orientation>
+<pitch>0.37</pitch>
+<roll>-1.10</roll>
+<yaw>11.11</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00523</x>
+<y id="1">00223</y>
+<z id="1">24845</z>
+<time id="1">31.916</time>
+<x id="2">00506</x>
+<y id="2">00266</y>
+<z id="2">24657</z>
+<time id="2">31.965</time>
+<x id="3">00436</x>
+<y id="3">00313</y>
+<z id="3">24897</z>
+<time id="3">32.16</time>
+<x id="4">00516</x>
+<y id="4">00239</y>
+<z id="4">24644</z>
+<time id="4">32.65</time>
+<x id="5">00454</x>
+<y id="5">00184</y>
+<z id="5">24543</z>
+<time id="5">32.116</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="26">
+<timestamp>32.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="225">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="226">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="227">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="228">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="229">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="56">
+<Timestamp>32.524</Timestamp>
+<Orientation>
+<pitch>0.36</pitch>
+<roll>-1.08</roll>
+<yaw>11.60</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00450</x>
+<y id="1">00266</y>
+<z id="1">24757</z>
+<time id="1">32.277</time>
+<x id="2">00395</x>
+<y id="2">00168</y>
+<z id="2">24738</z>
+<time id="2">32.348</time>
+<x id="3">00506</x>
+<y id="3">00278</y>
+<z id="3">24660</z>
+<time id="3">32.389</time>
+<x id="4">00371</x>
+<y id="4">00078</y>
+<z id="4">24491</z>
+<time id="4">32.434</time>
+<x id="5">00544</x>
+<y id="5">00254</y>
+<z id="5">25144</z>
+<time id="5">32.494</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="27">
+<timestamp>33.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="230">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="231">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="232">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="233">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="234">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="57">
+<Timestamp>32.944</Timestamp>
+<Orientation>
+<pitch>0.37</pitch>
+<roll>-1.09</roll>
+<yaw>9.59</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00454</x>
+<y id="1">00094</y>
+<z id="1">24387</z>
+<time id="1">32.561</time>
+<x id="2">00582</x>
+<y id="2">00380</y>
+<z id="2">24972</z>
+<time id="2">32.616</time>
+<x id="3">00509</x>
+<y id="3">00082</y>
+<z id="3">24458</z>
+<time id="3">32.816</time>
+<x id="4">00454</x>
+<y id="4">00333</y>
+<z id="4">24861</z>
+<time id="4">32.865</time>
+<x id="5">00332</x>
+<y id="5">00195</y>
+<z id="5">24845</z>
+<time id="5">32.916</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="28">
+<timestamp>33.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="235">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="236">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="237">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="238">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="239">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="58">
+<Timestamp>33.235</Timestamp>
+<Orientation>
+<pitch>0.39</pitch>
+<roll>-1.10</roll>
+<yaw>11.19</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00450</x>
+<y id="1">00325</y>
+<z id="1">24956</z>
+<time id="1">32.981</time>
+<x id="2">00506</x>
+<y id="2">00356</y>
+<z id="2">24861</z>
+<time id="2">33.26</time>
+<x id="3">00606</x>
+<y id="3">00239</y>
+<z id="3">24592</z>
+<time id="3">33.74</time>
+<x id="4">00468</x>
+<y id="4">00282</y>
+<z id="4">24491</z>
+<time id="4">33.126</time>
+<x id="5">00513</x>
+<y id="5">00305</y>
+<z id="5">24972</z>
+<time id="5">33.208</time>
+</Accelerometer>
+</imu>
+
+<imu id="59">
+<Timestamp>33.594</Timestamp>
+<Orientation>
+<pitch>0.39</pitch>
+<roll>-1.10</roll>
+<yaw>10.79</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00527</x>
+<y id="1">00309</y>
+<z id="1">24494</z>
+<time id="1">33.363</time>
+<x id="2">00593</x>
+<y id="2">00274</y>
+<z id="2">25027</z>
+<time id="2">33.422</time>
+<x id="3">00357</x>
+<y id="3">00325</y>
+<z id="3">24679</z>
+<time id="3">33.459</time>
+<x id="4">00520</x>
+<y id="4">00286</y>
+<z id="4">24731</z>
+<time id="4">33.522</time>
+<x id="5">00530</x>
+<y id="5">00474</y>
+<z id="5">24809</z>
+<time id="5">33.559</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="29">
+<timestamp>34.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="240">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="241">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="242">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="243">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="244">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="60">
+<Timestamp>33.904</Timestamp>
+<Orientation>
+<pitch>0.40</pitch>
+<roll>-1.10</roll>
+<yaw>10.37</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00464</x>
+<y id="1">00258</y>
+<z id="1">24754</z>
+<time id="1">33.639</time>
+<x id="2">00488</x>
+<y id="2">00423</y>
+<z id="2">24744</z>
+<time id="2">33.679</time>
+<x id="3">00499</x>
+<y id="3">00192</y>
+<z id="3">24627</z>
+<time id="3">33.762</time>
+<x id="4">00565</x>
+<y id="4">00384</y>
+<z id="4">24809</z>
+<time id="4">33.831</time>
+<x id="5">00426</x>
+<y id="5">00337</y>
+<z id="5">24608</z>
+<time id="5">33.875</time>
+</Accelerometer>
+</imu>
+
+<imu id="61">
+<Timestamp>34.154</Timestamp>
+<Orientation>
+<pitch>0.40</pitch>
+<roll>-1.09</roll>
+<yaw>12.45</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00339</x>
+<y id="1">00290</y>
+<z id="1">24845</z>
+<time id="1">33.940</time>
+<x id="2">00464</x>
+<y id="2">00313</y>
+<z id="2">24644</z>
+<time id="2">33.979</time>
+<x id="3">00568</x>
+<y id="3">00195</y>
+<z id="3">24592</z>
+<time id="3">34.27</time>
+<x id="4">00440</x>
+<y id="4">00337</y>
+<z id="4">24670</z>
+<time id="4">34.74</time>
+<x id="5">00471</x>
+<y id="5">00113</y>
+<z id="5">24735</z>
+<time id="5">34.126</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="30">
+<timestamp>34.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="245">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="246">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="247">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="248">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="249">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="62">
+<Timestamp>34.544</Timestamp>
+<Orientation>
+<pitch>0.41</pitch>
+<roll>-1.10</roll>
+<yaw>12.15</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00513</x>
+<y id="1">00309</y>
+<z id="1">24835</z>
+<time id="1">34.275</time>
+<x id="2">00402</x>
+<y id="2">00097</y>
+<z id="2">24657</z>
+<time id="2">34.345</time>
+<x id="3">00464</x>
+<y id="3">00184</y>
+<z id="3">24484</z>
+<time id="3">34.404</time>
+<x id="4">00551</x>
+<y id="4">00482</y>
+<z id="4">24998</z>
+<time id="4">34.455</time>
+<x id="5">00593</x>
+<y id="5">00301</y>
+<z id="5">24637</z>
+<time id="5">34.522</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="31">
+<timestamp>35.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="250">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="251">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="252">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="253">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="254">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="63">
+<Timestamp>34.904</Timestamp>
+<Orientation>
+<pitch>0.43</pitch>
+<roll>-1.09</roll>
+<yaw>12.15</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00464</x>
+<y id="1">00239</y>
+<z id="1">24650</z>
+<time id="1">34.575</time>
+<x id="2">00509</x>
+<y id="2">00286</y>
+<z id="2">24822</z>
+<time id="2">34.626</time>
+<x id="3">00534</x>
+<y id="3">00243</y>
+<z id="3">24624</z>
+<time id="3">34.714</time>
+<x id="4">00520</x>
+<y id="4">00329</y>
+<z id="4">24559</z>
+<time id="4">34.826</time>
+<x id="5">00513</x>
+<y id="5">00262</y>
+<z id="5">24608</z>
+<time id="5">34.875</time>
+</Accelerometer>
+</imu>
+
+<imu id="64">
+<Timestamp>35.154</Timestamp>
+<Orientation>
+<pitch>0.45</pitch>
+<roll>-1.09</roll>
+<yaw>12.46</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00631</x>
+<y id="1">00333</y>
+<z id="1">24816</z>
+<time id="1">34.940</time>
+<x id="2">00544</x>
+<y id="2">00348</y>
+<z id="2">24953</z>
+<time id="2">34.979</time>
+<x id="3">00440</x>
+<y id="3">00129</y>
+<z id="3">24631</z>
+<time id="3">35.26</time>
+<x id="4">00582</x>
+<y id="4">00341</y>
+<z id="4">24754</z>
+<time id="4">35.74</time>
+<x id="5">00586</x>
+<y id="5">00384</y>
+<z id="5">24692</z>
+<time id="5">35.126</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="32">
+<timestamp>35.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="255">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="256">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="257">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="258">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="259">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="65">
+<Timestamp>35.504</Timestamp>
+<Orientation>
+<pitch>0.47</pitch>
+<roll>-1.10</roll>
+<yaw>13.68</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00450</x>
+<y id="1">00207</y>
+<z id="1">24520</z>
+<time id="1">35.269</time>
+<x id="2">00488</x>
+<y id="2">00344</y>
+<z id="2">24868</z>
+<time id="2">35.340</time>
+<x id="3">00364</x>
+<y id="3">00352</y>
+<z id="3">24725</z>
+<time id="3">35.379</time>
+<x id="4">00381</x>
+<y id="4">00203</y>
+<z id="4">24686</z>
+<time id="4">35.426</time>
+<x id="5">00540</x>
+<y id="5">00215</y>
+<z id="5">24845</z>
+<time id="5">35.475</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="33">
+<timestamp>36.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="260">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="261">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="262">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="263">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="264">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="66">
+<Timestamp>35.824</Timestamp>
+<Orientation>
+<pitch>0.48</pitch>
+<roll>-1.10</roll>
+<yaw>10.73</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00509</x>
+<y id="1">00207</y>
+<z id="1">24715</z>
+<time id="1">35.540</time>
+<x id="2">00579</x>
+<y id="2">00384</y>
+<z id="2">24923</z>
+<time id="2">35.579</time>
+<x id="3">00516</x>
+<y id="3">00207</y>
+<z id="3">24666</z>
+<time id="3">35.626</time>
+<x id="4">00520</x>
+<y id="4">00164</y>
+<z id="4">24705</z>
+<time id="4">35.708</time>
+<x id="5">00520</x>
+<y id="5">00321</y>
+<z id="5">24705</z>
+<time id="5">35.799</time>
+</Accelerometer>
+</imu>
+
+<imu id="67">
+<Timestamp>36.94</Timestamp>
+<Orientation>
+<pitch>0.48</pitch>
+<roll>-1.09</roll>
+<yaw>9.86</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00575</x>
+<y id="1">00403</y>
+<z id="1">24660</z>
+<time id="1">35.856</time>
+<x id="2">00561</x>
+<y id="2">00160</y>
+<z id="2">24673</z>
+<time id="2">35.922</time>
+<x id="3">00575</x>
+<y id="3">00235</y>
+<z id="3">24553</z>
+<time id="3">35.959</time>
+<x id="4">00523</x>
+<y id="4">00364</y>
+<z id="4">24618</z>
+<time id="4">36.22</time>
+<x id="5">00475</x>
+<y id="5">00246</y>
+<z id="5">24803</z>
+<time id="5">36.59</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="34">
+<timestamp>36.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="265">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="266">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="267">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="268">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="269">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="68">
+<Timestamp>36.384</Timestamp>
+<Orientation>
+<pitch>0.47</pitch>
+<roll>-1.08</roll>
+<yaw>11.36</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00457</x>
+<y id="1">00246</y>
+<z id="1">24887</z>
+<time id="1">36.139</time>
+<x id="2">00502</x>
+<y id="2">00266</y>
+<z id="2">24618</z>
+<time id="2">36.179</time>
+<x id="3">00482</x>
+<y id="3">00337</y>
+<z id="3">24731</z>
+<time id="3">36.226</time>
+<x id="4">00395</x>
+<y id="4">00278</y>
+<z id="4">24585</z>
+<time id="4">36.303</time>
+<x id="5">00572</x>
+<y id="5">00278</y>
+<z id="5">24618</z>
+<time id="5">36.359</time>
+</Accelerometer>
+</imu>
+
+<imu id="69">
+<Timestamp>36.654</Timestamp>
+<Orientation>
+<pitch>0.47</pitch>
+<roll>-1.08</roll>
+<yaw>10.19</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00485</x>
+<y id="1">00199</y>
+<z id="1">24783</z>
+<time id="1">36.439</time>
+<x id="2">00398</x>
+<y id="2">00325</y>
+<z id="2">24465</z>
+<time id="2">36.479</time>
+<x id="3">00547</x>
+<y id="3">00235</y>
+<z id="3">24653</z>
+<time id="3">36.526</time>
+<x id="4">00419</x>
+<y id="4">00254</y>
+<z id="4">24761</z>
+<time id="4">36.574</time>
+<x id="5">00468</x>
+<y id="5">00274</y>
+<z id="5">24891</z>
+<time id="5">36.626</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="35">
+<timestamp>37.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="270">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="271">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="272">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="273">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="274">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="70">
+<Timestamp>37.4</Timestamp>
+<Orientation>
+<pitch>0.49</pitch>
+<roll>-1.10</roll>
+<yaw>10.65</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00475</x>
+<y id="1">00235</y>
+<z id="1">24618</z>
+<time id="1">36.759</time>
+<x id="2">00627</x>
+<y id="2">00317</y>
+<z id="2">24660</z>
+<time id="2">36.828</time>
+<x id="3">00606</x>
+<y id="3">00113</y>
+<z id="3">24107</z>
+<time id="3">36.875</time>
+<x id="4">00655</x>
+<y id="4">00634</y>
+<z id="4">24614</z>
+<time id="4">36.926</time>
+<x id="5">00374</x>
+<y id="5">00062</y>
+<z id="5">24286</z>
+<time id="5">36.975</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="36">
+<timestamp>37.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="275">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="276">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="277">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="278">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="279">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="71">
+<Timestamp>37.324</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.11</roll>
+<yaw>10.80</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00679</x>
+<y id="1">00427</y>
+<z id="1">24780</z>
+<time id="1">37.40</time>
+<x id="2">00381</x>
+<y id="2">00246</y>
+<z id="2">24813</z>
+<time id="2">37.79</time>
+<x id="3">00596</x>
+<y id="3">00203</y>
+<z id="3">24423</z>
+<time id="3">37.127</time>
+<x id="4">00482</x>
+<y id="4">00431</y>
+<z id="4">24803</z>
+<time id="4">37.207</time>
+<x id="5">00537</x>
+<y id="5">00321</y>
+<z id="5">24884</z>
+<time id="5">37.298</time>
+</Accelerometer>
+</imu>
+
+<imu id="72">
+<Timestamp>37.604</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.12</roll>
+<yaw>12.37</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00482</x>
+<y id="1">00250</y>
+<z id="1">24741</z>
+<time id="1">37.356</time>
+<x id="2">00606</x>
+<y id="2">00250</y>
+<z id="2">24822</z>
+<time id="2">37.434</time>
+<x id="3">00509</x>
+<y id="3">00297</y>
+<z id="3">24465</z>
+<time id="3">37.479</time>
+<x id="4">00509</x>
+<y id="4">00282</y>
+<z id="4">24705</z>
+<time id="4">37.526</time>
+<x id="5">00641</x>
+<y id="5">00282</y>
+<z id="5">24640</z>
+<time id="5">37.574</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="37">
+<timestamp>38.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="280">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="281">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="282">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="283">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="284">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="73">
+<Timestamp>37.904</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.12</roll>
+<yaw>11.82</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00495</x>
+<y id="1">00195</y>
+<z id="1">24845</z>
+<time id="1">37.641</time>
+<x id="2">00530</x>
+<y id="2">00333</y>
+<z id="2">24741</z>
+<time id="2">37.698</time>
+<x id="3">00454</x>
+<y id="3">00243</y>
+<z id="3">24774</z>
+<time id="3">37.793</time>
+<x id="4">00586</x>
+<y id="4">00356</y>
+<z id="4">24673</z>
+<time id="4">37.840</time>
+<x id="5">00468</x>
+<y id="5">00254</y>
+<z id="5">24848</z>
+<time id="5">37.879</time>
+</Accelerometer>
+</imu>
+
+<imu id="74">
+<Timestamp>38.154</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.11</roll>
+<yaw>9.56</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00412</x>
+<y id="1">00293</y>
+<z id="1">24897</z>
+<time id="1">37.940</time>
+<x id="2">00506</x>
+<y id="2">00297</y>
+<z id="2">24270</z>
+<time id="2">37.979</time>
+<x id="3">00478</x>
+<y id="3">00117</y>
+<z id="3">24894</z>
+<time id="3">38.26</time>
+<x id="4">00436</x>
+<y id="4">00145</y>
+<z id="4">24959</z>
+<time id="4">38.74</time>
+<x id="5">00537</x>
+<y id="5">00329</y>
+<z id="5">24666</z>
+<time id="5">38.126</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="38">
+<timestamp>38.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="285">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="286">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="287">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="288">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="289">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="75">
+<Timestamp>38.504</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.10</roll>
+<yaw>12.18</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00572</x>
+<y id="1">00250</y>
+<z id="1">24871</z>
+<time id="1">38.261</time>
+<x id="2">00482</x>
+<y id="2">00137</y>
+<z id="2">24679</z>
+<time id="2">38.328</time>
+<x id="3">00558</x>
+<y id="3">00239</y>
+<z id="3">24839</z>
+<time id="3">38.376</time>
+<x id="4">00478</x>
+<y id="4">00274</y>
+<z id="4">24803</z>
+<time id="4">38.426</time>
+<x id="5">00499</x>
+<y id="5">00180</y>
+<z id="5">24848</z>
+<time id="5">38.475</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="39">
+<timestamp>39.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="290">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="291">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="292">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="293">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="294">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="76">
+<Timestamp>38.804</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.10</roll>
+<yaw>11.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00551</x>
+<y id="1">00286</y>
+<z id="1">24793</z>
+<time id="1">38.546</time>
+<x id="2">00430</x>
+<y id="2">00258</y>
+<z id="2">24605</z>
+<time id="2">38.596</time>
+<x id="3">00606</x>
+<y id="3">00348</y>
+<z id="3">24835</z>
+<time id="3">38.640</time>
+<x id="4">00402</x>
+<y id="4">00266</y>
+<z id="4">24634</z>
+<time id="4">38.688</time>
+<x id="5">00572</x>
+<y id="5">00380</y>
+<z id="5">24907</z>
+<time id="5">38.775</time>
+</Accelerometer>
+</imu>
+
+<imu id="77">
+<Timestamp>39.54</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.10</roll>
+<yaw>10.86</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00558</x>
+<y id="1">00250</y>
+<z id="1">24806</z>
+<time id="1">38.852</time>
+<x id="2">00544</x>
+<y id="2">00341</y>
+<z id="2">24891</z>
+<time id="2">38.896</time>
+<x id="3">00464</x>
+<y id="3">00274</y>
+<z id="3">24341</z>
+<time id="3">38.940</time>
+<x id="4">00624</x>
+<y id="4">00344</y>
+<z id="4">25073</z>
+<time id="4">38.979</time>
+<x id="5">00516</x>
+<y id="5">00329</y>
+<z id="5">24806</z>
+<time id="5">39.26</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="40">
+<timestamp>39.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="295">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="296">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="297">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="298">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="299">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="78">
+<Timestamp>39.364</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.10</roll>
+<yaw>11.40</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00593</x>
+<y id="1">00309</y>
+<z id="1">24770</z>
+<time id="1">39.100</time>
+<x id="2">00683</x>
+<y id="2">00148</y>
+<z id="2">24949</z>
+<time id="2">39.140</time>
+<x id="3">00586</x>
+<y id="3">00254</y>
+<z id="3">24624</z>
+<time id="3">39.195</time>
+<x id="4">00544</x>
+<y id="4">00368</y>
+<z id="4">24673</z>
+<time id="4">39.263</time>
+<x id="5">00475</x>
+<y id="5">00286</y>
+<z id="5">24686</z>
+<time id="5">39.343</time>
+</Accelerometer>
+</imu>
+
+<imu id="79">
+<Timestamp>39.652</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.10</roll>
+<yaw>11.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00554</x>
+<y id="1">00243</y>
+<z id="1">24822</z>
+<time id="1">39.416</time>
+<x id="2">00488</x>
+<y id="2">00235</y>
+<z id="2">24770</z>
+<time id="2">39.465</time>
+<x id="3">00378</x>
+<y id="3">00231</y>
+<z id="3">24839</z>
+<time id="3">39.516</time>
+<x id="4">00544</x>
+<y id="4">00227</y>
+<z id="4">24871</z>
+<time id="4">39.565</time>
+<x id="5">00565</x>
+<y id="5">00090</y>
+<z id="5">24725</z>
+<time id="5">39.616</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="41">
+<timestamp>40.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="300">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="301">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="302">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="303">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="304">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="80">
+<Timestamp>40.44</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.11</roll>
+<yaw>11.46</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00641</x>
+<y id="1">00282</y>
+<z id="1">24757</z>
+<time id="1">39.832</time>
+<x id="2">00464</x>
+<y id="2">00082</y>
+<z id="2">24663</z>
+<time id="2">39.869</time>
+<x id="3">00544</x>
+<y id="3">00246</y>
+<z id="3">24943</z>
+<time id="3">39.916</time>
+<x id="4">00586</x>
+<y id="4">00368</y>
+<z id="4">25226</z>
+<time id="4">39.965</time>
+<x id="5">00450</x>
+<y id="5">00231</y>
+<z id="5">24605</z>
+<time id="5">40.16</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="42">
+<timestamp>40.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="305">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="306">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="307">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="308">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="309">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="81">
+<Timestamp>40.334</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.10</roll>
+<yaw>10.45</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00513</x>
+<y id="1">00137</y>
+<z id="1">24832</z>
+<time id="1">40.75</time>
+<x id="2">00634</x>
+<y id="2">00509</y>
+<z id="2">25086</z>
+<time id="2">40.132</time>
+<x id="3">00530</x>
+<y id="3">00145</y>
+<z id="3">24410</z>
+<time id="3">40.173</time>
+<x id="4">00599</x>
+<y id="4">00270</y>
+<z id="4">24865</z>
+<time id="4">40.239</time>
+<x id="5">00436</x>
+<y id="5">00156</y>
+<z id="5">24822</z>
+<time id="5">40.304</time>
+</Accelerometer>
+</imu>
+
+<imu id="82">
+<Timestamp>40.594</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.11</roll>
+<yaw>10.79</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00690</x>
+<y id="1">00521</y>
+<z id="1">24800</z>
+<time id="1">40.371</time>
+<x id="2">00319</x>
+<y id="2">00160</y>
+<z id="2">24644</z>
+<time id="2">40.416</time>
+<x id="3">00648</x>
+<y id="3">00348</y>
+<z id="3">24676</z>
+<time id="3">40.465</time>
+<x id="4">00551</x>
+<y id="4">00493</y>
+<z id="4">25096</z>
+<time id="4">40.516</time>
+<x id="5">00374</x>
+<y id="5">-0066</y>
+<z id="5">24341</z>
+<time id="5">40.565</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="43">
+<timestamp>41.145</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="310">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="311">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="312">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="313">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="314">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="83">
+<Timestamp>40.974</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.11</roll>
+<yaw>11.22</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00651</x>
+<y id="1">00474</y>
+<z id="1">24946</z>
+<time id="1">40.632</time>
+<x id="2">00398</x>
+<y id="2">00274</y>
+<z id="2">24400</z>
+<time id="2">40.673</time>
+<x id="3">00651</x>
+<y id="3">00356</y>
+<z id="3">24904</z>
+<time id="3">40.735</time>
+<x id="4">00544</x>
+<y id="4">00246</y>
+<z id="4">24956</z>
+<time id="4">40.854</time>
+<x id="5">00606</x>
+<y id="5">00243</y>
+<z id="5">24631</z>
+<time id="5">40.952</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="44">
+<timestamp>41.647</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="315">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="316">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="317">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="318">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="319">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="84">
+<Timestamp>41.355</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.11</roll>
+<yaw>12.31</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00540</x>
+<y id="1">00097</y>
+<z id="1">24517</z>
+<time id="1">41.48</time>
+<x id="2">00589</x>
+<y id="2">00160</y>
+<z id="2">24637</z>
+<time id="2">41.96</time>
+<x id="3">00492</x>
+<y id="3">00384</y>
+<z id="3">24946</z>
+<time id="3">41.155</time>
+<x id="4">00572</x>
+<y id="4">00337</y>
+<z id="4">24783</z>
+<time id="4">41.281</time>
+<x id="5">00492</x>
+<y id="5">00282</y>
+<z id="5">24634</z>
+<time id="5">41.332</time>
+</Accelerometer>
+</imu>
+
+<imu id="85">
+<Timestamp>41.624</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.11</roll>
+<yaw>11.99</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00436</x>
+<y id="1">00333</y>
+<z id="1">24855</z>
+<time id="1">41.394</time>
+<x id="2">00516</x>
+<y id="2">00286</y>
+<z id="2">24494</z>
+<time id="2">41.446</time>
+<x id="3">00468</x>
+<y id="3">00274</y>
+<z id="3">24748</z>
+<time id="3">41.489</time>
+<x id="4">00530</x>
+<y id="4">00309</y>
+<z id="4">24696</z>
+<time id="4">41.534</time>
+<x id="5">00398</x>
+<y id="5">00121</y>
+<z id="5">24712</z>
+<time id="5">41.594</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="45">
+<timestamp>42.147</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="320">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="321">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="322">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="323">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="324">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="86">
+<Timestamp>41.964</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.10</roll>
+<yaw>11.88</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00384</x>
+<y id="1">00278</y>
+<z id="1">24614</z>
+<time id="1">41.698</time>
+<x id="2">00568</x>
+<y id="2">00313</y>
+<z id="2">24712</z>
+<time id="2">41.802</time>
+<x id="3">00405</x>
+<y id="3">00219</y>
+<z id="3">24683</z>
+<time id="3">41.860</time>
+<x id="4">00402</x>
+<y id="4">00203</y>
+<z id="4">24585</z>
+<time id="4">41.893</time>
+<x id="5">00440</x>
+<y id="5">00282</y>
+<z id="5">24839</z>
+<time id="5">41.934</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="46">
+<timestamp>42.646</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="325">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="326">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="327">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="328">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="329">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="87">
+<Timestamp>42.434</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.09</roll>
+<yaw>11.50</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00582</x>
+<y id="1">00380</y>
+<z id="1">24842</z>
+<time id="1">42.36</time>
+<x id="2">00554</x>
+<y id="2">00250</y>
+<z id="2">24731</z>
+<time id="2">42.94</time>
+<x id="3">00315</x>
+<y id="3">00352</y>
+<z id="3">24549</z>
+<time id="3">42.186</time>
+<x id="4">00530</x>
+<y id="4">00258</y>
+<z id="4">24783</z>
+<time id="4">42.352</time>
+<x id="5">00513</x>
+<y id="5">00148</y>
+<z id="5">24566</z>
+<time id="5">42.404</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="47">
+<timestamp>43.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="330">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="331">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="332">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="333">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="334">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="88">
+<Timestamp>42.794</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.09</roll>
+<yaw>13.62</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00561</x>
+<y id="1">00156</y>
+<z id="1">24696</z>
+<time id="1">42.497</time>
+<x id="2">00475</x>
+<y id="2">00395</y>
+<z id="2">24904</z>
+<time id="2">42.553</time>
+<x id="3">00419</x>
+<y id="3">00058</y>
+<z id="3">24556</z>
+<time id="3">42.612</time>
+<x id="4">00471</x>
+<y id="4">00270</y>
+<z id="4">24949</z>
+<time id="4">42.657</time>
+<x id="5">00409</x>
+<y id="5">00133</y>
+<z id="5">25157</z>
+<time id="5">42.770</time>
+</Accelerometer>
+</imu>
+
+<imu id="89">
+<Timestamp>43.64</Timestamp>
+<Orientation>
+<pitch>0.50</pitch>
+<roll>-1.06</roll>
+<yaw>12.20</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00540</x>
+<y id="1">00007</y>
+<z id="1">24387</z>
+<time id="1">42.846</time>
+<x id="2">00575</x>
+<y id="2">00219</y>
+<z id="2">24871</z>
+<time id="2">42.896</time>
+<x id="3">00433</x>
+<y id="3">00246</y>
+<z id="3">24813</z>
+<time id="3">42.946</time>
+<x id="4">00412</x>
+<y id="4">00137</y>
+<z id="4">24588</z>
+<time id="4">42.989</time>
+<x id="5">00502</x>
+<y id="5">00360</y>
+<z id="5">25044</z>
+<time id="5">43.34</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="48">
+<timestamp>43.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="335">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="336">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="337">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="338">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="339">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="90">
+<Timestamp>43.464</Timestamp>
+<Orientation>
+<pitch>0.49</pitch>
+<roll>-1.07</roll>
+<yaw>12.31</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00405</x>
+<y id="1">00148</y>
+<z id="1">24393</z>
+<time id="1">43.116</time>
+<x id="2">00551</x>
+<y id="2">00148</y>
+<z id="2">24826</z>
+<time id="2">43.273</time>
+<x id="3">00374</x>
+<y id="3">00246</y>
+<z id="3">24436</z>
+<time id="3">43.349</time>
+<x id="4">00506</x>
+<y id="4">00121</y>
+<z id="4">24592</z>
+<time id="4">43.389</time>
+<x id="5">00551</x>
+<y id="5">00235</y>
+<z id="5">24683</z>
+<time id="5">43.435</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="49">
+<timestamp>44.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="340">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="341">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="342">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="343">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="344">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="91">
+<Timestamp>43.854</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.09</roll>
+<yaw>11.54</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00468</x>
+<y id="1">00309</y>
+<z id="1">24715</z>
+<time id="1">43.516</time>
+<x id="2">00378</x>
+<y id="2">00066</y>
+<z id="2">24325</z>
+<time id="2">43.565</time>
+<x id="3">00478</x>
+<y id="3">00231</y>
+<z id="3">24923</z>
+<time id="3">43.616</time>
+<x id="4">00551</x>
+<y id="4">00317</y>
+<z id="4">24705</z>
+<time id="4">43.751</time>
+<x id="5">00364</x>
+<y id="5">00188</y>
+<z id="5">24751</z>
+<time id="5">43.826</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="50">
+<timestamp>44.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="345">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="346">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="347">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="348">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="349">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="92">
+<Timestamp>44.254</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.10</roll>
+<yaw>10.89</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00638</x>
+<y id="1">00164</y>
+<z id="1">25525</z>
+<time id="1">43.906</time>
+<x id="2">00596</x>
+<y id="2">00199</y>
+<z id="2">24663</z>
+<time id="2">43.973</time>
+<x id="3">00547</x>
+<y id="3">00231</y>
+<z id="3">24780</z>
+<time id="3">44.35</time>
+<x id="4">00364</x>
+<y id="4">00290</y>
+<z id="4">24712</z>
+<time id="4">44.97</time>
+<x id="5">00464</x>
+<y id="5">00254</y>
+<z id="5">24783</z>
+<time id="5">44.225</time>
+</Accelerometer>
+</imu>
+
+<imu id="93">
+<Timestamp>44.594</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.08</roll>
+<yaw>11.14</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00579</x>
+<y id="1">00442</y>
+<z id="1">24754</z>
+<time id="1">44.363</time>
+<x id="2">00405</x>
+<y id="2">00082</y>
+<z id="2">24507</z>
+<time id="2">44.416</time>
+<x id="3">00534</x>
+<y id="3">00301</y>
+<z id="3">24910</z>
+<time id="3">44.465</time>
+<x id="4">00502</x>
+<y id="4">00282</y>
+<z id="4">24666</z>
+<time id="4">44.516</time>
+<x id="5">00461</x>
+<y id="5">00168</y>
+<z id="5">24666</z>
+<time id="5">44.565</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="51">
+<timestamp>45.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="350">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="351">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="352">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="353">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="354">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="94">
+<Timestamp>44.874</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.10</roll>
+<yaw>11.32</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00475</x>
+<y id="1">00211</y>
+<z id="1">24725</z>
+<time id="1">44.639</time>
+<x id="2">00350</x>
+<y id="2">00141</y>
+<z id="2">24455</z>
+<time id="2">44.688</time>
+<x id="3">00638</x>
+<y id="3">00254</y>
+<z id="3">24705</z>
+<time id="3">44.737</time>
+<x id="4">00464</x>
+<y id="4">00156</y>
+<z id="4">24696</z>
+<time id="4">44.807</time>
+<x id="5">00613</x>
+<y id="5">00282</y>
+<z id="5">24436</z>
+<time id="5">44.850</time>
+</Accelerometer>
+</imu>
+
+<imu id="95">
+<Timestamp>45.152</Timestamp>
+<Orientation>
+<pitch>0.58</pitch>
+<roll>-1.14</roll>
+<yaw>11.46</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00440</x>
+<y id="1">00419</y>
+<z id="1">24865</z>
+<time id="1">44.933</time>
+<x id="2">00516</x>
+<y id="2">00286</y>
+<z id="2">24748</z>
+<time id="2">44.969</time>
+<x id="3">00530</x>
+<y id="3">00489</y>
+<z id="3">24835</z>
+<time id="3">45.16</time>
+<x id="4">00388</x>
+<y id="4">00266</y>
+<z id="4">24809</z>
+<time id="4">45.65</time>
+<x id="5">00513</x>
+<y id="5">00415</y>
+<z id="5">24809</z>
+<time id="5">45.116</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="52">
+<timestamp>45.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="355">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="356">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="357">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="358">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="96">
+<Timestamp>45.554</Timestamp>
+<Orientation>
+<pitch>0.58</pitch>
+<roll>-1.13</roll>
+<yaw>11.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00478</x>
+<y id="1">00180</y>
+<z id="1">24800</z>
+<time id="1">45.330</time>
+<x id="2">00527</x>
+<y id="2">00192</y>
+<z id="2">24549</z>
+<time id="2">45.375</time>
+<x id="3">00430</x>
+<y id="3">00509</y>
+<z id="3">24874</z>
+<time id="3">45.426</time>
+<x id="4">00610</x>
+<y id="4">00301</y>
+<z id="4">24787</z>
+<time id="4">45.475</time>
+<x id="5">00599</x>
+<y id="5">00176</y>
+<z id="5">24445</z>
+<time id="5">45.526</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="53">
+<timestamp>46.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="359">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="360">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="361">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="362">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="363">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="364">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="97">
+<Timestamp>45.904</Timestamp>
+<Orientation>
+<pitch>0.55</pitch>
+<roll>-1.10</roll>
+<yaw>10.54</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00579</x>
+<y id="1">00407</y>
+<z id="1">24657</z>
+<time id="1">45.597</time>
+<x id="2">00478</x>
+<y id="2">00290</y>
+<z id="2">24533</z>
+<time id="2">45.680</time>
+<x id="3">00412</x>
+<y id="3">00156</y>
+<z id="3">24559</z>
+<time id="3">45.771</time>
+<x id="4">00534</x>
+<y id="4">00391</y>
+<z id="4">24705</z>
+<time id="4">45.824</time>
+<x id="5">00488</x>
+<y id="5">00403</y>
+<z id="5">24660</z>
+<time id="5">45.875</time>
+</Accelerometer>
+</imu>
+
+<imu id="98">
+<Timestamp>46.154</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.07</roll>
+<yaw>12.30</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00516</x>
+<y id="1">00219</y>
+<z id="1">24692</z>
+<time id="1">45.940</time>
+<x id="2">00561</x>
+<y id="2">00254</y>
+<z id="2">24845</z>
+<time id="2">45.979</time>
+<x id="3">00540</x>
+<y id="3">00293</y>
+<z id="3">24790</z>
+<time id="3">46.26</time>
+<x id="4">00492</x>
+<y id="4">00290</y>
+<z id="4">24611</z>
+<time id="4">46.74</time>
+<x id="5">00634</x>
+<y id="5">00301</y>
+<z id="5">24741</z>
+<time id="5">46.126</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="54">
+<timestamp>46.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="365">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="366">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="367">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="368">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="369">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="99">
+<Timestamp>46.504</Timestamp>
+<Orientation>
+<pitch>0.50</pitch>
+<roll>-1.08</roll>
+<yaw>11.15</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00506</x>
+<y id="1">00325</y>
+<z id="1">24813</z>
+<time id="1">46.283</time>
+<x id="2">00509</x>
+<y id="2">00274</y>
+<z id="2">24676</z>
+<time id="2">46.342</time>
+<x id="3">00572</x>
+<y id="3">00145</y>
+<z id="3">24566</z>
+<time id="3">46.380</time>
+<x id="4">00492</x>
+<y id="4">00286</y>
+<z id="4">24822</z>
+<time id="4">46.427</time>
+<x id="5">00506</x>
+<y id="5">00164</y>
+<z id="5">24796</z>
+<time id="5">46.475</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="55">
+<timestamp>47.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="370">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="371">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="372">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="373">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="374">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="100">
+<Timestamp>46.824</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.08</roll>
+<yaw>11.80</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00554</x>
+<y id="1">00309</y>
+<z id="1">24800</z>
+<time id="1">46.540</time>
+<x id="2">00433</x>
+<y id="2">00164</y>
+<z id="2">24777</z>
+<time id="2">46.579</time>
+<x id="3">00499</x>
+<y id="3">00195</y>
+<z id="3">24640</z>
+<time id="3">46.626</time>
+<x id="4">00527</x>
+<y id="4">00278</y>
+<z id="4">24822</z>
+<time id="4">46.708</time>
+<x id="5">00523</x>
+<y id="5">00227</y>
+<z id="5">24943</z>
+<time id="5">46.797</time>
+</Accelerometer>
+</imu>
+
+<imu id="101">
+<Timestamp>47.94</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.08</roll>
+<yaw>10.26</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00468</x>
+<y id="1">00376</y>
+<z id="1">24709</z>
+<time id="1">46.856</time>
+<x id="2">00534</x>
+<y id="2">00278</y>
+<z id="2">24676</z>
+<time id="2">46.922</time>
+<x id="3">00488</x>
+<y id="3">00223</y>
+<z id="3">24956</z>
+<time id="3">46.959</time>
+<x id="4">00499</x>
+<y id="4">00313</y>
+<z id="4">24650</z>
+<time id="4">47.22</time>
+<x id="5">00488</x>
+<y id="5">00266</y>
+<z id="5">24588</z>
+<time id="5">47.60</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="56">
+<timestamp>47.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="375">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="376">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="377">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="378">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="379">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="102">
+<Timestamp>47.404</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.08</roll>
+<yaw>10.38</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00492</x>
+<y id="1">00235</y>
+<z id="1">24809</z>
+<time id="1">47.139</time>
+<x id="2">00551</x>
+<y id="2">00195</y>
+<z id="2">24653</z>
+<time id="2">47.207</time>
+<x id="3">00430</x>
+<y id="3">00199</y>
+<z id="3">24754</z>
+<time id="3">47.290</time>
+<x id="4">00513</x>
+<y id="4">00223</y>
+<z id="4">24644</z>
+<time id="4">47.340</time>
+<x id="5">00509</x>
+<y id="5">00317</y>
+<z id="5">24614</z>
+<time id="5">47.379</time>
+</Accelerometer>
+</imu>
+
+<imu id="103">
+<Timestamp>47.654</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.09</roll>
+<yaw>11.45</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00540</x>
+<y id="1">00235</y>
+<z id="1">24660</z>
+<time id="1">47.440</time>
+<x id="2">00596</x>
+<y id="2">00313</y>
+<z id="2">24748</z>
+<time id="2">47.479</time>
+<x id="3">00464</x>
+<y id="3">00309</y>
+<z id="3">24692</z>
+<time id="3">47.526</time>
+<x id="4">00381</x>
+<y id="4">00254</y>
+<z id="4">24627</z>
+<time id="4">47.575</time>
+<x id="5">00575</x>
+<y id="5">00290</y>
+<z id="5">24657</z>
+<time id="5">47.626</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="57">
+<timestamp>48.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="380">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="381">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="382">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="383">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="384">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="104">
+<Timestamp>47.994</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.09</roll>
+<yaw>12.33</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00468</x>
+<y id="1">00168</y>
+<z id="1">24676</z>
+<time id="1">47.753</time>
+<x id="2">00280</x>
+<y id="2">00219</y>
+<z id="2">24874</z>
+<time id="2">47.835</time>
+<x id="3">00547</x>
+<y id="3">00352</y>
+<z id="3">24848</z>
+<time id="3">47.890</time>
+<x id="4">00450</x>
+<y id="4">00254</y>
+<z id="4">24865</z>
+<time id="4">47.923</time>
+<x id="5">00454</x>
+<y id="5">00207</y>
+<z id="5">24540</z>
+<time id="5">47.959</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="58">
+<timestamp>48.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="385">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="386">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="387">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="388">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="389">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="105">
+<Timestamp>48.364</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.09</roll>
+<yaw>11.35</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00582</x>
+<y id="1">00329</y>
+<z id="1">24774</z>
+<time id="1">48.39</time>
+<x id="2">00579</x>
+<y id="2">00286</y>
+<z id="2">24751</z>
+<time id="2">48.79</time>
+<x id="3">00589</x>
+<y id="3">00344</y>
+<z id="3">24683</z>
+<time id="3">48.126</time>
+<x id="4">00527</x>
+<y id="4">00372</y>
+<z id="4">25024</z>
+<time id="4">48.208</time>
+<x id="5">00617</x>
+<y id="5">00290</y>
+<z id="5">24757</z>
+<time id="5">48.340</time>
+</Accelerometer>
+</imu>
+
+<imu id="106">
+<Timestamp>48.604</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.08</roll>
+<yaw>11.42</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00613</x>
+<y id="1">00317</y>
+<z id="1">25024</z>
+<time id="1">48.402</time>
+<x id="2">00551</x>
+<y id="2">00219</y>
+<z id="2">24845</z>
+<time id="2">48.440</time>
+<x id="3">00540</x>
+<y id="3">00215</y>
+<z id="3">24608</z>
+<time id="3">48.479</time>
+<x id="4">00516</x>
+<y id="4">00203</y>
+<z id="4">24618</z>
+<time id="4">48.526</time>
+<x id="5">00547</x>
+<y id="5">00274</y>
+<z id="5">24803</z>
+<time id="5">48.574</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="59">
+<timestamp>49.144</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="390">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="391">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="392">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="393">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="394">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="107">
+<Timestamp>48.974</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.08</roll>
+<yaw>10.87</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00610</x>
+<y id="1">00235</y>
+<z id="1">24787</z>
+<time id="1">48.640</time>
+<x id="2">00405</x>
+<y id="2">00282</y>
+<z id="2">24861</z>
+<time id="2">48.698</time>
+<x id="3">00631</x>
+<y id="3">00235</y>
+<z id="3">24540</z>
+<time id="3">48.772</time>
+<x id="4">00426</x>
+<y id="4">00250</y>
+<z id="4">25018</z>
+<time id="4">48.856</time>
+<x id="5">00412</x>
+<y id="5">00282</y>
+<z id="5">24136</z>
+<time id="5">48.947</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="60">
+<timestamp>49.644</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.87</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="395">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="396">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="397">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="398">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="399">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="108">
+<Timestamp>49.444</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.07</roll>
+<yaw>11.21</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00461</x>
+<y id="1">00282</y>
+<z id="1">24709</z>
+<time id="1">49.43</time>
+<x id="2">00488</x>
+<y id="2">00274</y>
+<z id="2">24774</z>
+<time id="2">49.94</time>
+<x id="3">00589</x>
+<y id="3">00254</y>
+<z id="3">24653</z>
+<time id="3">49.247</time>
+<x id="4">00450</x>
+<y id="4">00207</y>
+<z id="4">24523</z>
+<time id="4">49.373</time>
+<x id="5">00398</x>
+<y id="5">00290</y>
+<z id="5">24660</z>
+<time id="5">49.417</time>
+</Accelerometer>
+</imu>
+
+</dataset>
+<dataset id="61">
+<timestamp>50.147</timestamp>
+<system>
+<bat_stat> N/A </bat_stat>
+<bat_volt>3.88</bat_volt>
+<time> N/A </time>
+</system>
+
+<gps id="400">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="401">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="402">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="403">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+<gps id="404">
+<status>
+NO GPS SIGNAL
+</status>
+</gps>
+
+<imu id="109">
+<Timestamp>49.735</Timestamp>
+<Orientation>
+<pitch>0.54</pitch>
+<roll>-1.09</roll>
+<yaw>10.17</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00527</x>
+<y id="1">00364</y>
+<z id="1">24884</z>
+<time id="1">49.475</time>
+<x id="2">00492</x>
+<y id="2">00227</y>
+<z id="2">24705</z>
+<time id="2">49.527</time>
+<x id="3">00582</x>
+<y id="3">00305</y>
+<z id="3">24897</z>
+<time id="3">49.574</time>
+<x id="4">00530</x>
+<y id="4">00172</y>
+<z id="4">24598</z>
+<time id="4">49.626</time>
+<x id="5">00610</x>
+<y id="5">00407</y>
+<z id="5">24816</z>
+<time id="5">49.708</time>
+</Accelerometer>
+</imu>
+
+<imu id="110">
+<Timestamp>50.104</Timestamp>
+<Orientation>
+<pitch>0.54</pitch>
+<roll>-1.09</roll>
+<yaw>10.26</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00537</x>
+<y id="1">00223</y>
+<z id="1">24920</z>
+<time id="1">49.869</time>
+<x id="2">00624</x>
+<y id="2">00270</y>
+<z id="2">24842</z>
+<time id="2">49.916</time>
+<x id="3">00447</x>
+<y id="3">00317</y>
+<z id="3">24556</z>
+<time id="3">49.959</time>
+<x id="4">00544</x>
+<y id="4">00250</y>
+<z id="4">24676</z>
+<time id="4">50.35</time>
+<x id="5">00485</x>
+<y id="5">00270</y>
+<z id="5">24705</z>
+<time id="5">50.79</time>
+</Accelerometer>
+</imu>
+
+</dataset>

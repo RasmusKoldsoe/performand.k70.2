@@ -1,0 +1,218 @@
+/*
+ * COMparser.c
+ *
+ *  Created on: Sep 20, 2013
+ *      Author: rasmus
+ */
+#include "COMparser.h"
+
+int led_value=1;
+
+char* getSuccessString(char status){
+	static char sStr[39];
+
+	switch(status) {
+	case HCI_SUCCESS:
+		sprintf(sStr, "Success");
+		break;
+	case HCI_ERR_UNKNOWN_CONN_ID:
+		sprintf(sStr, "Unknown connection identifier");
+		break;
+	case HCI_ERR_UNSUPPORTED_FEATURE_PARAM_VAL:
+		sprintf(sStr, "Unsupported feature or parameter value");
+		break;
+	default:
+		sprintf(sStr, "Unknown HCI Ext Status 0x%02X", (unsigned int)status & 0xFF);
+		break;
+	}
+	return sStr;
+}
+
+char* getTerminateString( char reason ) {
+	static char tStr[31];
+
+	switch (reason) {
+	case GAP_LL_SUPERVISION_TIMEOUT:
+		sprintf(tStr, "Supervision timeout");
+		break;
+	case GAP_LL_PEER_REQUESTED_TERM:
+		sprintf(tStr, "Peer requested termination");
+		break;
+	case GAP_LL_HOST_REQUESTED_TERM:
+		sprintf(tStr, "Host requested termination");
+		break;
+	case GAP_LL_FAILED_TO_ESTABLISH:
+		sprintf(tStr, "Failed to establish connection");
+		break;
+	default:
+		sprintf(tStr, "0x%02X", (int)reason & 0xFF);
+	}
+
+	return tStr;
+}
+
+void *RxComParser(void *_bleCentral)
+{
+	BLE_Central_t *bleCentral = (BLE_Central_t *)_bleCentral;
+	datagram_t datagram;
+	int i, j, data;
+	char buf [30];
+	long connHandle, opCode;
+	debug(1, "RX COM Parser started\n");
+
+	while(bleCentral->_run) {
+		if(queueCount(&bleCentral->rxQueue) == 0) {
+			usleep(STD_WAIT_TIME);
+			continue;
+		}
+
+		i = 0;
+		connHandle = 0;
+		opCode = 0;
+		dequeue(&bleCentral->rxQueue, &datagram);
+
+		if(datagram.type == Event) {
+
+			if((datagram.opcode & 0xFF) == HCI_LE_ExtEvent) {
+				long evtCode = unload_16_bit(datagram.data, &i, 1);
+				char success = unload_8_bit(datagram.data, &i);
+				debug(3, "Event:\t(%02X %02X)\n", (unsigned int)evtCode >> 8 & 0xFF, (unsigned int)evtCode & 0xFF);
+				debug(3, "Status:\t(%02X) %s\n",(unsigned int)success & 0xFF, getSuccessString(success));
+
+				switch(evtCode) {
+				case ATT_ErrorRsp:
+					debug(1, "ATT_ErrorResponce return %s\n", getSuccessString(success));
+					break;
+				case ATT_WriteRsp:
+					debug(1, "ATT_WriteResponce return %s\n", getSuccessString(success));
+					break;
+				case ATT_HandleValueNotification:
+					debug(1, "ATT_HandleValueNotifiction return %s ", getSuccessString(success));
+					connHandle = unload_16_bit(datagram.data, &i, 1);
+
+					char pduLength = unload_8_bit(datagram.data, &i);
+					if(pduLength < 2)
+						break;
+
+					long handle = unload_16_bit(datagram.data, &i, 1);
+					char str[100];
+					format_time_of_day(str, datagram.timestamp);
+
+					debug(1, "from connHandle %04X for handle 0x%04X at %s with data: ", (unsigned int)connHandle & 0xFFFF, (unsigned int)handle & 0xFFFF, str);
+					for(j=0; j<pduLength-2; j++) {
+						debug(1, "%02X ", (unsigned int)datagram.data[i++] & 0xFF);
+					}
+					debug(1, "\n");
+					data = ((datagram.data[9]&0xFF)<<8)+(datagram.data[8]&0xFF);
+										
+					//Check if there is more space in the mapped mem. We need Bytes for the
+					//XML string.
+debug(1, "COMparser: mm_get_next_available:\n");
+					mm_get_next_available(bleCentral->mapped_mem, 2);
+					
+					sprintf(buf,"%d",data*2);
+debug(1, "COMparser: mm_append_to_XML_file:\n");
+					mm_append_to_XMLfile(bleCentral->rt_count,buf,bleCentral->mapped_mem);
+					bleCentral->rt_count++;
+debug(1, "COMparser: Done\n");
+					if( !gpio_setValue(LED_IND3, led_value) ) {
+						printf("ERROR: Exporting gpio port.");
+						return 0;
+					}
+					led_value=1-led_value;	
+
+					break;
+				case GAP_DeviceInitDone:
+					debug(1, "GAP_DeviceInitDone return %s with MAC addr: ", getSuccessString(success));
+
+					for(j=5; j>=0; j--) {
+						bleCentral->MAC[j] = datagram.data[i++];
+					}
+					for(j=0; j<6; j++) {
+						debug(1, "%02X%c", (unsigned int)bleCentral->MAC[j] & 0xFF, (j<5)?':':'\n');
+					}
+					break;
+				case GAP_EstablishLink:
+					{
+						debug(1, "GAP_EstablishLink ");
+						debug(1, "%s to device ", (success==0)?"successfully connected":"failed to connect");
+						i++; // Device address type
+						char connMAC[6];
+
+						for(j=5; j>=0; j--) {
+							connMAC[j] = datagram.data[i++];
+						}
+						for(j=0; j<6; j++) {
+							debug(1, "%02X%c", (unsigned int)connMAC[j] & 0xFF, (j<5)?':':' ');
+						}
+
+						if(success == HCI_SUCCESS) {
+							/**************************************************************************
+							 * If a device with the given MAC address is already defined this will
+							 * be returned, otherwise the first unused device handle will be returned
+							 **************************************************************************/
+							BLE_Peripheral_t* device = getNextAvailableDevice(bleCentral, &datagram.data[i]);
+							if(device == NULL) {//No available devices: bail out
+								debug(1, "\nERROR: No connection handles available\n");
+								break;
+							}
+
+							memcpy(device->connMAC, connMAC, 6);
+							device->_defined = 1;
+							device->_connected = 1;
+							device->connHandle = (long)datagram.data[i++];
+							device->connHandle |= (long)datagram.data[i++] << 8;
+							debug(1, "with connHandle 0x%04X\n", device->connHandle);
+						}
+					}
+					break;
+				case GAP_TerminateLink:
+					{
+						debug(1, "GAP_TerminateLink ");
+						connHandle = unload_16_bit(datagram.data, &i, 1);
+						char reason = unload_8_bit(datagram.data, &i);
+
+						debug(1, "connHandle 0x%04X with reason %s\n", (unsigned int)connHandle & 0xFFFF, getTerminateString(reason));
+
+						BLE_Peripheral_t* device = findDeviceByConnHandle(bleCentral, connHandle);
+						device->_connected = 0;
+						break;
+					}
+				case GAP_HCI_ExtentionCommandStatus:
+					debug(1, "GAP_HCI_ExtentionCommandStatus ");
+					opCode = 0;
+					opCode = unload_16_bit(datagram.data, &i, 1);
+
+					switch(opCode) {
+					case GATT_WriteCharValue:
+						debug(1, "return %s for WriteCharValue\n", getSuccessString(success));
+						break;
+					case GAP_DeviceInit:
+						debug(1, "return %s for DeviceInit\n", getSuccessString(success));
+						break;
+					case GAP_EstablishLinkRequest:
+						debug(1, "return %s for EstablishLinkRequest\n", getSuccessString(success));
+						break;
+					case GAP_TerminateLinkRequest:
+						debug(1, "return %s for TerminateLinkRequest\n", getSuccessString(success));
+						break;
+					default:
+						debug(1, "return %s for unknown opcode %04X\n", getSuccessString(success), (unsigned int)opCode);
+					}
+					break;
+				default:
+					debug(1, "HCI_LE_ExtEvent OpCode %04X not supported\n", (unsigned int)opCode);
+				}
+			}
+			else {
+				debug(1, "Datagram eventCode not supported: %04X\n", (unsigned int)datagram.opcode);
+			}
+		}
+		else {
+			debug(1, "Datagram type not supported: %04X\n", datagram.type);
+		}
+	}
+
+	debug(1, "RX COM Parser exiting\n");
+	return NULL;
+}

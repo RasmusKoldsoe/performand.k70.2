@@ -1,0 +1,8 @@
+Value [Ch0]; 16306
+Value [Ch1]; 20818
+Value [Ch2]; 14148
+Value [Ch3]; 0
+Value [Ch0]; 16113
+Value [Ch1]; 23058
+Value [Ch2]; 15532
+Value [Ch3]; 0

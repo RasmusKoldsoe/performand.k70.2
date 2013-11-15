@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./mnt/apps/daemons/gps_daemon &
+./mnt/apps/daemons/imu_daemon &
+
