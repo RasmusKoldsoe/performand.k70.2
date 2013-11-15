@@ -9,7 +9,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
-#include <sys/time.h>
+#include <time.h>
 #include <errno.h>
 #include <termios.h>
 #include "serialLogic.h"
@@ -97,14 +97,14 @@ void *read_serial(void *_bleCentral)
 		parserState = COM_parse_data(&datagram, buff, count, &offset, parserState);
 
 		if( parserState == package_type_token && previousParserState != parserState ) {
-			gettimeofday( &datagram.timestamp, NULL );
+			clock_gettime(CLOCK_REALTIME, &datagram.timestamp);
 
 			debug(2, "Datagram received ");
 			print_byte_array(buff, count, 0);
 			pretty_print_datagram(&datagram);
 
 			enqueue(&bleCentral->rxQueue, &datagram);
-			APP_SetEvent(HCI_TaskID, HCI_DATA_READY);
+			APP_SetEvent(HCI_TaskID, HCI_RX_DATA_READY);
 			updateRxStat(1, 0);
 
 			memset(&datagram, 0, sizeof(datagram_t));
@@ -139,6 +139,7 @@ void *write_serial(void *_bleCentral)
 		debug(2, "Message sent (%d bytes) ", n);
 		print_byte_array(msg, l, 0);
 		pretty_print_datagram(&datagram);
+		usleep(20*STD_WAIT_TIME);
 	}
 
 	debug(1, "Write thread exiting\n");

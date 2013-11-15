@@ -62,7 +62,7 @@ static void print_char_array(char *buff, int length, int offset)
 {
 	int i;
 	for(i=offset; i<length; i++) {
-		printf(" %2X ", buff[i] & 0xff);
+		printf("%c", buff[i] & 0xff);
 	}
 	printf("\n");
 }

@@ -42,17 +42,16 @@ static void print_char_array(char *buff, int length, int offset)
 void GS_API_Init(char *port){
      GS_HAL_init(port);
 
-     // Send a \r\n to sync communication
-     GS_HAL_send("\r\n", 2);
+     //GS_HAL_send("\r\n", 2);
         
      // Flush buffer until we get a valid response
      AtLib_FlushIncomingMessage();
 
      // Try to reset
-     if(AtLibGs_Reset() == HOST_APP_MSG_ID_APP_RESET)
-          GS_API_Printf("Reset OK");
-     else
-          GS_API_Printf("Reset Fail");
+     //if(AtLibGs_Reset() == HOST_APP_MSG_ID_APP_RESET)
+     //     GS_API_Printf("Reset OK");
+     //else
+     //     GS_API_Printf("Reset Fail");
 
      // Turn off echo
      AtLibGs_SetEcho(0);
@@ -61,7 +60,8 @@ void GS_API_Init(char *port){
      AtLibGs_BData(1);
 
      // Read saved network parameters
-     gs_api_readNetworkConfig();
+     //gs_api_readNetworkConfig();
+     AtLib_FlushIncomingMessage();
 }
 
 void GS_API_Close(char *port){

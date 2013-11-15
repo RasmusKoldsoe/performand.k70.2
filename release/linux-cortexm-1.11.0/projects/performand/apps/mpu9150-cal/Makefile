@@ -6,19 +6,25 @@ CC = $(CROSS_COMPILE_APPS)gcc
 CFLAGS := -Os -mcpu=cortex-m3 -mthumb
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
 
+VPATH = ../Common
+
 # add -DI2C_DEBUG for debugging
 DEFS = -DEMPL_TARGET_LINUX -DMPU9150 -DAK8975_SECONDARY
 
 EMPLDIR = eMPL
 GLUEDIR = glue
 MPUDIR = mpu9150
+COMMON = ../Common
+MEMORY_MAP_DIR = $(COMMON)/MemoryMapping
 
 OBJS = inv_mpu.o \
        inv_mpu_dmp_motion_driver.o \
        linux_glue.o \
        mpu9150.o \
        quaternion.o \
-       vector3d.o
+       vector3d.o \
+       utils.o \
+       memory_map.o 
 
 all : imu imucal
 
@@ -52,6 +58,11 @@ inv_mpu_dmp_motion_driver.o : $(EMPLDIR)/inv_mpu_dmp_motion_driver.c
 inv_mpu.o : $(EMPLDIR)/inv_mpu.c
 	$(CC) $(CFLAGS) $(DEFS) -I $(EMPLDIR) -I $(GLUEDIR) -c $(EMPLDIR)/inv_mpu.c
 
+memory_map.o : $(MEMORY_MAP_DIR)/memory_map.c
+	$(CC) $(CFLAGS) -c $(MEMORY_MAP_DIR)/memory_map.c
+
+utils.o : $(COMMON)/utils.c
+	$(CC) $(CFLAGS) -c $(COMMON)/utils.c
 
 clean:
 	rm -f *.o imu imucal

@@ -142,9 +142,9 @@ int main(int argc, char **argv)
 
 	if (strlen(calFile) == 0) {
 		if (mag_mode)
-			strcpy(calFile, "magcal.txt");
+			strcpy(calFile, "/nand/magcal.txt");
 		else
-			strcpy(calFile, "accelcal.txt");
+			strcpy(calFile, "/nand/accelcal.txt");
 	}
 
 	write_cal();

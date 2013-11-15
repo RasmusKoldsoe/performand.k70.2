@@ -14,6 +14,7 @@
 #define APP_DEVICE_INIT_DONE_EVENT 0x0004
 #define APP_CONNECTION_ESTABLISHED 0x0008
 #define APP_CONNECTION_TERMINATED  0x0010
+#define APP_HCI_ERROR              0x0020
 
 /********************************************************************
  * long events:                                                     *
@@ -36,6 +37,9 @@ extern int  APP_Exit(void);
 extern long APP_SetEvent(int taskID, long events);
 extern long APP_GetEvent(int taskID);
 extern void APP_ClearEvent(int taskID);
+extern int  APP_StartTimer(int taskID, long events, int timeout); //ms
+extern int  APP_ClearTimer(int index);
+extern int  APP_ClearTimerByEvent(int taskID, long events);
 
 
 #endif /* APP_H_ */

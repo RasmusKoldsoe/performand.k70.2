@@ -36,7 +36,7 @@ static int data_fusion(mpudata_t *mpu);
 static unsigned short inv_row_2_scale(const signed char *row);
 static unsigned short inv_orientation_matrix_to_scalar(const signed char *mtx);
 
-int debug_on;
+int debug_on = 1;
 int yaw_mixing_factor;
 
 int use_accel_cal;
@@ -72,8 +72,6 @@ int mpu9150_init(int i2c_bus, int sample_rate, int mix_factor)
 	}
 
 	yaw_mixing_factor = mix_factor;
-
-	printf("Try to linux_set_i2c_bus: %d",i2c_bus);
 	linux_set_i2c_bus(i2c_bus);
 
 	printf("\nInitializing IMU .");
@@ -192,7 +190,7 @@ void mpu9150_set_accel_cal(caldata_t *cal)
 		bias[i] = -accel_cal_data.offset[i];
 	}
 
-	if (debug_on) {
+	if (1) {
 		printf("\naccel cal (range : offset)\n");
 
 		for (i = 0; i < 3; i++)
@@ -319,6 +317,7 @@ void calibrate_data(mpudata_t *mpu)
 	}
 
 	if (use_accel_cal) {
+	printf("use acc cal.\n");
       mpu->calibratedAccel[VEC3_X] = -(short)(((long)mpu->rawAccel[VEC3_X] * (long)ACCEL_SENSOR_RANGE)
 			/ (long)accel_cal_data.range[VEC3_X]);
 

@@ -5,7 +5,11 @@ mount -t devpts none /dev/pts
 # To do NFS-mount of a development host directory for your project,
 # replace the IP and host directory in the line below with your
 # values matching your local settings
-mount -o nolock,rsize=1024 192.168.1.2:/home/rasmus/performand.k70/release/linux-cortexm-1.11.0/projects/performand /mnt
+
+#mount kernel debugfs
+mount -t debugfs none /sys/kernel/debug/
+
+mount -o nolock,rsize=1024 192.168.1.2:/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand /mnt
 ifconfig lo 127.0.0.1
 # ifconfig eth0 192.168.0.100
 
@@ -16,14 +20,14 @@ mount -t jffs2 /dev/mtdblock2 /nand
 #echo "hih6130: Humidity and Temperature sensor driver."
 #insmod hih6130.ko
 
-#echo "GPS: Changing serial port settings to 9600 Baud."
-#stty -F /dev/ttyS1 9600 
+echo "GPS: Changing serial port settings to 9600 Baud."
+stty -F /dev/ttyS1 9600 
 
-#echo "GS1500M: Changing serial port settings to 9600 Baud."
-#stty -F /dev/ttyS3 115200 
+echo "GS1500M: Changing serial port settings to 9600 Baud."
+stty -F /dev/ttyS3 115200 
 
 echo "CC2541: Changing serial port settings to 115200 Baud."
-stty -F /dev/ttyS3 115200 
+stty -F /dev/ttyS4 115200 
 
 #echo "Preparing cgi appliaction."
 #cp read_humtemp
@@ -39,9 +43,45 @@ echo "Mounting SD Card ..."
 mkdir sdcard
 mount /dev/mmcblk0p1 /sdcard
 
-echo "Starting IMU driver ..."
-insmod /performand/driver/imu.ko
-
 echo "Starting GPS daemon ..."
 ./performand/apps/gps_daemon &
+#./mnt/apps/daemons/gps_daemon &
+
+echo "Starting IMU daemon ..."
+./performand/apps/imu_daemon -b 0 -y 1 &
+#./mnt/apps/mpu*/imu -b 0 -y 1 &
+
+#echo "Starting Bluetooth daemon ..."
+#./performand/apps/ble_messenger &
+
+echo "Starting Wifi AP and TCP Service daemon ..."
+#./mnt/apps/wifi/main
+./performand/apps/wifi_ap_init
+
+echo "Starting Data Aggregation and TCP stream ..."
+echo " "
+echo " "
+echo "****************************************************"
+#echo "W E L C O M E   T O   P E R F O R M A N D"
+echo "W E L C O M E   T O  D A T A B O Y"
+echo " "
+echo "Databoy 2.0 Generic data controller ..."
+echo " "
+echo "by SpectraSense Technologies, 2013"
+echo " "
+echo " "
+echo " "
+echo "For questions please contact:"
+echo "rbrehm@spectrasense.com - 0045 6550 1612"
+echo " "
+echo " "
+echo " "
+echo "****************************************************"
+echo " "
+echo " "
+echo " "
+./performand/apps/stream_data &
+#./mnt/apps/wifi/w_tcp_str &
+
+
 

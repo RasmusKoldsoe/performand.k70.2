@@ -19,12 +19,12 @@ __used
 __attribute__((section("__versions"))) = {
 	{ 0x1640806b, "module_layout" },
 	{ 0xd7cf1d7e, "i2c_master_send" },
-	{ 0x888a9429, "cdev_del" },
+	{ 0x256b9790, "cdev_del" },
 	{ 0xdd6b1cc1, "i2c_del_driver" },
 	{ 0x1a9df6cc, "malloc_sizes" },
 	{ 0xb0bb9c02, "down_interruptible" },
 	{ 0x77d921ed, "device_destroy" },
-	{ 0xc34dfa74, "__register_chrdev" },
+	{ 0x7e0404f0, "__register_chrdev" },
 	{ 0x4100e1eb, "i2c_put_adapter" },
 	{ 0x7485e15e, "unregister_chrdev_region" },
 	{ 0x3c2c5af5, "sprintf" },
@@ -55,4 +55,4 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "815F05D9E852C91F60BFB1D");
+MODULE_INFO(srcversion, "888CB870AF48B5917EE5F5C");

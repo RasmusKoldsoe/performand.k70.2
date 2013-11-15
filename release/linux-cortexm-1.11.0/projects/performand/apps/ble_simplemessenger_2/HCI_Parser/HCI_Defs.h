@@ -61,12 +61,16 @@ enum GAP_TerminationReason {
 
 enum HCIExt_StatusCodes {
 	HCI_SUCCESS = 0x00,
+	HCI_ERR_UNKNOWN_HCI_CMD = 0x01,
 	HCI_ERR_UNKNOWN_CONN_ID = 0x02,
-	HCI_ERR_UNSUPPORTED_FEATURE_PARAM_VAL = 0x11
+	HCI_ERR_UNSUPPORTED_FEATURE_PARAM_VAL = 0x11,
+	HCI_ERR_INVALID_HCI_CMD_PARAMS = 0x12,
+	HCI_ERR_REMOTE_DEVICE_TERM_CONN_LOW_RESOURCES = 0X14,
+	HCI_ERR_RESERVED2 = 0x31
 };
 
 typedef struct {
-	struct timeval timestamp;
+	struct timespec timestamp;
 	char type;
 	long opcode;
 	unsigned int data_length;
@@ -74,7 +78,7 @@ typedef struct {
 } datagram_t;
 
 // Datagram structures
-char* getSuccessString(char status);
+char* getSuccessString(char status, int esg);
 char* getTerminateString(char reason);
 int get_GAP_DeviceInit(datagram_t *datagram);
 int get_GAP_EstablishLinkRequest(datagram_t *datagram, char *MAC);

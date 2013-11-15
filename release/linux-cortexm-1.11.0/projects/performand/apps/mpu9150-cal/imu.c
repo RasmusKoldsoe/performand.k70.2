@@ -35,6 +35,9 @@
 #include "linux_glue.h"
 #include "local_defaults.h"
 
+#include "../Common/MemoryMapping/memory_map.h"
+#include "../Common/utils.h"
+
 int set_cal(int mag, char *cal_file);
 void read_loop(unsigned int sample_rate);
 void print_fused_euler_angles(mpudata_t *mpu);
@@ -47,6 +50,14 @@ void sigint_handler(int sig);
 
 int done;
 FILE *logfd;
+int runtime_count,file_idx = 0;
+
+float x_avg=0,y_avg=0,z_avg=0;
+int acc_x[5];
+int acc_y[5];	
+int acc_z[5];
+int time_s[5];
+int time_ms[5];
 
 void usage(char *argv_0)
 {
@@ -72,7 +83,7 @@ int main(int argc, char **argv)
 {
 	int opt, len;
 	int i2c_bus = DEFAULT_I2C_BUS;
-	int sample_rate = DEFAULT_SAMPLE_RATE_HZ;
+	int sample_rate = 50; //DEFAULT_SAMPLE_RATE_HZ;
 	int yaw_mix_factor = DEFAULT_YAW_MIX_FACTOR;
 	int verbose = 0;
 	char *mag_cal_file = NULL;
@@ -154,8 +165,11 @@ int main(int argc, char **argv)
 
 	mpu9150_set_debug(verbose);
 
-	if (mpu9150_init(i2c_bus, sample_rate, yaw_mix_factor))
-		exit(1);
+	printf("IMU sample rate: %d Hz",sample_rate);
+	if (mpu9150_init(i2c_bus, sample_rate, yaw_mix_factor)) {
+		printf("IMU Error: Initialisation failed.\n");
+		return 0;
+	}
 
 	set_cal(0, accel_cal_file);
 	set_cal(1, mag_cal_file);
@@ -166,9 +180,9 @@ int main(int argc, char **argv)
 	if (mag_cal_file)
 		free(mag_cal_file);
  
-	logfd = fopen(log_file_name, "w");
-	if( NULL == logfd ) 
-		mpu9150_exit();
+	//logfd = fopen(log_file_name, "w");
+	//if( NULL == logfd ) 
+	//	mpu9150_exit();
 
 	read_loop(sample_rate);
 
@@ -179,10 +193,104 @@ int main(int argc, char **argv)
 	return 0;
 }
 
+void tomappedMemXMLPacket(mpudata_t *mpu, h_mmapped_file *mapped_file, int *sample_id) {
+	char buffer[600];
+	struct timespec spec;
+	long ms, s;
+	int strlen = 0;
+
+	clock_gettime(CLOCK_REALTIME, &spec);
+	ms = round(spec.tv_nsec / 1.0e6);
+	s = spec.tv_sec; 
+
+	if (strlen=sprintf(buffer,"\n<imu id=\"%d\">\n\
+<Timestamp>%d.%d</Timestamp>\n\
+<Orientation>\n\
+<pitch>%0.2f</pitch>\n\
+<roll>%0.2f</roll>\n\
+<yaw>%0.2f</yaw>\n\
+</Orientation>\n\
+<Accelerometer>\n\
+<x id=\"1\">%05d</x>\n\
+<y id=\"1\">%05d</y>\n\
+<z id=\"1\">%05d</z>\n\
+<time id=\"1\">%d.%d</time>\n\
+<x id=\"2\">%05d</x>\n\
+<y id=\"2\">%05d</y>\n\
+<z id=\"2\">%05d</z>\n\
+<time id=\"2\">%d.%d</time>\n\
+<x id=\"3\">%05d</x>\n\
+<y id=\"3\">%05d</y>\n\
+<z id=\"3\">%05d</z>\n\
+<time id=\"3\">%d.%d</time>\n\
+<x id=\"4\">%05d</x>\n\
+<y id=\"4\">%05d</y>\n\
+<z id=\"4\">%05d</z>\n\
+<time id=\"4\">%d.%d</time>\n\
+<x id=\"5\">%05d</x>\n\
+<y id=\"5\">%05d</y>\n\
+<z id=\"5\">%05d</z>\n\
+<time id=\"5\">%d.%d</time>\n\
+</Accelerometer>\n\
+</imu>\n",	*sample_id,
+		s, ms,	
+		x_avg,
+		y_avg,
+		z_avg,		
+		acc_x[0],
+		acc_y[0],
+		acc_z[0],
+		time_s[0],time_ms[0],
+		acc_x[1],
+		acc_y[1],
+		acc_z[1],
+		time_s[1],time_ms[1],
+		acc_x[2],
+		acc_y[2],
+		acc_z[2],
+		time_s[2],time_ms[2],
+		acc_x[3],
+		acc_y[3],
+		acc_z[3],
+		time_s[3],time_ms[3],
+		acc_x[4],
+		acc_y[4],
+		acc_z[4],
+		time_s[4],time_ms[4]) >=0 ) { 
+				
+		mm_append(buffer, mapped_file);
+		file_idx = write_log_file("imu", runtime_count, file_idx, buffer);
+	}
+	
+	return;
+}
+
 void read_loop(unsigned int sample_rate)
 {
 	unsigned long loop_delay;
 	mpudata_t mpu;
+
+	int i;
+	int sample_id=0;
+	h_mmapped_file imu_mapped_file;
+		struct timespec spec;
+	long ms, s;
+	int strlen = 0;
+
+
+	//Prepare and initialise memory mapping
+	memset(&imu_mapped_file, 0, sizeof(h_mmapped_file));
+
+	imu_mapped_file.filename = "imu";
+	imu_mapped_file.size = DEFAULT_FILE_LENGTH;
+
+	runtime_count = read_rt_count();
+
+	//Prepare the mapped Memory file
+	if((mm_prepare_mapped_mem(&imu_mapped_file)) < 0) {
+		printf("Error mapping %s file.\n",imu_mapped_file.filename);
+		return -1;	
+	}
 
 	memset(&mpu, 0, sizeof(mpudata_t));
 
@@ -191,34 +299,86 @@ void read_loop(unsigned int sample_rate)
 
 	loop_delay = (1000 / sample_rate) - 2;
 
-	printf("\nEntering read loop (ctrl-c to exit)\n\n");
-
 	linux_delay_ms(loop_delay);
 
+	runtime_count = read_rt_count();
+
+	sample_id=0;
+
 	while (!done) {
-		if (mpu9150_read(&mpu) == 0) {
+		/*if (mpu9150_read(&mpu) == 0) {
 			print_fused_euler_angles(&mpu);
-			log_fused_euler_angles(&mpu);
+			//log_fused_euler_angles(&mpu);
 			// print_fused_quaternion(&mpu);
 			// print_calibrated_accel(&mpu);
 			// print_calibrated_mag(&mpu);
 		}
 
-		linux_delay_ms(loop_delay);
+		linux_delay_ms(loop_delay); */
+		
+		//call imu -b 0 -y 0
+
+		x_avg = 0;
+		y_avg = 0;
+		z_avg = 0;
+
+		for(i=0;i<5;i++) {
+			if (mpu9150_read(&mpu) == 0) {
+				clock_gettime(CLOCK_REALTIME, &spec);
+				ms = round(spec.tv_nsec / 1.0e6);
+				s = spec.tv_sec; 
+
+				x_avg = x_avg + (mpu.fusedEuler[VEC3_X] * RAD_TO_DEGREE) / 5;
+				y_avg = y_avg + (mpu.fusedEuler[VEC3_Y] * RAD_TO_DEGREE) / 5;
+				z_avg = z_avg + ((mpu.fusedEuler[VEC3_Z] * RAD_TO_DEGREE) ) / 5;
+				acc_x[i]=mpu.calibratedAccel[VEC3_X]; 
+				acc_y[i]=mpu.calibratedAccel[VEC3_Y]; 
+				acc_z[i]=mpu.calibratedAccel[VEC3_Z];
+				time_s[i]=s;
+				time_ms[i]=ms;
+
+				/*if (mpu9150_read(&mpu) == 0) {
+					printf("\rX: %05d Y: %05d Z: %05d        \n",
+						mpu.calibratedAccel[VEC3_X], 
+						mpu.calibratedAccel[VEC3_Y], 
+						mpu.calibratedAccel[VEC3_Z]);
+				}
+				fflush(stdout);*/
+
+				usleep(20000);
+			}
+		
+		}
+
+		//printf("\rX: %0.2f Y: %0.2f Z: %0.2f        \n",x_avg , y_avg , z_avg);
+		/*if (mpu9150_read(&mpu) == 0) {
+		printf("\rX: %05d Y: %05d Z: %05d        \n",
+			mpu.calibratedAccel[VEC3_X], 
+			mpu.calibratedAccel[VEC3_Y], 
+			mpu.calibratedAccel[VEC3_Z]);
+		}*/
+		//fflush(stdout);
+
+		tomappedMemXMLPacket(&mpu, &imu_mapped_file, &sample_id);
+		
+		sample_id=sample_id+1;
+
 	}
 
 	printf("\n\n");
 }
 
 void print_fused_euler_angles(mpudata_t *mpu)
-{
-	printf("\rX: %0.1f Y: %0.1f Z: %0.1f        ",
+{	//run : ./mnt/apps/mpu9150-cal/imu -b 0 -y 1
+	printf("\rX: %0.2f Y: %0.2f Z: %0.2f        ",
 			mpu->fusedEuler[VEC3_X] * RAD_TO_DEGREE, 
 			mpu->fusedEuler[VEC3_Y] * RAD_TO_DEGREE, 
 			mpu->fusedEuler[VEC3_Z] * RAD_TO_DEGREE);
 
+
 	fflush(stdout);
 }
+
 
 char data_output[25];
 void log_fused_euler_angles(mpudata_t *mpu)
@@ -281,7 +441,7 @@ int set_cal(int mag, char *cal_file)
 	}
 	else {
 		if (mag) {
-			f = fopen("./magcal.txt", "r");
+			f = fopen("./nand/magcal.txt", "r");
 		
 			if (!f) {
 				printf("Default magcal.txt not found\n");
@@ -289,7 +449,7 @@ int set_cal(int mag, char *cal_file)
 			}
 		}
 		else {
-			f = fopen("./accelcal.txt", "r");
+			f = fopen("./nand/accelcal.txt", "r");
 		
 			if (!f) {
 				printf("Default accelcal.txt not found\n");

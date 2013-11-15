@@ -3,7 +3,7 @@
 #
 
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=2 -DSTD_BUF_SIZE=64
+CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=1 -DSTD_BUF_SIZE=64
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
 
 COMPARSER_DIR = COM_Parser
@@ -32,9 +32,7 @@ OBJS = dev_tools.o \
 
 all : bleCentral
 
-redo :
-	clean
-	bleCentral
+redo : clean bleCentral
 	chmod +x bleCentral
 
 HCI_Defs.o : $(HCIPARSER_DIR)/HCI_Defs.c

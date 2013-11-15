@@ -8,14 +8,15 @@
 #include <signal.h>
 #include <string.h>
 
-#include "utils/gpio_api.h"
+#include "../Common/GPIO/gpio_api.h"
+
 
 #define FILE_LENGTH 	0x1000	//1KB File emory
 
 #define HOST_APP_DEBUG_ENABLE
 
 /** Private Defines **/
-#define PROVISION_SSID "SailBoy2.0" ///< SSID for limited AP network that will be created
+#define PROVISION_SSID "DataBoy2.0" ///< SSID for limited AP network that will be created
 #define PROVISION_CHANNEL "8" ///< Channel for limited AP network that will be created
 #define PROVISION_USERNAME "performand" ///< Username for web configuration client login
 #define PROVISION_PASSWORD "performand" ///< Password for web configuration client login
@@ -55,7 +56,10 @@ static TCP_SERVER_COMMANDS commandToHandle = TCP_NO_CMD; ///< Current command to
 static char commandCID = GS_API_INVALID_CID; ///< Connection ID last command came from
 
 
+void *ledToggle(void);
+
 /** Private Method Declarations **/
+static void gs_handle_tcp_client_data(char cid, char data);
 static void gs_handle_tcp_server_data(char cid, char data);
 static TCP_SERVER_COMMANDS gs_tcp_scan_for_commands(void);
 /**
@@ -74,11 +78,14 @@ static void gs_send_tcp_client_data(){
   
 }
 
+static void gs_handle_tcp_client_data(char cid, char data){
+}
+
 
 static void gs_handle_tcp_server_data(char cid, char data){
 	// Save the data to the line buffer
 	line[currentPos++] = data;
-
+	printf("data %s",data);
 	// Check for a newline character
 	if(data == '\n'){
 		// null terminate the string so sscanf works
@@ -115,10 +122,19 @@ static TCP_SERVER_COMMANDS gs_tcp_scan_for_commands(void){
   return TCP_UNKNOWN_CMD;
 }
 
+void *ledToggle(void) {
+
+	while(1) {
+		gpio_setValue(LED_IND1,1);
+		usleep(100000);
+		gpio_setValue(LED_IND1,0);
+		usleep(250000);
+	}
+}
+
 int main(int argc, char **argv)
 {
 	char tcpClientCID = 1;
-	char buffer[1024];
 
 	FILE * fp;
 	char * line = NULL;
@@ -126,13 +142,22 @@ int main(int argc, char **argv)
 	ssize_t read;
 	int timeout=0;
 
-	line = (char *)malloc(256);
+	pthread_t led_toggle_thread;
 
 	printf("GS1500m Daemon v0.1\n");
 
+	//Int GPIO's
 	if(!gpio_export(WIFI_RESET))
+		printf("ERROR: Exporting gpio port: %d\n", WIFI_RESET);
+
+	if(!gpio_export(LED_IND1) || !gpio_export(LED_IND2))
 		printf("ERROR: Exporting gpio port.");
 	
+	if(!gpio_setDirection(LED_IND1,0) || !gpio_setDirection(LED_IND2,0))
+		printf("ERROR: Exporting gpio port.");
+
+	pthread_create(&led_toggle_thread,NULL,ledToggle,NULL);
+
 	//Check if the module is ready.
 	if(!gpio_setDirection(WIFI_RESET,1))
 		printf("ERROR: Exporting gpio port.");	
@@ -144,7 +169,7 @@ int main(int argc, char **argv)
 	}
 
 	//Reset the module is ready.
-	if(!gpio_setDirection(WIFI_RESET,0))
+	if(!gpio_setDirection(WIFI_RESET,0) );
 		printf("ERROR: Exporting gpio port.");	
 	if(!gpio_setValue(WIFI_RESET,0))
 		printf("ERROR: Exporting gpio port.");	
@@ -152,7 +177,7 @@ int main(int argc, char **argv)
 	usleep(500000);
 
 	//Now use port as input again.
-	if(!gpio_setDirection(WIFI_RESET,1))
+	if(!gpio_setDirection(WIFI_RESET,1));
 		printf("ERROR: Exporting gpio port.");	
 
 	timeout=0;
@@ -165,7 +190,7 @@ int main(int argc, char **argv)
 			return -1;
 		}
 	}
-
+	
 	// Initialize Gainspan module, print module information and switch to client mode 
         GS_API_Init("/dev/ttyS3");
         GS_API_PrintModuleInformation();
@@ -179,13 +204,26 @@ int main(int argc, char **argv)
 			PROVISION_IP,
 			PROVISION_SUBNET,
 			PROVISION_HOSTNAME);
-  	
+  	gpio_setValue(LED_IND1,0);
 	// Create the TCP Server connection
-  	tcpServerCID = GS_API_CreateTcpServerConnection(TCP_SERVER_PORT, gs_handle_tcp_server_data);
+	//usleep(100000);	
+	tcpServerCID = GS_API_CreateTcpServerConnection(TCP_SERVER_PORT, gs_handle_tcp_server_data);
+	//tcpServerCID = GS_API_CreateTcpClientConnection("192.168.10.3", TCP_SERVER_PORT, gs_handle_tcp_server_data);
+//	AtLibGs_Check();
 	printf("TCP Server CID: %d \n", tcpServerCID);
   	if(tcpServerCID != GS_API_INVALID_CID){
-    		printf("TCP PORT: %s", TCP_SERVER_PORT);
+    		printf("TCP PORT: %s\n", TCP_SERVER_PORT);
   	}
+
+	gpio_setValue(LED_IND1,0);
+	gpio_setValue(LED_IND2,1);
+
+	//wait_for_client_connection();
+	//while(1) {
+	//	printf("%d",AtLib_ResponseHandle());
+	//	usleep(100000);	
+	//}
+	//GS_API_CloseAllConnections();
 
 /*	while(1) {
 		fp = fopen("gps", "r");

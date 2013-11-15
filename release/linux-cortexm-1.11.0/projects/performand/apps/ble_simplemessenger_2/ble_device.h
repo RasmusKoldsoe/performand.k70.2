@@ -12,7 +12,7 @@
 #define STD_TIMEOUT     5    // sec
 #define STD_TIMEOUT_CNT (STD_TIMEOUT * 1000000)/STD_WAIT_TIME
 
-#define MAX_PERIPHERAL_DEV 2 // Hardware don't support more than 5 simultanious connections
+#define MAX_PERIPHERAL_DEV 5 // Hardware don't support more than 5 simultanious connections
 //#define STD_BUF_SIZE 64
 
 #define MAC_ADDR_SIZE 6
@@ -22,6 +22,7 @@
 #include "../Common/common_tools.h"
 
 typedef struct {
+		long ID;
 		long connHandle;
 		char connMAC[6];
 		long serviceHDLS[5];

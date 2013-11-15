@@ -3,14 +3,19 @@
 #
 
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -Os -mcpu=cortex-m3 -mthumb
+CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
+
+VPATH = ../Common
 
 APIDIR = gainspan/API
 ATDIR = gainspan/AT
 HWDIR = gainspan/hardware
 PTDIR = gainspan/platform
-UTILSDIR = utils
+
+COMMON = ../Common
+GPIO_DIR = $(COMMON)/GPIO
+MEMORY_MAP_DIR = $(COMMON)/MemoryMapping
 
 OBJS = 	GS_API_device.o \
 	GS_API_network.o \
@@ -19,18 +24,17 @@ OBJS = 	GS_API_device.o \
 	GS_HAL.o \
 	mstimer.o \
 	serialport.o \
-	gpio_api.o
+	gpio_api.o \
+	utils.o \
+	memory_map.o 
 
 all : main write_tcp_stream
 
 main : $(OBJS) main.o
-	$(CC) $(CFLAGS) $(OBJS) -I $(APIDIR) -I $(ATDIR) -I $(UTILSDIR) main.o -lm -o main
-
+	$(CC) $(CFLAGS) $(OBJS) -I $(APIDIR) -I $(ATDIR) main.o -lm -o main
+	
 write_tcp_stream : write_tcp_stream.o
 	$(CC) $(CFLAGS) $(OBJS) -I $(APIDIR) -I $(ATDIR) write_tcp_stream.o -lm -o w_tcp_str
-
-gpio_api.o : $(UTILSDIR)/gpio_api.c
-	$(CC) $(CFLAGS) -I $(UTILSDIR) -c $(UTILSDIR)/gpio_api.c
 
 GS_API_device.o : $(APIDIR)/GS_API_device.c
 	$(CC) $(CFLAGS) -I $(APIDIR) -I $(ATDIR) -c $(APIDIR)/GS_API_device.c
@@ -52,6 +56,15 @@ mstimer.o : $(PTDIR)/mstimer.c
 
 serialport.o : serialport.c
 	$(CC) $(CFLAGS) -c serialport.c
+
+memory_map.o : $(MEMORY_MAP_DIR)/memory_map.c
+	$(CC) $(CFLAGS) -c $(MEMORY_MAP_DIR)/memory_map.c
+
+utils.o : $(COMMON)/utils.c
+	$(CC) $(CFLAGS) -c $(COMMON)/utils.c
+
+gpio_api.o : $(GPIO_DIR)/gpio_api.c
+	$(CC) $(CFLAGS) -c $(GPIO_DIR)/gpio_api.c
 
 clean:
 	rm -f *.o gs

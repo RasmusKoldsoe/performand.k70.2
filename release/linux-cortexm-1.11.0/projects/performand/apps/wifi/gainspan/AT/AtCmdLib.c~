@@ -31,7 +31,7 @@
  * Constants:
  *-------------------------------------------------------------------------*/
 #define ATLIB_RESPONSE_HANDLE_TIMEOUT   20000	/* ms */
-#define HOST_APP_DEBUG_ENABLE
+//#define HOST_APP_DEBUG_ENABLE
 
 /*-------------------------------------------------------------------------*
  * Globals:
@@ -2260,8 +2260,8 @@ AtLib_ParseUdpServerStartResponse (uint8_t * pConnId)
 uint8_t
 AtLib_ParseTcpServerStartResponse (uint8_t * pConnId)
 {
+  
   char *pSubStr = NULL;
-
   if ((pSubStr = strstr ((const char *) MRBuffer, "CONNECT")) != NULL)
     {
       *pConnId = pSubStr[8];
@@ -2522,7 +2522,7 @@ AtLib_CommandSend (void)
   HOST_APP_MSG_ID_E rxMsgId;
 
 #ifdef HOST_APP_DEBUG_ENABLE
-  GS_API_Printf (">%s", G_ATCmdBuf);
+  GS_API_Printf ("Wifi > %s", G_ATCmdBuf);
 #endif
 
   /* Now send the command to S2w App node */
@@ -2549,7 +2549,7 @@ AtLib_CommandSendNoResponse (void)
 {
 
 #ifdef HOST_APP_DEBUG_ENABLE
-  GS_API_Printf (">%s", G_ATCmdBuf);
+  GS_API_Printf ("wifi: > %s", G_ATCmdBuf);
 #endif
 
   /* Send the command to S2w App node */
@@ -2691,6 +2691,24 @@ AtLib_SendUdpData (uint8_t cid, const uint8_t * txBuf, uint32_t dataLen,
     }
 }
 
+static void print_ch_array(char *buff, int length, int offset)
+{
+	int i;
+	for(i=offset; i<length; i++) {
+		printf(" %X ", buff[i] & 0xff);
+	}
+	printf("\n");
+}
+
+static void print_cha_array(char *buff, int length, int offset)
+{
+	int i;
+	for(i=offset; i<length; i++) {
+		printf("%c", buff[i] & 0xff);
+	}
+	printf("\n");
+}
+
 /*---------------------------------------------------------------------------*
  * Routine:  AtLib_BulkDataTransfer
  *---------------------------------------------------------------------------*
@@ -2715,19 +2733,21 @@ HOST_APP_MSG_ID_E
 AtLib_BulkDataTransfer (uint8_t cid, const uint8_t * pData, uint32_t dataLen)
 {
   /*<Esc> <Z> <Cid> <Data Length xxxx 4 ascii char> <data> */
-  int8_t digits[5];
+  char digits[5];
 
   /* Construct the bulk data start indication message  */
   AtLib_ConvertNumberTo4DigitASCII (dataLen, digits);
   sprintf (&(G_ATCmdBuf[0]), "%c%c%c%s", HOST_APP_ESC_CHAR, 'Z', cid, digits);
 
+ // print_ch_array(&(G_ATCmdBuf[0]), strlen (G_ATCmdBuf),0);
+
   /* Now send the bulk data START indication message  to S2w node */
   GS_HAL_send ((uint8_t *) & G_ATCmdBuf[0], strlen (G_ATCmdBuf));
 
-  printf("Send : %s", pData);
-
+ // print_cha_array(pData, dataLen,0);
   /* Now send the actual data */
   GS_HAL_send (pData, dataLen);
+
 
   /* Return the response */
   return AtLib_ResponseHandle ();
@@ -2969,7 +2989,7 @@ AtLib_ReceiveDataProcess (uint8_t rxData)
 
 #ifdef HOST_APP_DEBUG_ENABLE
   if ((isprint(rxData)) || (isspace(rxData)))
-   printf("%c", rxData);
+   	printf("%c", rxData);
 #endif
 
   /* Process the received data */
@@ -3409,10 +3429,12 @@ AtLib_ResponseHandle (void)
       if (gotData)
 	{
 	  /* Process the received data */
+	 //
 	  responseMsgId = AtLib_ReceiveDataProcess (rxData);
 	  if (responseMsgId != HOST_APP_MSG_ID_NONE)
 	    {
 	      /* Message successfully received from S2w App node */
+		printf("%s\n",rxData);
 	      break;
 	    }
 	}
@@ -3506,7 +3528,7 @@ AtLib_FlushIncomingMessage (void)
 
   /* Read one byte at a time - non-blocking call */
   start = MSTimerGet ();
-  printf("Elapsed time: %d\n", start);
+  //printf("Elapsed time: %d\n", start);
 
   while (MSTimerDelta(start) < 100)
     {

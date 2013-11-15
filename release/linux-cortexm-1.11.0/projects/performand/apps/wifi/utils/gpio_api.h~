@@ -1,9 +1,0 @@
-#ifndef _GPIO_API_H_
-#define _GPIO_API_H_
-
-int gpio_export(int gpio);
-int gpio_setDirection(int gpio, int dir);
-int gpio_setValue(int gpio, int value);
-int gpio_getValue(int gpio);
-
-#endif /* _GPIO_API_H_ */

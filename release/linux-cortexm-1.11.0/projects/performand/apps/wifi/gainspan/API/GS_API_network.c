@@ -261,18 +261,17 @@ uint8_t GS_API_CreateTcpServerConnection(char* port, GS_API_DataHandler cidDataH
      uint16_t cid = GS_API_INVALID_CID;
 
      if(!gs_api_handle_cmd_resp(AtLibGs_TcpServer_Start((int8_t*)port))) {
-
           return cid;
 	}
-
+   
      if(AtLib_ParseTcpServerStartResponse(cidStr)){
           // need to convert from ASCII to numeric
           cid = gs_api_parseCidStr(cidStr);
           if(cid != GS_API_INVALID_CID){
                cidDataHandlers[cid] = cidDataHandler;
-          }
+         }
      }
-
+  
      return cid;
 }
 
@@ -454,11 +453,15 @@ static void gs_api_setCidDataHandler(uint8_t cid, GS_API_DataHandler cidDataHand
 static uint8_t gs_api_parseCidStr(uint8_t* cidStr){
      uint8_t cid = GS_API_INVALID_CID;
 
-     if(sscanf((char*)cidStr, "%x",(unsigned int*) &cid)){
+     printf("cidStr: %X\n", (char*)cidStr);
+
+     //if(sscanf((char*)cidStr, "%x", &cid)){
+     if(cid=atoi(cidStr) && cidStr=='0') { 
           if(cid >= CID_COUNT){
                cid = GS_API_INVALID_CID;
           }
      }
+      printf("CID num: %d\n",cid);
      return cid;
 }
 

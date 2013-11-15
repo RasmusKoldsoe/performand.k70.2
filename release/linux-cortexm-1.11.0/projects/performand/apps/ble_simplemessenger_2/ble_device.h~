@@ -22,6 +22,7 @@
 #include "../Common/common_tools.h"
 
 typedef struct {
+		long ID;
 		long connHandle;
 		char connMAC[6];
 		long serviceHDLS[5];
@@ -34,7 +35,7 @@ typedef struct {
 		int fd;
 		char MAC[6];
 		int _run;
-		BLE_Peripheral_t devices*;
+		BLE_Peripheral_t *devices;
 		queue_t txQueue;
 		queue_t rxQueue;
 
