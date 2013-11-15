@@ -1,7 +1,7 @@
 
 #include "imu_module.h"
 
-unsigned char d_string[550];
+unsigned char d_string[600];
 static int cnt = 0;
 mpudata_t mpu_data;
 

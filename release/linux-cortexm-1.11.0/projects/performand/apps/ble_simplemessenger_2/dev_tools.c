@@ -43,8 +43,18 @@ long unload_16_bit(char* data, int *i, int swap)
 	return rval;
 }
 
+void unload_MAC(char* data, int *i, char* MAC)
+{
+	char* MAC_i = MAC + 5;
 
-char compareMAC(char* MAC1, char* MAC2) 
+	do {
+		*MAC_i-- = data[*i];
+		*i += 1;
+	} while(MAC <= MAC_i);
+}
+
+
+char compareMAC(const char* MAC1, const char* MAC2) 
 { 
 	int i; 
 	for(i=0; i<6; i++) { 
@@ -93,7 +103,15 @@ BLE_Peripheral_t* getNextAvailableDevice(BLE_Central_t *central, char *MAC)
 	return NULL; 
 }
 
+long getDevIDbyConnHandle(BLE_Central_t *central, long connHandle)
+{
+	BLE_Peripheral_t* device = findDeviceByConnHandle(central, connHandle); 
+	if (device = NULL) return -1; 
 
+	return device->ID;
+}
+
+/*
 void format_time_of_day(char* str, struct timeval tv)
 {
 	char tmbuf[100];
@@ -108,6 +126,26 @@ void format_time_of_day(char* str, struct timeval tv)
 	strftime(tmbuf, sizeof(tmbuf),  "%Y-%m-%d %H:%M:%S", tmp);
 	sprintf(str, "%s.%06d", tmbuf, tv.tv_usec);
 }
+*/
+void format_time_of_day(char* str, struct timespec *ts)
+{
+	char tmbuf[100];
+	struct tm tmp;
+
+	//time_t t = (time_t)ts->tv_sec;
+	if(localtime_r(&(ts->tv_sec), &tmp) == NULL) {
+		snprintf(str, 100, "ERROR: localtime\n");
+		return;
+	}
+
+	strftime(tmbuf, 100,  "%Y-%m-%d %H:%M:%S", &tmp);
+	snprintf(str, 100, "%s.%09ld", tmbuf, ts->tv_nsec);
+}
+
+
+
+
+
 
 
 

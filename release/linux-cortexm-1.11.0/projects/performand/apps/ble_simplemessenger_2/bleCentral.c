@@ -73,7 +73,8 @@ int reset_LED(int pin)
 	return 1;
 }
 
-BLE_Central_t bleCentral;
+
+
 int main (void)
 {
 	if( !reset_BLE(BLE_0_RESET) )
@@ -85,45 +86,50 @@ int main (void)
 	int rt, wt;
 	pthread_t read_thread, write_thread;
 	pthread_attr_t thread_attr;
-	 
+	BLE_Central_t bleCentral;
 	memset(&bleCentral, 0, sizeof(BLE_Central_t));
 
-	bleCentral.port = "/dev/ttyS3"; // "/dev/ttyS4"
+	bleCentral.port = "/dev/ttyS4"; // "/dev/ttyS4"
 	bleCentral._run = 1;
 	bleCentral.rxQueue = queueCreate();
 	bleCentral.txQueue = queueCreate();
-	BLE_Peripheral_t dev[] = { {.connHandle = 0, 
+	BLE_Peripheral_t dev[] = { /*{.ID = 0x1 << 16, // bitwise id - lowest id available
+	                           .connHandle = 0,
 	                           .connMAC = {0x78, 0xC5, 0xE5, 0xA0, 0x14, 0x12},
-		                       .serviceHDLS = {0x004D, 0x0, 0x0, 0x0, 0x0},
-		                       ._connected = 0,
-		                       ._defined = 1 
-		                      },
-		                      {.connHandle = 0, 
-	                           .connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x18, 0xD8},
-		                       .serviceHDLS = {0x0048, 0x0, 0x0, 0x0, 0x0},
+		                       .serviceHDLS = {0x004D},
 		                       ._connected = 0,
 		                       ._defined = 1
-		                       }
+		                      },
+		                      {.ID = 0x1 << 17,
+	                           .connHandle = 0,
+	                           .connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x18, 0xD8},
+		                       .serviceHDLS = {0x0048, 0x0030},
+		                       ._connected = 0,
+		                       ._defined = 1
+		                      },*/
+		                      {.ID = 0x1 << 18,
+	                           .connHandle = 0,
+	                           .connMAC = {0x90, 0x59, 0xaf, 0x09, 0xd5, 0x9f},
+		                       .serviceHDLS = {0x003C, 0x0037},
+		                       ._connected = 0,
+		                       ._defined = 1
+		                      }
 		                     };
-/*
-		long connHandle;
-		char connMAC[6];
-		long serviceHDLS[5];
-		char _connected;
-		char _defined;
-*/
+		
 	bleCentral.devices = dev;
 	bleCentral.fd = open_serial(bleCentral.port, O_RDWR);
 	if(bleCentral.fd < 0){
 		printf("ERROR Opening port: %d\n", bleCentral.fd);
 		return -1;
-	}
+	} 
+
 	initNetworkStat();
+
 	APP_Init(&bleCentral);
 
 	//Prepare mapped mem.
-	bleCentral.mapped_mem = (char*) mm_prepare_mapped_mem("ble");
-	bleCentral.rt_count = 0;
+	//bleCentral.mapped_mem = (char*) mm_prepare_mapped_mem("ble");
+	//bleCentral.rt_count = 0;
 
 	//Register signal handler.
 	register_sig_handler(); 
@@ -143,8 +149,9 @@ int main (void)
 	  return -1;
 	}
 
+	usleep(500000);
 	APP_SetEvent(APP_TaskID, APP_STARTUP_EVENT);
-printf("Program set up - Run app\n");
+	debug(1, "Program set up - Run app\n");
 	while(bleCentral._run) {
 		APP_Run();
 	}
@@ -178,5 +185,5 @@ void register_sig_handler()
 
 void sigint_handler(int sig)
 {
-	bleCentral._run = 0;
+	APP_SetEvent(APP_TaskID, APP_SHUTDOWN_EVENT);
 }

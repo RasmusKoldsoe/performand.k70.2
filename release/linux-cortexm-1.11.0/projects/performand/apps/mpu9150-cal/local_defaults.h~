@@ -31,7 +31,7 @@
 //#define DEFAULT_I2C_BUS 
 
 // Gumstix Overo
- #define DEFAULT_I2C_BUS 1
+ #define DEFAULT_I2C_BUS 0
 
  #define EMPL_TARGET_LINUX
 #define MPU9150 
@@ -43,7 +43,7 @@
 
 // platform independent
 
-#define DEFAULT_SAMPLE_RATE_HZ	10
+#define DEFAULT_SAMPLE_RATE_HZ	5
 
 #define DEFAULT_YAW_MIX_FACTOR 4
 

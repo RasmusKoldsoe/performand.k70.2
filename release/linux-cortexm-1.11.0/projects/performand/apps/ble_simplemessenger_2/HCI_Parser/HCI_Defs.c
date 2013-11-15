@@ -8,22 +8,60 @@
 #include <stdio.h>
 #include "HCI_Defs.h"
 
-char* getSuccessString(char status){
-	static char sStr[39];
-
-	switch(status) {
-	case HCI_SUCCESS:
-		sprintf(sStr, "Success");
-		break;
-	case HCI_ERR_UNKNOWN_CONN_ID:
-		sprintf(sStr, "Unknown connection identifier");
-		break;
-	case HCI_ERR_UNSUPPORTED_FEATURE_PARAM_VAL:
-		sprintf(sStr, "Unsupported feature or parameter value");
-		break;
-	default:
-		sprintf(sStr, "Unknown HCI Ext Status 0x%02X", (unsigned int)status & 0xFF);
-		break;
+char* getSuccessString(char status, int esg){
+	static char sStr[57];
+	if(esg == 0) { // HCI Ext
+		switch(status) {
+		case HCI_SUCCESS:
+			sprintf(sStr, "Success");
+			break;
+		case HCI_ERR_UNKNOWN_HCI_CMD:
+			sprintf(sStr, "Unknown HCI Command");
+			break;
+		case HCI_ERR_UNKNOWN_CONN_ID:
+			sprintf(sStr, "Unknown connection identifier");
+			break;
+		case HCI_ERR_UNSUPPORTED_FEATURE_PARAM_VAL:
+			sprintf(sStr, "Unsupported feature or parameter value");
+			break;
+		case HCI_ERR_INVALID_HCI_CMD_PARAMS:
+			sprintf(sStr, "Invalid HCI Command Parameters");
+			break;
+		case HCI_ERR_REMOTE_DEVICE_TERM_CONN_LOW_RESOURCES:
+			sprintf(sStr, "Remote device terminated connection due to low resources");
+			break;
+		default:
+			sprintf(sStr, "Unknown HCI Ext Status 0x%02X", (unsigned int)status & 0xFF);
+			break;
+		}
+	}
+	else {
+		switch(status) {
+		case HCI_SUCCESS:
+			sprintf(sStr, "Success");
+			break;
+		case HCI_ERR_UNKNOWN_HCI_CMD:
+			sprintf(sStr, "Failure");
+			break;
+		case HCI_ERR_UNKNOWN_CONN_ID:
+			sprintf(sStr, "Invalid parameter");
+			break;
+		case HCI_ERR_UNSUPPORTED_FEATURE_PARAM_VAL:
+			sprintf(sStr, "Already performing that task!");
+			break;
+		case HCI_ERR_INVALID_HCI_CMD_PARAMS:
+			sprintf(sStr, "Not setup properly to perform that task");
+			break;
+		case HCI_ERR_REMOTE_DEVICE_TERM_CONN_LOW_RESOURCES:
+			sprintf(sStr, "Can't perform function when not in connection");
+			break;
+		case HCI_ERR_RESERVED2:
+			sprintf(sStr, "Connection was not accepted");
+			break;
+		default:
+			sprintf(sStr, "Unknown Status 0x%02X", (unsigned int)status & 0xFF);
+			break;
+		}
 	}
 	return sStr;
 }

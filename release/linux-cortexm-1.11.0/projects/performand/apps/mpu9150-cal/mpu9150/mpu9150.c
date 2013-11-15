@@ -36,7 +36,7 @@ static int data_fusion(mpudata_t *mpu);
 static unsigned short inv_row_2_scale(const signed char *row);
 static unsigned short inv_orientation_matrix_to_scalar(const signed char *mtx);
 
-int debug_on;
+int debug_on = 1;
 int yaw_mixing_factor;
 
 int use_accel_cal;
@@ -190,7 +190,7 @@ void mpu9150_set_accel_cal(caldata_t *cal)
 		bias[i] = -accel_cal_data.offset[i];
 	}
 
-	if (debug_on) {
+	if (1) {
 		printf("\naccel cal (range : offset)\n");
 
 		for (i = 0; i < 3; i++)

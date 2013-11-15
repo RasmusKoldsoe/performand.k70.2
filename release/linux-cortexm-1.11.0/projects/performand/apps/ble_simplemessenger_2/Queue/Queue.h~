@@ -8,7 +8,7 @@
 #ifndef QUEUE_H_
 #define QUEUE_H_
 
-#define MAX_QUEUE_SIZE 10
+#define MAX_QUEUE_SIZE 20
 
 #include "../HCI_Parser/HCI_Defs.h"
 

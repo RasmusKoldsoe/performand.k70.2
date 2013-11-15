@@ -43,7 +43,7 @@
 
 // platform independent
 
-#define DEFAULT_SAMPLE_RATE_HZ	10
+#define DEFAULT_SAMPLE_RATE_HZ	5
 
 #define DEFAULT_YAW_MIX_FACTOR 4
 

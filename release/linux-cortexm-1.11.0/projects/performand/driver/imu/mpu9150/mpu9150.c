@@ -41,6 +41,8 @@ caldata_t mag_cal_data;
 
 static char status_string[200];
 
+int runtime_count = 0;
+
 struct int_param_s init_param = {
 	.pin = 0
 };
@@ -69,7 +71,7 @@ int mpu9150_print_data(mpudata_t *mpu, char *string)
 		//sprintf(dmp_time_string, "-");
 		//sprintf(rawMag_string, "-");
 		//sprintf(rawAcc_string, "-");	
-		sprintf(string, "<Status>\n%s</Status>\n",status_string);
+		sprintf(string, "\n<imu id=\"%d\">\n<Status>\n%s</Status>\n</imu>\n",runtime_count,status_string);
 	}
 	else {
 		sprintf(quat_string, "<W>%lu</W>\n<X>%lu</X>\n<Y>%lu</Y>\n<Z>%lu</Z>\n", mpu->rawQuat[0], mpu->rawQuat[1], mpu->rawQuat[2], mpu->rawQuat[3]);
@@ -86,15 +88,17 @@ int mpu9150_print_data(mpudata_t *mpu, char *string)
 			mpu->dmpTimestamp, \
 			(int)mpu->rawMag[0], (int)mpu->rawMag[1], (int)mpu->rawMag[2], \
 			mpu->magTimestamp);*/
-		sprintf(string, "<Quaternion>\n%s \
-<Timestamp>%s</Timestamp>\n \
-</Quaternion>\n \
-<Magnetometer>\n%s</Magnetometer>\n \
-<Accelerometer>\n%s</Accelerometer>\n \
-<Status>\n%s</Status>\n", quat_string, dmp_time_string, rawMag_string, rawAcc_string, status_string);
+		sprintf(string, "\n<imu id=\"%d\">\n\
+<Quaternion>\n%s\
+<Timestamp>%s</Timestamp>\n\
+</Quaternion>\n\
+<Magnetometer>\n%s</Magnetometer>\n\
+<Accelerometer>\n%s</Accelerometer>\n\
+</imu>\n",runtime_count, quat_string, dmp_time_string, rawMag_string, rawAcc_string, status_string);
+//<Status>\n%s</Status>\n", quat_string, dmp_time_string, rawMag_string, rawAcc_string, status_string);
 
 	} 
-	
+	runtime_count+=1;
 	
 	return 0;
 }
@@ -124,7 +128,7 @@ int __init mpu9150_init(int sample_rate, int mix_factor)
 
 	yaw_mixing_factor = mix_factor;
 
-	printk("\nInitializing IMU .");
+	printk("\nInitializing IMU ...");
 
 	if (mmpu_init()) {
 		printk(KERN_WARNING "\nmpu_init() failed\n");
@@ -132,7 +136,7 @@ int __init mpu9150_init(int sample_rate, int mix_factor)
 		return -1;
 	}
 
-	printk(".");
+	//printk(".");
 
 	if (mpu_set_sensors(INV_XYZ_GYRO | INV_XYZ_ACCEL | INV_XYZ_COMPASS)) {
 		printk(KERN_WARNING "\nmpu_set_sensors() failed\n");
@@ -140,7 +144,7 @@ int __init mpu9150_init(int sample_rate, int mix_factor)
 		return -1;
 	}
 
-	printk(".");
+	//printk(".");
 
 	if (mpu_configure_fifo(INV_XYZ_GYRO | INV_XYZ_ACCEL)) {
 		printk(KERN_WARNING "\nmpu_configure_fifo() failed\n");
@@ -148,7 +152,7 @@ int __init mpu9150_init(int sample_rate, int mix_factor)
 		return -1;
 	}
 
-	printk(".");
+	//printk(".");
 	
 	if (mpu_set_sample_rate(sample_rate)) {
 		printk(KERN_WARNING "\nmpu_set_sample_rate() failed\n");
@@ -156,28 +160,28 @@ int __init mpu9150_init(int sample_rate, int mix_factor)
 		return -1;
 	}
 
-	printk(".");
+	//printk(".");
 
 	if (mpu_set_compass_sample_rate(sample_rate)) {
 		printk(KERN_WARNING "\nmpu_set_compass_sample_rate() failed\n");
 		return -1;
 	}
 
-	printk(".");
+	//printk(".");
 
 	if (dmp_load_motion_driver_firmware()) {
 		printk(KERN_WARNING "\ndmp_load_motion_driver_firmware() failed\n");
 		return -1;
 	}
 
-	printk(".");
+	//printk(".");
 
 	if (dmp_set_orientation(inv_orientation_matrix_to_scalar(gyro_orientation))) {
 		printk(KERN_WARNING "\ndmp_set_orientation() failed\n");
 		return -1;
 	}
 
-	printk(".");
+	//printk(".");
 
   	if (dmp_enable_feature(DMP_FEATURE_6X_LP_QUAT | DMP_FEATURE_SEND_RAW_ACCEL 
 						| DMP_FEATURE_SEND_CAL_GYRO | DMP_FEATURE_GYRO_CAL)) {
@@ -185,14 +189,14 @@ int __init mpu9150_init(int sample_rate, int mix_factor)
 		return -1;
 	}
 
-	printk(".");
+	//printk(".");
  
 	if (dmp_set_fifo_rate(sample_rate)) {
 		printk(KERN_WARNING "\ndmp_set_fifo_rate() failed\n");
 		return -1;
 	}
 
-	printk(".");
+	//printk(".");
 
 	if (mpu_set_dmp_state(1)) {
 		printk(KERN_WARNING "\nmpu_set_dmp_state(1) failed\n");
@@ -321,6 +325,7 @@ int mpu9150_read_mag(mpudata_t *mpu)
 	int error_code = 0;
 	if ((error_code = mpu_get_compass_reg(mpu->rawMag, &mpu->magTimestamp)) < 0) {
 		printk(KERN_WARNING "mpu_get_compass_reg() failed. Error %d\n", error_code);
+		sprintf(status_string,"dmp_read_fifo() failed\n");
 		return -1;
 	}
 
@@ -355,130 +360,6 @@ int data_ready(void)
 	return (status & (MPU_INT_STATUS_DATA_READY | MPU_INT_STATUS_DMP | MPU_INT_STATUS_DMP_0));
 }
 
-/*void calibrate_data(mpudata_t *mpu)
-{
-#define VEC3X 0
-#define VEC3Y 1
-#define VEC3Z 2
-    if (use_mag_cal) {
-      mpu->calibratedMag[VEC3Y] = -(short)(((long)(mpu->rawMag[VEC3X] - mag_cal_data.offset[VEC3X])
-			* (long)MAG_SENSOR_RANGE) / (long)mag_cal_data.range[VEC3X]);
-
-      mpu->calibratedMag[VEC3X] = (short)(((long)(mpu->rawMag[VEC3Y] - mag_cal_data.offset[VEC3Y])
-			* (long)MAG_SENSOR_RANGE) / (long)mag_cal_data.range[VEC3Y]);
-
-      mpu->calibratedMag[VEC3Z] = (short)(((long)(mpu->rawMag[VEC3Z] - mag_cal_data.offset[VEC3Z])
-			* (long)MAG_SENSOR_RANGE) / (long)mag_cal_data.range[VEC3Z]);
-    } else {
-	mpu->calibratedMag[VEC3Y] = -mpu->rawMag[VEC3X];
-	mpu->calibratedMag[VEC3X] = mpu->rawMag[VEC3Y];
-	mpu->calibratedMag[VEC3Z] = mpu->rawMag[VEC3Z];
-    }
-
-    if (use_accel_cal) {
-        mpu->calibratedAccel[VEC3X] = -(short)(((long)mpu->rawAccel[VEC3X] * (long)ACCEL_SENSOR_RANGE)
-			/ (long)accel_cal_data.range[VEC3X]);
-
-        mpu->calibratedAccel[VEC3Y] = (short)(((long)mpu->rawAccel[VEC3Y] * (long)ACCEL_SENSOR_RANGE)
-			/ (long)accel_cal_data.range[VEC3Y]);
-
-        mpu->calibratedAccel[VEC3Z] = (short)(((long)mpu->rawAccel[VEC3Z] * (long)ACCEL_SENSOR_RANGE)
-			/ (long)accel_cal_data.range[VEC3Z]);
-    } else {
-	mpu->calibratedAccel[VEC3X] = -mpu->rawAccel[VEC3X];
-	mpu->calibratedAccel[VEC3Y] = mpu->rawAccel[VEC3Y];
-	mpu->calibratedAccel[VEC3Z] = mpu->rawAccel[VEC3Z];
-    }
-}*/
-
-/*void tilt_compensate(quaternion_t magQ, quaternion_t unfusedQ)
-{
-	quaternion_t unfusedConjugateQ;
-	quaternion_t tempQ;
-
-	quaternionConjugate(unfusedQ, unfusedConjugateQ);
-	quaternionMultiply(magQ, unfusedConjugateQ, tempQ);
-	quaternionMultiply(unfusedQ, tempQ, magQ);
-}*/
-/*
-int data_fusion(mpudata_t *mpu)
-{
-	quaternion_t dmpQuat;
-	vector3d_t dmpEuler;
-	quaternion_t magQuat;
-	quaternion_t unfusedQuat;
-	float deltaDMPYaw;
-	float deltaMagYaw;
-	float newMagYaw;
-	float newYaw;
-	
-	dmpQuat[QUAT_W] = (float)mpu->rawQuat[QUAT_W];
-	dmpQuat[QUAT_X] = (float)mpu->rawQuat[QUAT_X];
-	dmpQuat[QUAT_Y] = (float)mpu->rawQuat[QUAT_Y];
-	dmpQuat[QUAT_Z] = (float)mpu->rawQuat[QUAT_Z];
-
-	quaternionNormalize(dmpQuat);	
-	quaternionToEuler(dmpQuat, dmpEuler);
-
-	mpu->fusedEuler[VEC3_X] = dmpEuler[VEC3_X];
-	mpu->fusedEuler[VEC3_Y] = -dmpEuler[VEC3_Y];
-	mpu->fusedEuler[VEC3_Z] = 0;
-
-	eulerToQuaternion(mpu->fusedEuler, unfusedQuat);
-
-	deltaDMPYaw = -dmpEuler[VEC3_Z] + mpu->lastDMPYaw;
-	mpu->lastDMPYaw = dmpEuler[VEC3_Z];
-
-	magQuat[QUAT_W] = 0;
-	magQuat[QUAT_X] = mpu->calibratedMag[VEC3_X];
-  	magQuat[QUAT_Y] = mpu->calibratedMag[VEC3_Y];
-  	magQuat[QUAT_Z] = mpu->calibratedMag[VEC3_Z];
-
-	tilt_compensate(magQuat, unfusedQuat);
-
-	newMagYaw = -atan2f(magQuat[QUAT_Y], magQuat[QUAT_X]);
-
-	if (newMagYaw != newMagYaw) {
-		printf("newMagYaw NAN\n");
-		return -1;
-	}
-
-	if (newMagYaw < 0.0f)
-		newMagYaw = TWO_PI + newMagYaw;
-
-	newYaw = mpu->lastYaw + deltaDMPYaw;
-
-	if (newYaw > TWO_PI)
-		newYaw -= TWO_PI;
-	else if (newYaw < 0.0f)
-		newYaw += TWO_PI;
-	 
-	deltaMagYaw = newMagYaw - newYaw;
-	
-	if (deltaMagYaw >= (float)M_PI)
-		deltaMagYaw -= TWO_PI;
-	else if (deltaMagYaw < -(float)M_PI)
-		deltaMagYaw += TWO_PI;
-
-	if (yaw_mixing_factor > 0)
-		newYaw += deltaMagYaw / yaw_mixing_factor;
-
-	if (newYaw > TWO_PI)
-		newYaw -= TWO_PI;
-	else if (newYaw < 0.0f)
-		newYaw += TWO_PI;
-
-	mpu->lastYaw = newYaw;
-
-	if (newYaw > (float)M_PI)
-		newYaw -= TWO_PI;
-
-	mpu->fusedEuler[VEC3_Z] = newYaw;
-
-	eulerToQuaternion(mpu->fusedEuler, mpu->fusedQuat);
-
-	return 0;
-}*/
 
 /* These next two functions convert the orientation matrix (see
  * gyro_orientation) to a scalar representation for use by the DMP.

@@ -17,11 +17,17 @@
 
 #include "../common_tools.h"
 
-#define FILE_LENGTH 	0x1000
+#define DEFAULT_FILE_LENGTH 	0x1000
 
-int mm_prepare_mapped_mem(char *file);
+typedef struct {
+	char *filename;
+	char *mem_ptr;
+	int size;
+} h_mmapped_file;
+
+int mm_prepare_mapped_mem(h_mmapped_file *mapped_file);
 void mm_append_to_XMLfile(int runtime_count,char *content, char *file_memory);
-int mm_get_next_available(char *file_memory, int size);
-
+int mm_get_next_available(h_mmapped_file *mapped_file, int size_required);
+void mm_append(char *content, h_mmapped_file *mapped_file);
 
 #endif //MEMORY_MAP_H_

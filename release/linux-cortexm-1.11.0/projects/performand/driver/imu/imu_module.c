@@ -307,7 +307,7 @@ static int __init imu_init(void)
 	printk(KERN_INFO "* Author: Rasmus Koldsoe                               *\n");
         printk(KERN_INFO "* Based on Invensense Userspace DMP Driver             *\n");
 	printk(KERN_INFO "********************************************************\n");
-	printk(KERN_INFO "\n");
+//	printk(KERN_INFO "\n");
 
 //	_closing = 0;
 	memset(&imu_dev, 0, sizeof(struct imu_dev));

@@ -62,7 +62,7 @@ static void print_char_array(char *buff, int length, int offset)
 {
 	int i;
 	for(i=offset; i<length; i++) {
-		printf(" %2X ", buff[i] & 0xff);
+		printf("%c", buff[i] & 0xff);
 	}
 	printf("\n");
 }
@@ -76,7 +76,7 @@ int GS_HAL_uart_send(const uint8_t* txBuf, uint16_t numToWrite) {
 		printf("ERROR writing to port.\n");
 		return -1;
 	}
-	print_char_array(txBuf, numToWrite, 0);
+	//print_char_array(txBuf, numToWrite, 0);
 	  	   
      //}
 	return 0;
@@ -84,6 +84,7 @@ int GS_HAL_uart_send(const uint8_t* txBuf, uint16_t numToWrite) {
 }
 
 uint16_t GS_HAL_uart_recv(uint8_t* rxBuf, uint16_t numToRead, int block) {
+    char c = 0;
     if (block) {
           // Blocking mode, so don't return until we read all the bytes requested
           uint16_t bytesRead;
@@ -99,7 +100,9 @@ uint16_t GS_HAL_uart_recv(uint8_t* rxBuf, uint16_t numToRead, int block) {
           return bytesRead;
      } else {
           // Non-blocking mode, just read what is available in buffer 
-          return read(tty_fd,rxBuf,numToRead);
+	  c = read(tty_fd,rxBuf,numToRead);
+	  printf("%c\n",rxBuf);
+          return c;
      }
      
 

@@ -12,7 +12,10 @@
 queue_t queueCreate()
 {
 	queue_t q;
+
 	memset(&q, 0, sizeof(q));
+	
+	usleep(1000);
 
 	int r;
 	r = pthread_mutex_init(&q.q_mutex, NULL);

@@ -4,13 +4,17 @@
  *  Created on: Sep 13, 2013
  *      Author: rasmus
  */
+#include <stdio.h>
+#include <string.h>
+#include <pthread.h>
 #include "Queue.h"
 
 queue_t queueCreate()
 {
 	queue_t q;
+	printf("Here1\n");
 	memset(&q, 0, sizeof(q));
-
+printf("Here2\n");
 	int r;
 	r = pthread_mutex_init(&q.q_mutex, NULL);
 	if(r < 0) {
