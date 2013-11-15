@@ -1,0 +1,10 @@
+#ifndef _MFMEM_H_
+#define _MFMEM_H_
+
+#define FILE_LENGTH 	0x4B0	//1KB File memory
+
+int preparemappedMem(char *file);
+int check_size_available(char *file_memory, int size);
+void append_mm_file(char *content, char *file_memory);
+
+#endif

@@ -1,0 +1,3007 @@
+
+<imu id="0">
+<Timestamp>12.591</Timestamp>
+<Orientation>
+<pitch>0.00</pitch>
+<roll>0.00</roll>
+<yaw>0.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00000</x>
+<y id="1">00000</y>
+<z id="1">00000</z>
+<time id="1">0.0</time>
+<x id="2">00000</x>
+<y id="2">00000</y>
+<z id="2">00000</z>
+<time id="2">0.0</time>
+<x id="3">00000</x>
+<y id="3">00000</y>
+<z id="3">00000</z>
+<time id="3">0.0</time>
+<x id="4">00000</x>
+<y id="4">00000</y>
+<z id="4">00000</z>
+<time id="4">0.0</time>
+<x id="5">00000</x>
+<y id="5">00000</y>
+<z id="5">00000</z>
+<time id="5">0.0</time>
+</Accelerometer>
+</imu>
+
+<imu id="1">
+<Timestamp>13.84</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-0.40</roll>
+<yaw>10.15</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00534</x>
+<y id="1">00297</y>
+<z id="1">24605</z>
+<time id="1">12.696</time>
+<x id="2">00520</x>
+<y id="2">00262</y>
+<z id="2">24699</z>
+<time id="2">12.747</time>
+<x id="3">00482</x>
+<y id="3">00403</y>
+<z id="3">24530</z>
+<time id="3">12.845</time>
+<x id="4">00579</x>
+<y id="4">00227</y>
+<z id="4">24913</z>
+<time id="4">12.976</time>
+<x id="5">00540</x>
+<y id="5">00309</y>
+<z id="5">24579</z>
+<time id="5">13.56</time>
+</Accelerometer>
+</imu>
+
+<imu id="2">
+<Timestamp>13.544</Timestamp>
+<Orientation>
+<pitch>0.08</pitch>
+<roll>-0.79</roll>
+<yaw>11.36</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00461</x>
+<y id="1">00305</y>
+<z id="1">24878</z>
+<time id="1">13.147</time>
+<x id="2">00426</x>
+<y id="2">00364</y>
+<z id="2">24611</z>
+<time id="2">13.245</time>
+<x id="3">00447</x>
+<y id="3">00278</y>
+<z id="3">24774</z>
+<time id="3">13.376</time>
+<x id="4">00638</x>
+<y id="4">00297</y>
+<z id="4">24770</z>
+<time id="4">13.436</time>
+<x id="5">00554</x>
+<y id="5">00297</y>
+<z id="5">24878</z>
+<time id="5">13.516</time>
+</Accelerometer>
+</imu>
+
+<imu id="3">
+<Timestamp>14.14</Timestamp>
+<Orientation>
+<pitch>-0.26</pitch>
+<roll>-1.09</roll>
+<yaw>10.77</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00502</x>
+<y id="1">00305</y>
+<z id="1">24777</z>
+<time id="1">13.645</time>
+<x id="2">00405</x>
+<y id="2">00278</y>
+<z id="2">24725</z>
+<time id="2">13.776</time>
+<x id="3">00544</x>
+<y id="3">00313</y>
+<z id="3">24699</z>
+<time id="3">13.856</time>
+<x id="4">00540</x>
+<y id="4">00427</y>
+<z id="4">24627</z>
+<time id="4">13.916</time>
+<x id="5">00457</x>
+<y id="5">00317</y>
+<z id="5">24787</z>
+<time id="5">13.986</time>
+</Accelerometer>
+</imu>
+
+<imu id="4">
+<Timestamp>14.484</Timestamp>
+<Orientation>
+<pitch>-0.47</pitch>
+<roll>-1.27</roll>
+<yaw>11.40</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00586</x>
+<y id="1">00180</y>
+<z id="1">24624</z>
+<time id="1">14.67</time>
+<x id="2">00534</x>
+<y id="2">00325</y>
+<z id="2">24757</z>
+<time id="2">14.146</time>
+<x id="3">00447</x>
+<y id="3">00235</y>
+<z id="3">24644</z>
+<time id="3">14.245</time>
+<x id="4">00530</x>
+<y id="4">00188</y>
+<z id="4">24705</z>
+<time id="4">14.376</time>
+<x id="5">00558</x>
+<y id="5">00239</y>
+<z id="5">24663</z>
+<time id="5">14.456</time>
+</Accelerometer>
+</imu>
+
+<imu id="5">
+<Timestamp>14.964</Timestamp>
+<Orientation>
+<pitch>-0.65</pitch>
+<roll>-1.42</roll>
+<yaw>9.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00568</x>
+<y id="1">00246</y>
+<z id="1">24647</z>
+<time id="1">14.546</time>
+<x id="2">00540</x>
+<y id="2">00313</y>
+<z id="2">24663</z>
+<time id="2">14.645</time>
+<x id="3">00593</x>
+<y id="3">00152</y>
+<z id="3">24722</z>
+<time id="3">14.776</time>
+<x id="4">00416</x>
+<y id="4">00360</y>
+<z id="4">24709</z>
+<time id="4">14.856</time>
+<x id="5">00513</x>
+<y id="5">00195</y>
+<z id="5">24705</z>
+<time id="5">14.936</time>
+</Accelerometer>
+</imu>
+
+<imu id="6">
+<Timestamp>15.364</Timestamp>
+<Orientation>
+<pitch>-0.77</pitch>
+<roll>-1.51</roll>
+<yaw>12.42</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00658</x>
+<y id="1">00243</y>
+<z id="1">24767</z>
+<time id="1">15.36</time>
+<x id="2">00443</x>
+<y id="2">00254</y>
+<z id="2">24767</z>
+<time id="2">15.116</time>
+<x id="3">00506</x>
+<y id="3">00246</y>
+<z id="3">24826</z>
+<time id="3">15.186</time>
+<x id="4">00398</x>
+<y id="4">00254</y>
+<z id="4">24748</z>
+<time id="4">15.256</time>
+<x id="5">00527</x>
+<y id="5">00246</y>
+<z id="5">24569</z>
+<time id="5">15.336</time>
+</Accelerometer>
+</imu>
+
+<imu id="7">
+<Timestamp>15.754</Timestamp>
+<Orientation>
+<pitch>-0.86</pitch>
+<roll>-1.57</roll>
+<yaw>10.24</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00485</x>
+<y id="1">00211</y>
+<z id="1">24835</z>
+<time id="1">15.456</time>
+<x id="2">00534</x>
+<y id="2">00297</y>
+<z id="2">24705</z>
+<time id="2">15.537</time>
+<x id="3">00475</x>
+<y id="3">00321</y>
+<z id="3">24689</z>
+<time id="3">15.592</time>
+<x id="4">00554</x>
+<y id="4">00337</y>
+<z id="4">24774</z>
+<time id="4">15.636</time>
+<x id="5">00478</x>
+<y id="5">00254</y>
+<z id="5">24686</z>
+<time id="5">15.726</time>
+</Accelerometer>
+</imu>
+
+<imu id="8">
+<Timestamp>16.175</Timestamp>
+<Orientation>
+<pitch>-0.92</pitch>
+<roll>-1.62</roll>
+<yaw>10.18</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00638</x>
+<y id="1">00148</y>
+<z id="1">24728</z>
+<time id="1">15.872</time>
+<x id="2">00565</x>
+<y id="2">00293</y>
+<z id="2">24927</z>
+<time id="2">15.936</time>
+<x id="3">00558</x>
+<y id="3">00329</y>
+<z id="3">24712</z>
+<time id="3">16.53</time>
+<x id="4">00450</x>
+<y id="4">00243</y>
+<z id="4">24715</z>
+<time id="4">16.96</time>
+<x id="5">00544</x>
+<y id="5">00227</y>
+<z id="5">24881</z>
+<time id="5">16.152</time>
+</Accelerometer>
+</imu>
+
+<imu id="9">
+<Timestamp>16.584</Timestamp>
+<Orientation>
+<pitch>-0.97</pitch>
+<roll>-1.65</roll>
+<yaw>9.33</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00516</x>
+<y id="1">00250</y>
+<z id="1">24946</z>
+<time id="1">16.236</time>
+<x id="2">00443</x>
+<y id="2">00305</y>
+<z id="2">24692</z>
+<time id="2">16.326</time>
+<x id="3">00527</x>
+<y id="3">00172</y>
+<z id="3">24575</z>
+<time id="3">16.406</time>
+<x id="4">00395</x>
+<y id="4">00290</y>
+<z id="4">24738</z>
+<time id="4">16.476</time>
+<x id="5">00454</x>
+<y id="5">00133</y>
+<z id="5">24735</z>
+<time id="5">16.556</time>
+</Accelerometer>
+</imu>
+
+<imu id="10">
+<Timestamp>16.964</Timestamp>
+<Orientation>
+<pitch>-1.01</pitch>
+<roll>-1.67</roll>
+<yaw>8.90</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00495</x>
+<y id="1">00180</y>
+<z id="1">24927</z>
+<time id="1">16.652</time>
+<x id="2">00471</x>
+<y id="2">00109</y>
+<z id="2">24582</z>
+<time id="2">16.706</time>
+<x id="3">00582</x>
+<y id="3">00337</y>
+<z id="3">24891</z>
+<time id="3">16.776</time>
+<x id="4">00492</x>
+<y id="4">00097</y>
+<z id="4">24579</z>
+<time id="4">16.856</time>
+<x id="5">00599</x>
+<y id="5">00266</y>
+<z id="5">24595</z>
+<time id="5">16.937</time>
+</Accelerometer>
+</imu>
+
+<imu id="11">
+<Timestamp>17.364</Timestamp>
+<Orientation>
+<pitch>-1.03</pitch>
+<roll>-1.69</roll>
+<yaw>6.31</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00485</x>
+<y id="1">00305</y>
+<z id="1">24725</z>
+<time id="1">17.52</time>
+<x id="2">00305</x>
+<y id="2">00223</y>
+<z id="2">24640</z>
+<time id="2">17.106</time>
+<x id="3">00568</x>
+<y id="3">00266</y>
+<z id="3">24949</z>
+<time id="3">17.176</time>
+<x id="4">00558</x>
+<y id="4">00290</y>
+<z id="4">24780</z>
+<time id="4">17.256</time>
+<x id="5">00450</x>
+<y id="5">00094</y>
+<z id="5">24842</z>
+<time id="5">17.337</time>
+</Accelerometer>
+</imu>
+
+<imu id="12">
+<Timestamp>17.765</Timestamp>
+<Orientation>
+<pitch>-1.05</pitch>
+<roll>-1.71</roll>
+<yaw>7.87</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00447</x>
+<y id="1">00407</y>
+<z id="1">24653</z>
+<time id="1">17.452</time>
+<x id="2">00485</x>
+<y id="2">00180</y>
+<z id="2">24618</z>
+<time id="2">17.506</time>
+<x id="3">00544</x>
+<y id="3">00243</y>
+<z id="3">24741</z>
+<time id="3">17.576</time>
+<x id="4">00492</x>
+<y id="4">00364</y>
+<z id="4">24988</z>
+<time id="4">17.657</time>
+<x id="5">00534</x>
+<y id="5">00188</y>
+<z id="5">24624</z>
+<time id="5">17.738</time>
+</Accelerometer>
+</imu>
+
+<imu id="13">
+<Timestamp>18.164</Timestamp>
+<Orientation>
+<pitch>-1.06</pitch>
+<roll>-1.74</roll>
+<yaw>7.75</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00488</x>
+<y id="1">00211</y>
+<z id="1">24852</z>
+<time id="1">17.852</time>
+<x id="2">00586</x>
+<y id="2">00497</y>
+<z id="2">24946</z>
+<time id="2">17.906</time>
+<x id="3">00485</x>
+<y id="3">00137</y>
+<z id="3">24549</z>
+<time id="3">17.976</time>
+<x id="4">00395</x>
+<y id="4">00364</y>
+<z id="4">24543</z>
+<time id="4">18.56</time>
+<x id="5">00735</x>
+<y id="5">00403</y>
+<z id="5">24887</z>
+<time id="5">18.138</time>
+</Accelerometer>
+</imu>
+
+<imu id="14">
+<Timestamp>18.604</Timestamp>
+<Orientation>
+<pitch>-1.07</pitch>
+<roll>-1.75</roll>
+<yaw>8.52</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00537</x>
+<y id="1">00352</y>
+<z id="1">24940</z>
+<time id="1">18.256</time>
+<x id="2">00416</x>
+<y id="2">00246</y>
+<z id="2">24536</z>
+<time id="2">18.336</time>
+<x id="3">00582</x>
+<y id="3">00364</y>
+<z id="3">24913</z>
+<time id="3">18.426</time>
+<x id="4">00520</x>
+<y id="4">00286</y>
+<z id="4">24731</z>
+<time id="4">18.507</time>
+<x id="5">00506</x>
+<y id="5">00270</y>
+<z id="5">24686</z>
+<time id="5">18.576</time>
+</Accelerometer>
+</imu>
+
+<imu id="15">
+<Timestamp>19.8</Timestamp>
+<Orientation>
+<pitch>-1.07</pitch>
+<roll>-1.75</roll>
+<yaw>8.25</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00617</x>
+<y id="1">00344</y>
+<z id="1">24803</z>
+<time id="1">18.656</time>
+<x id="2">00471</x>
+<y id="2">00262</y>
+<z id="2">24673</z>
+<time id="2">18.736</time>
+<x id="3">00565</x>
+<y id="3">00254</y>
+<z id="3">24936</z>
+<time id="3">18.826</time>
+<x id="4">00568</x>
+<y id="4">00250</y>
+<z id="4">24858</z>
+<time id="4">18.906</time>
+<x id="5">00412</x>
+<y id="5">00290</y>
+<z id="5">24822</z>
+<time id="5">18.976</time>
+</Accelerometer>
+</imu>
+
+<imu id="16">
+<Timestamp>19.414</Timestamp>
+<Orientation>
+<pitch>-1.07</pitch>
+<roll>-1.76</roll>
+<yaw>7.89</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00395</x>
+<y id="1">00211</y>
+<z id="1">24829</z>
+<time id="1">19.86</time>
+<x id="2">00534</x>
+<y id="2">00250</y>
+<z id="2">24754</z>
+<time id="2">19.137</time>
+<x id="3">00655</x>
+<y id="3">00337</y>
+<z id="3">24699</z>
+<time id="3">19.226</time>
+<x id="4">00551</x>
+<y id="4">00384</y>
+<z id="4">24507</z>
+<time id="4">19.306</time>
+<x id="5">00485</x>
+<y id="5">00231</y>
+<z id="5">24764</z>
+<time id="5">19.376</time>
+</Accelerometer>
+</imu>
+
+<imu id="17">
+<Timestamp>19.874</Timestamp>
+<Orientation>
+<pitch>-1.08</pitch>
+<roll>-1.76</roll>
+<yaw>9.36</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00586</x>
+<y id="1">00156</y>
+<z id="1">24644</z>
+<time id="1">19.486</time>
+<x id="2">00593</x>
+<y id="2">00235</y>
+<z id="2">24582</z>
+<time id="2">19.536</time>
+<x id="3">00416</x>
+<y id="3">00211</y>
+<z id="3">24686</z>
+<time id="3">19.759</time>
+<x id="4">00586</x>
+<y id="4">00211</y>
+<z id="4">24725</z>
+<time id="4">19.806</time>
+<x id="5">00471</x>
+<y id="5">00372</y>
+<z id="5">24822</z>
+<time id="5">19.849</time>
+</Accelerometer>
+</imu>
+
+<imu id="18">
+<Timestamp>20.164</Timestamp>
+<Orientation>
+<pitch>-1.09</pitch>
+<roll>-1.76</roll>
+<yaw>7.81</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00457</x>
+<y id="1">00313</y>
+<z id="1">24679</z>
+<time id="1">19.934</time>
+<x id="2">00544</x>
+<y id="2">00172</y>
+<z id="2">24683</z>
+<time id="2">19.994</time>
+<x id="3">00471</x>
+<y id="3">00270</y>
+<z id="3">24744</z>
+<time id="3">20.45</time>
+<x id="4">00568</x>
+<y id="4">00348</y>
+<z id="4">24871</z>
+<time id="4">20.89</time>
+<x id="5">00513</x>
+<y id="5">00227</y>
+<z id="5">24673</z>
+<time id="5">20.137</time>
+</Accelerometer>
+</imu>
+
+<imu id="19">
+<Timestamp>20.514</Timestamp>
+<Orientation>
+<pitch>-1.10</pitch>
+<roll>-1.77</roll>
+<yaw>8.75</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00499</x>
+<y id="1">00305</y>
+<z id="1">24748</z>
+<time id="1">20.270</time>
+<x id="2">00540</x>
+<y id="2">00368</y>
+<z id="2">24647</z>
+<time id="2">20.334</time>
+<x id="3">00610</x>
+<y id="3">00180</y>
+<z id="3">24367</z>
+<time id="3">20.394</time>
+<x id="4">00638</x>
+<y id="4">00341</y>
+<z id="4">25021</z>
+<time id="4">20.446</time>
+<x id="5">00537</x>
+<y id="5">00313</y>
+<z id="5">24816</z>
+<time id="5">20.489</time>
+</Accelerometer>
+</imu>
+
+<imu id="20">
+<Timestamp>20.844</Timestamp>
+<Orientation>
+<pitch>-1.12</pitch>
+<roll>-1.75</roll>
+<yaw>8.85</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00464</x>
+<y id="1">00121</y>
+<z id="1">24566</z>
+<time id="1">20.546</time>
+<x id="2">00700</x>
+<y id="2">00595</y>
+<z id="2">24858</z>
+<time id="2">20.589</time>
+<x id="3">00388</x>
+<y id="3">00195</y>
+<z id="3">24949</z>
+<time id="3">20.633</time>
+<x id="4">00419</x>
+<y id="4">00097</y>
+<z id="4">24618</z>
+<time id="4">20.764</time>
+<x id="5">00561</x>
+<y id="5">00411</y>
+<z id="5">24796</z>
+<time id="5">20.822</time>
+</Accelerometer>
+</imu>
+
+<imu id="21">
+<Timestamp>21.104</Timestamp>
+<Orientation>
+<pitch>-1.15</pitch>
+<roll>-1.73</roll>
+<yaw>9.44</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00409</x>
+<y id="1">00282</y>
+<z id="1">24439</z>
+<time id="1">20.876</time>
+<x id="2">00575</x>
+<y id="2">00109</y>
+<z id="2">24605</z>
+<time id="2">20.926</time>
+<x id="3">00450</x>
+<y id="3">00391</y>
+<z id="3">24536</z>
+<time id="3">20.974</time>
+<x id="4">00447</x>
+<y id="4">00023</y>
+<z id="4">24767</z>
+<time id="4">21.26</time>
+<x id="5">00540</x>
+<y id="5">00411</y>
+<z id="5">24868</z>
+<time id="5">21.74</time>
+</Accelerometer>
+</imu>
+
+<imu id="22">
+<Timestamp>21.424</Timestamp>
+<Orientation>
+<pitch>-1.15</pitch>
+<roll>-1.73</roll>
+<yaw>9.34</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00430</x>
+<y id="1">00301</y>
+<z id="1">24686</z>
+<time id="1">21.142</time>
+<x id="2">00513</x>
+<y id="2">00313</y>
+<z id="2">24988</z>
+<time id="2">21.198</time>
+<x id="3">00402</x>
+<y id="3">00094</y>
+<z id="3">24878</z>
+<time id="3">21.269</time>
+<x id="4">00482</x>
+<y id="4">00337</y>
+<z id="4">24631</z>
+<time id="4">21.346</time>
+<x id="5">00395</x>
+<y id="5">00047</y>
+<z id="5">24598</z>
+<time id="5">21.402</time>
+</Accelerometer>
+</imu>
+
+<imu id="23">
+<Timestamp>21.804</Timestamp>
+<Orientation>
+<pitch>-1.15</pitch>
+<roll>-1.73</roll>
+<yaw>7.34</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00544</x>
+<y id="1">00419</y>
+<z id="1">24709</z>
+<time id="1">21.456</time>
+<x id="2">00520</x>
+<y id="2">00066</y>
+<z id="2">24436</z>
+<time id="2">21.522</time>
+<x id="3">00638</x>
+<y id="3">00219</y>
+<z id="3">24985</z>
+<time id="3">21.559</time>
+<x id="4">00482</x>
+<y id="4">00188</y>
+<z id="4">24813</z>
+<time id="4">21.623</time>
+<x id="5">00475</x>
+<y id="5">00207</y>
+<z id="5">24540</z>
+<time id="5">21.769</time>
+</Accelerometer>
+</imu>
+
+<imu id="24">
+<Timestamp>22.164</Timestamp>
+<Orientation>
+<pitch>-1.14</pitch>
+<roll>-1.75</roll>
+<yaw>7.95</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00353</x>
+<y id="1">00270</y>
+<z id="1">24897</z>
+<time id="1">21.846</time>
+<x id="2">00655</x>
+<y id="2">00176</y>
+<z id="2">24302</z>
+<time id="2">21.903</time>
+<x id="3">00530</x>
+<y id="3">00337</y>
+<z id="3">24917</z>
+<time id="3">21.947</time>
+<x id="4">00485</x>
+<y id="4">00360</y>
+<z id="4">24780</z>
+<time id="4">22.68</time>
+<x id="5">00450</x>
+<y id="5">00180</y>
+<z id="5">24631</z>
+<time id="5">22.140</time>
+</Accelerometer>
+</imu>
+
+<imu id="25">
+<Timestamp>22.544</Timestamp>
+<Orientation>
+<pitch>-1.14</pitch>
+<roll>-1.75</roll>
+<yaw>7.31</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00537</x>
+<y id="1">00195</y>
+<z id="1">24510</z>
+<time id="1">22.285</time>
+<x id="2">00530</x>
+<y id="2">00380</y>
+<z id="2">24618</z>
+<time id="2">22.358</time>
+<x id="3">00530</x>
+<y id="3">00246</y>
+<z id="3">24900</z>
+<time id="3">22.422</time>
+<x id="4">00488</x>
+<y id="4">00407</y>
+<z id="4">24969</z>
+<time id="4">22.459</time>
+<x id="5">00457</x>
+<y id="5">00152</y>
+<z id="5">24770</z>
+<time id="5">22.522</time>
+</Accelerometer>
+</imu>
+
+<imu id="26">
+<Timestamp>22.894</Timestamp>
+<Orientation>
+<pitch>-1.15</pitch>
+<roll>-1.74</roll>
+<yaw>8.42</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00499</x>
+<y id="1">00199</y>
+<z id="1">24894</z>
+<time id="1">22.575</time>
+<x id="2">00530</x>
+<y id="2">00231</y>
+<z id="2">24962</z>
+<time id="2">22.626</time>
+<x id="3">00436</x>
+<y id="3">00274</y>
+<z id="3">24614</z>
+<time id="3">22.708</time>
+<x id="4">00565</x>
+<y id="4">00239</y>
+<z id="4">24624</z>
+<time id="4">22.822</time>
+<x id="5">00520</x>
+<y id="5">00199</y>
+<z id="5">24754</z>
+<time id="5">22.860</time>
+</Accelerometer>
+</imu>
+
+<imu id="27">
+<Timestamp>23.154</Timestamp>
+<Orientation>
+<pitch>-1.15</pitch>
+<roll>-1.75</roll>
+<yaw>10.86</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00461</x>
+<y id="1">00148</y>
+<z id="1">24754</z>
+<time id="1">22.939</time>
+<x id="2">00468</x>
+<y id="2">00223</y>
+<z id="2">24699</z>
+<time id="2">22.979</time>
+<x id="3">00520</x>
+<y id="3">00380</y>
+<z id="3">24553</z>
+<time id="3">23.26</time>
+<x id="4">00537</x>
+<y id="4">00254</y>
+<z id="4">24592</z>
+<time id="4">23.74</time>
+<x id="5">00631</x>
+<y id="5">00274</y>
+<z id="5">24992</z>
+<time id="5">23.133</time>
+</Accelerometer>
+</imu>
+
+<imu id="28">
+<Timestamp>23.504</Timestamp>
+<Orientation>
+<pitch>-1.14</pitch>
+<roll>-1.77</roll>
+<yaw>8.85</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00586</x>
+<y id="1">00407</y>
+<z id="1">24754</z>
+<time id="1">23.282</time>
+<x id="2">00357</x>
+<y id="2">00274</y>
+<z id="2">24637</z>
+<time id="2">23.342</time>
+<x id="3">00655</x>
+<y id="3">00141</y>
+<z id="3">24790</z>
+<time id="3">23.380</time>
+<x id="4">00634</x>
+<y id="4">00231</y>
+<z id="4">24757</z>
+<time id="4">23.426</time>
+<x id="5">00450</x>
+<y id="5">00199</y>
+<z id="5">24608</z>
+<time id="5">23.476</time>
+</Accelerometer>
+</imu>
+
+<imu id="29">
+<Timestamp>23.774</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.77</roll>
+<yaw>8.34</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00547</x>
+<y id="1">00399</y>
+<z id="1">24676</z>
+<time id="1">23.540</time>
+<x id="2">00440</x>
+<y id="2">00317</y>
+<z id="2">24530</z>
+<time id="2">23.579</time>
+<x id="3">00461</x>
+<y id="3">00231</y>
+<z id="3">24631</z>
+<time id="3">23.626</time>
+<x id="4">00544</x>
+<y id="4">00262</y>
+<z id="4">24887</z>
+<time id="4">23.690</time>
+<x id="5">00457</x>
+<y id="5">00137</y>
+<z id="5">24705</z>
+<time id="5">23.746</time>
+</Accelerometer>
+</imu>
+
+<imu id="30">
+<Timestamp>24.44</Timestamp>
+<Orientation>
+<pitch>-1.14</pitch>
+<roll>-1.77</roll>
+<yaw>8.88</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00534</x>
+<y id="1">00317</y>
+<z id="1">24858</z>
+<time id="1">23.822</time>
+<x id="2">00357</x>
+<y id="2">00168</y>
+<z id="2">24595</z>
+<time id="2">23.859</time>
+<x id="3">00509</x>
+<y id="3">00278</y>
+<z id="3">24848</z>
+<time id="3">23.922</time>
+<x id="4">00384</x>
+<y id="4">00243</y>
+<z id="4">24549</z>
+<time id="4">23.959</time>
+<x id="5">00516</x>
+<y id="5">00215</y>
+<z id="5">24631</z>
+<time id="5">24.22</time>
+</Accelerometer>
+</imu>
+
+<imu id="31">
+<Timestamp>24.434</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.77</roll>
+<yaw>10.32</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00537</x>
+<y id="1">00148</y>
+<z id="1">24764</z>
+<time id="1">24.75</time>
+<x id="2">00457</x>
+<y id="2">00207</y>
+<z id="2">24647</z>
+<time id="2">24.126</time>
+<x id="3">00551</x>
+<y id="3">00356</y>
+<z id="3">24822</z>
+<time id="3">24.224</time>
+<x id="4">00492</x>
+<y id="4">00293</y>
+<z id="4">24705</z>
+<time id="4">24.362</time>
+<x id="5">00499</x>
+<y id="5">00325</y>
+<z id="5">24712</z>
+<time id="5">24.406</time>
+</Accelerometer>
+</imu>
+
+<imu id="32">
+<Timestamp>24.804</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.77</roll>
+<yaw>8.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00416</x>
+<y id="1">00293</y>
+<z id="1">24780</z>
+<time id="1">24.471</time>
+<x id="2">00551</x>
+<y id="2">00270</y>
+<z id="2">24722</z>
+<time id="2">24.516</time>
+<x id="3">00638</x>
+<y id="3">00293</y>
+<z id="3">24764</z>
+<time id="3">24.559</time>
+<x id="4">00367</x>
+<y id="4">00250</y>
+<z id="4">24644</z>
+<time id="4">24.622</time>
+<x id="5">00568</x>
+<y id="5">00250</y>
+<z id="5">24777</z>
+<time id="5">24.782</time>
+</Accelerometer>
+</imu>
+
+<imu id="33">
+<Timestamp>25.54</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.77</roll>
+<yaw>9.13</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00527</x>
+<y id="1">00372</y>
+<z id="1">24751</z>
+<time id="1">24.840</time>
+<x id="2">00575</x>
+<y id="2">00246</y>
+<z id="2">24845</z>
+<time id="2">24.879</time>
+<x id="3">00547</x>
+<y id="3">00215</y>
+<z id="3">24644</z>
+<time id="3">24.926</time>
+<x id="4">00447</x>
+<y id="4">00356</y>
+<z id="4">24683</z>
+<time id="4">24.974</time>
+<x id="5">00586</x>
+<y id="5">00388</y>
+<z id="5">24751</z>
+<time id="5">25.26</time>
+</Accelerometer>
+</imu>
+
+<imu id="34">
+<Timestamp>25.344</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.77</roll>
+<yaw>7.38</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00554</x>
+<y id="1">00270</y>
+<z id="1">24777</z>
+<time id="1">25.101</time>
+<x id="2">00554</x>
+<y id="2">00223</y>
+<z id="2">24683</z>
+<time id="2">25.140</time>
+<x id="3">00596</x>
+<y id="3">00227</y>
+<z id="3">24829</z>
+<time id="3">25.188</time>
+<x id="4">00516</x>
+<y id="4">00305</y>
+<z id="4">24816</z>
+<time id="4">25.259</time>
+<x id="5">00579</x>
+<y id="5">00223</y>
+<z id="5">24637</z>
+<time id="5">25.318</time>
+</Accelerometer>
+</imu>
+
+<imu id="35">
+<Timestamp>25.604</Timestamp>
+<Orientation>
+<pitch>-1.12</pitch>
+<roll>-1.76</roll>
+<yaw>7.84</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00537</x>
+<y id="1">00188</y>
+<z id="1">24692</z>
+<time id="1">25.376</time>
+<x id="2">00534</x>
+<y id="2">00356</y>
+<z id="2">24744</z>
+<time id="2">25.426</time>
+<x id="3">00520</x>
+<y id="3">00207</y>
+<z id="3">24835</z>
+<time id="3">25.475</time>
+<x id="4">00475</x>
+<y id="4">00301</y>
+<z id="4">24738</z>
+<time id="4">25.526</time>
+<x id="5">00485</x>
+<y id="5">00360</y>
+<z id="5">24679</z>
+<time id="5">25.574</time>
+</Accelerometer>
+</imu>
+
+<imu id="36">
+<Timestamp>25.964</Timestamp>
+<Orientation>
+<pitch>-1.13</pitch>
+<roll>-1.76</roll>
+<yaw>7.65</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00516</x>
+<y id="1">00223</y>
+<z id="1">24748</z>
+<time id="1">25.640</time>
+<x id="2">00478</x>
+<y id="2">00411</y>
+<z id="2">24897</z>
+<time id="2">25.698</time>
+<x id="3">00443</x>
+<y id="3">00199</y>
+<z id="3">24478</z>
+<time id="3">25.787</time>
+<x id="4">00527</x>
+<y id="4">00250</y>
+<z id="4">24683</z>
+<time id="4">25.858</time>
+<x id="5">00468</x>
+<y id="5">00360</y>
+<z id="5">24699</z>
+<time id="5">25.934</time>
+</Accelerometer>
+</imu>
+
+<imu id="37">
+<Timestamp>26.334</Timestamp>
+<Orientation>
+<pitch>-1.12</pitch>
+<roll>-1.77</roll>
+<yaw>7.71</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00454</x>
+<y id="1">00246</y>
+<z id="1">24585</z>
+<time id="1">26.16</time>
+<x id="2">00534</x>
+<y id="2">00254</y>
+<z id="2">24640</z>
+<time id="2">26.59</time>
+<x id="3">00482</x>
+<y id="3">00246</y>
+<z id="3">24705</z>
+<time id="3">26.135</time>
+<x id="4">00617</x>
+<y id="4">00231</y>
+<z id="4">24871</z>
+<time id="4">26.261</time>
+<x id="5">00534</x>
+<y id="5">00262</y>
+<z id="5">24718</z>
+<time id="5">26.306</time>
+</Accelerometer>
+</imu>
+
+<imu id="38">
+<Timestamp>26.604</Timestamp>
+<Orientation>
+<pitch>-1.12</pitch>
+<roll>-1.77</roll>
+<yaw>8.72</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00461</x>
+<y id="1">00231</y>
+<z id="1">24738</z>
+<time id="1">26.371</time>
+<x id="2">00527</x>
+<y id="2">00246</y>
+<z id="2">24533</z>
+<time id="2">26.416</time>
+<x id="3">00464</x>
+<y id="3">00235</y>
+<z id="3">24803</z>
+<time id="3">26.459</time>
+<x id="4">00565</x>
+<y id="4">00258</y>
+<z id="4">24809</z>
+<time id="4">26.535</time>
+<x id="5">00478</x>
+<y id="5">00282</y>
+<z id="5">24741</z>
+<time id="5">26.580</time>
+</Accelerometer>
+</imu>
+
+<imu id="39">
+<Timestamp>26.974</Timestamp>
+<Orientation>
+<pitch>-0.93</pitch>
+<roll>-1.69</roll>
+<yaw>9.88</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00488</x>
+<y id="1">00274</y>
+<z id="1">24881</z>
+<time id="1">26.655</time>
+<x id="2">00468</x>
+<y id="2">00270</y>
+<z id="2">24722</z>
+<time id="2">26.727</time>
+<x id="3">00589</x>
+<y id="3">00168</y>
+<z id="3">24780</z>
+<time id="3">26.843</time>
+<x id="4">00516</x>
+<y id="4">00192</y>
+<z id="4">24725</z>
+<time id="4">26.894</time>
+<x id="5">00540</x>
+<y id="5">00348</y>
+<z id="5">24712</z>
+<time id="5">26.946</time>
+</Accelerometer>
+</imu>
+
+<imu id="40">
+<Timestamp>27.294</Timestamp>
+<Orientation>
+<pitch>-0.67</pitch>
+<roll>-1.57</roll>
+<yaw>10.81</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00520</x>
+<y id="1">00156</y>
+<z id="1">24715</z>
+<time id="1">27.12</time>
+<x id="2">00516</x>
+<y id="2">00262</y>
+<z id="2">24725</z>
+<time id="2">27.49</time>
+<x id="3">00492</x>
+<y id="3">00207</y>
+<z id="3">24650</z>
+<time id="3">27.96</time>
+<x id="4">00374</x>
+<y id="4">00250</y>
+<z id="4">24627</z>
+<time id="4">27.155</time>
+<x id="5">00450</x>
+<y id="5">00333</y>
+<z id="5">24715</z>
+<time id="5">27.271</time>
+</Accelerometer>
+</imu>
+
+<imu id="41">
+<Timestamp>27.544</Timestamp>
+<Orientation>
+<pitch>-0.46</pitch>
+<roll>-1.48</roll>
+<yaw>8.83</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00610</x>
+<y id="1">00333</y>
+<z id="1">24725</z>
+<time id="1">27.332</time>
+<x id="2">00561</x>
+<y id="2">00333</y>
+<z id="2">24650</z>
+<time id="2">27.369</time>
+<x id="3">00502</x>
+<y id="3">00160</y>
+<z id="3">24770</z>
+<time id="3">27.416</time>
+<x id="4">00520</x>
+<y id="4">00270</y>
+<z id="4">24816</z>
+<time id="4">27.465</time>
+<x id="5">00502</x>
+<y id="5">00293</y>
+<z id="5">24748</z>
+<time id="5">27.516</time>
+</Accelerometer>
+</imu>
+
+<imu id="42">
+<Timestamp>27.914</Timestamp>
+<Orientation>
+<pitch>-0.28</pitch>
+<roll>-1.40</roll>
+<yaw>9.90</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00540</x>
+<y id="1">00348</y>
+<z id="1">24484</z>
+<time id="1">27.575</time>
+<x id="2">00499</x>
+<y id="2">00282</y>
+<z id="2">24540</z>
+<time id="2">27.655</time>
+<x id="3">00433</x>
+<y id="3">00380</y>
+<z id="3">24848</z>
+<time id="3">27.761</time>
+<x id="4">00482</x>
+<y id="4">00356</y>
+<z id="4">24660</z>
+<time id="4">27.846</time>
+<x id="5">00482</x>
+<y id="5">00313</y>
+<z id="5">24930</z>
+<time id="5">27.889</time>
+</Accelerometer>
+</imu>
+
+<imu id="43">
+<Timestamp>28.184</Timestamp>
+<Orientation>
+<pitch>-0.16</pitch>
+<roll>-1.34</roll>
+<yaw>10.33</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00603</x>
+<y id="1">00266</y>
+<z id="1">24715</z>
+<time id="1">27.947</time>
+<x id="2">00665</x>
+<y id="2">00195</y>
+<z id="2">24839</z>
+<time id="2">27.989</time>
+<x id="3">00398</x>
+<y id="3">00223</y>
+<z id="3">24471</z>
+<time id="3">28.34</time>
+<x id="4">00586</x>
+<y id="4">00293</y>
+<z id="4">24943</z>
+<time id="4">28.94</time>
+<x id="5">00565</x>
+<y id="5">00160</y>
+<z id="5">24530</z>
+<time id="5">28.155</time>
+</Accelerometer>
+</imu>
+
+<imu id="44">
+<Timestamp>28.514</Timestamp>
+<Orientation>
+<pitch>-0.02</pitch>
+<roll>-1.30</roll>
+<yaw>10.77</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00530</x>
+<y id="1">00286</y>
+<z id="1">24780</z>
+<time id="1">28.267</time>
+<x id="2">00551</x>
+<y id="2">00337</y>
+<z id="2">24913</z>
+<time id="2">28.352</time>
+<x id="3">00409</x>
+<y id="3">00344</y>
+<z id="3">24761</z>
+<time id="3">28.396</time>
+<x id="4">00617</x>
+<y id="4">00207</y>
+<z id="4">24624</z>
+<time id="4">28.447</time>
+<x id="5">00513</x>
+<y id="5">00286</y>
+<z id="5">24891</z>
+<time id="5">28.489</time>
+</Accelerometer>
+</imu>
+
+<imu id="45">
+<Timestamp>28.834</Timestamp>
+<Orientation>
+<pitch>0.06</pitch>
+<roll>-1.27</roll>
+<yaw>9.58</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00426</x>
+<y id="1">00203</y>
+<z id="1">24744</z>
+<time id="1">28.546</time>
+<x id="2">00426</x>
+<y id="2">00317</y>
+<z id="2">24660</z>
+<time id="2">28.589</time>
+<x id="3">00589</x>
+<y id="3">00219</y>
+<z id="3">24936</z>
+<time id="3">28.634</time>
+<x id="4">00516</x>
+<y id="4">00293</y>
+<z id="4">24653</z>
+<time id="4">28.739</time>
+<x id="5">00454</x>
+<y id="5">00156</y>
+<z id="5">24718</z>
+<time id="5">28.811</time>
+</Accelerometer>
+</imu>
+
+<imu id="46">
+<Timestamp>29.94</Timestamp>
+<Orientation>
+<pitch>0.12</pitch>
+<roll>-1.24</roll>
+<yaw>9.89</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00534</x>
+<y id="1">00223</y>
+<z id="1">24696</z>
+<time id="1">28.866</time>
+<x id="2">00447</x>
+<y id="2">00152</y>
+<z id="2">24588</z>
+<time id="2">28.916</time>
+<x id="3">00554</x>
+<y id="3">00094</y>
+<z id="3">24998</z>
+<time id="3">28.965</time>
+<x id="4">00471</x>
+<y id="4">00223</y>
+<z id="4">24517</z>
+<time id="4">29.16</time>
+<x id="5">00582</x>
+<y id="5">00380</y>
+<z id="5">24813</z>
+<time id="5">29.65</time>
+</Accelerometer>
+</imu>
+
+<imu id="47">
+<Timestamp>29.394</Timestamp>
+<Orientation>
+<pitch>0.18</pitch>
+<roll>-1.22</roll>
+<yaw>10.55</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00534</x>
+<y id="1">00282</y>
+<z id="1">24657</z>
+<time id="1">29.132</time>
+<x id="2">00423</x>
+<y id="2">00360</y>
+<z id="2">24751</z>
+<time id="2">29.173</time>
+<x id="3">00506</x>
+<y id="3">00203</y>
+<z id="3">24663</z>
+<time id="3">29.239</time>
+<x id="4">00409</x>
+<y id="4">00215</y>
+<z id="4">24767</z>
+<time id="4">29.307</time>
+<x id="5">00527</x>
+<y id="5">00215</y>
+<z id="5">24735</z>
+<time id="5">29.361</time>
+</Accelerometer>
+</imu>
+
+<imu id="48">
+<Timestamp>29.652</Timestamp>
+<Orientation>
+<pitch>0.22</pitch>
+<roll>-1.20</roll>
+<yaw>11.04</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00367</x>
+<y id="1">00262</y>
+<z id="1">24718</z>
+<time id="1">29.432</time>
+<x id="2">00547</x>
+<y id="2">00250</y>
+<z id="2">24660</z>
+<time id="2">29.469</time>
+<x id="3">00603</x>
+<y id="3">00211</y>
+<z id="3">24585</z>
+<time id="3">29.516</time>
+<x id="4">00443</x>
+<y id="4">00282</y>
+<z id="4">24809</z>
+<time id="4">29.565</time>
+<x id="5">00530</x>
+<y id="5">00239</y>
+<z id="5">24715</z>
+<time id="5">29.616</time>
+</Accelerometer>
+</imu>
+
+<imu id="49">
+<Timestamp>30.24</Timestamp>
+<Orientation>
+<pitch>0.27</pitch>
+<roll>-1.17</roll>
+<yaw>11.23</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00516</x>
+<y id="1">00254</y>
+<z id="1">24835</z>
+<time id="1">29.777</time>
+<x id="2">00513</x>
+<y id="2">00372</y>
+<z id="2">24686</z>
+<time id="2">29.848</time>
+<x id="3">00499</x>
+<y id="3">00282</y>
+<z id="3">24767</z>
+<time id="3">29.889</time>
+<x id="4">00509</x>
+<y id="4">00278</y>
+<z id="4">24728</z>
+<time id="4">29.934</time>
+<x id="5">00485</x>
+<y id="5">00262</y>
+<z id="5">24692</z>
+<time id="5">29.994</time>
+</Accelerometer>
+</imu>
+
+<imu id="50">
+<Timestamp>30.424</Timestamp>
+<Orientation>
+<pitch>0.30</pitch>
+<roll>-1.16</roll>
+<yaw>11.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00631</x>
+<y id="1">00278</y>
+<z id="1">24962</z>
+<time id="1">30.61</time>
+<x id="2">00572</x>
+<y id="2">00199</y>
+<z id="2">24621</z>
+<time id="2">30.116</time>
+<x id="3">00457</x>
+<y id="3">00164</y>
+<z id="3">24702</z>
+<time id="3">30.285</time>
+<x id="4">00572</x>
+<y id="4">00391</y>
+<z id="4">24887</z>
+<time id="4">30.346</time>
+<x id="5">00450</x>
+<y id="5">00274</y>
+<z id="5">24494</z>
+<time id="5">30.396</time>
+</Accelerometer>
+</imu>
+
+<imu id="51">
+<Timestamp>30.784</Timestamp>
+<Orientation>
+<pitch>0.33</pitch>
+<roll>-1.15</roll>
+<yaw>12.87</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00485</x>
+<y id="1">00211</y>
+<z id="1">24800</z>
+<time id="1">30.461</time>
+<x id="2">00454</x>
+<y id="2">00231</y>
+<z id="2">24722</z>
+<time id="2">30.516</time>
+<x id="3">00516</x>
+<y id="3">00192</y>
+<z id="3">24832</z>
+<time id="3">30.565</time>
+<x id="4">00572</x>
+<y id="4">00317</y>
+<z id="4">24705</z>
+<time id="4">30.616</time>
+<x id="5">00391</x>
+<y id="5">00301</y>
+<z id="5">24754</z>
+<time id="5">30.759</time>
+</Accelerometer>
+</imu>
+
+<imu id="52">
+<Timestamp>31.74</Timestamp>
+<Orientation>
+<pitch>0.35</pitch>
+<roll>-1.13</roll>
+<yaw>9.58</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00516</x>
+<y id="1">00215</y>
+<z id="1">24780</z>
+<time id="1">30.845</time>
+<x id="2">00468</x>
+<y id="2">00215</y>
+<z id="2">24738</z>
+<time id="2">30.889</time>
+<x id="3">00482</x>
+<y id="3">00293</y>
+<z id="3">24813</z>
+<time id="3">30.935</time>
+<x id="4">00426</x>
+<y id="4">00309</y>
+<z id="4">24842</z>
+<time id="4">30.994</time>
+<x id="5">00475</x>
+<y id="5">00262</y>
+<z id="5">24728</z>
+<time id="5">31.45</time>
+</Accelerometer>
+</imu>
+
+<imu id="53">
+<Timestamp>31.494</Timestamp>
+<Orientation>
+<pitch>0.39</pitch>
+<roll>-1.14</roll>
+<yaw>11.49</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00540</x>
+<y id="1">00411</y>
+<z id="1">24783</z>
+<time id="1">31.126</time>
+<x id="2">00502</x>
+<y id="2">00246</y>
+<z id="2">24735</z>
+<time id="2">31.208</time>
+<x id="3">00547</x>
+<y id="3">00258</y>
+<z id="3">24679</z>
+<time id="3">31.362</time>
+<x id="4">00579</x>
+<y id="4">00301</y>
+<z id="4">24458</z>
+<time id="4">31.416</time>
+<x id="5">00662</x>
+<y id="5">00380</y>
+<z id="5">24783</z>
+<time id="5">31.465</time>
+</Accelerometer>
+</imu>
+
+<imu id="54">
+<Timestamp>31.864</Timestamp>
+<Orientation>
+<pitch>0.42</pitch>
+<roll>-1.15</roll>
+<yaw>12.81</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00520</x>
+<y id="1">00227</y>
+<z id="1">24276</z>
+<time id="1">31.539</time>
+<x id="2">00613</x>
+<y id="2">00305</y>
+<z id="2">24686</z>
+<time id="2">31.579</time>
+<x id="3">00499</x>
+<y id="3">00427</y>
+<z id="3">24848</z>
+<time id="3">31.626</time>
+<x id="4">00443</x>
+<y id="4">00246</y>
+<z id="4">24657</z>
+<time id="4">31.708</time>
+<x id="5">00568</x>
+<y id="5">00286</y>
+<z id="5">24618</z>
+<time id="5">31.834</time>
+</Accelerometer>
+</imu>
+
+<imu id="55">
+<Timestamp>32.152</Timestamp>
+<Orientation>
+<pitch>0.37</pitch>
+<roll>-1.10</roll>
+<yaw>11.11</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00523</x>
+<y id="1">00223</y>
+<z id="1">24845</z>
+<time id="1">31.916</time>
+<x id="2">00506</x>
+<y id="2">00266</y>
+<z id="2">24657</z>
+<time id="2">31.965</time>
+<x id="3">00436</x>
+<y id="3">00313</y>
+<z id="3">24897</z>
+<time id="3">32.16</time>
+<x id="4">00516</x>
+<y id="4">00239</y>
+<z id="4">24644</z>
+<time id="4">32.65</time>
+<x id="5">00454</x>
+<y id="5">00184</y>
+<z id="5">24543</z>
+<time id="5">32.116</time>
+</Accelerometer>
+</imu>
+
+<imu id="56">
+<Timestamp>32.524</Timestamp>
+<Orientation>
+<pitch>0.36</pitch>
+<roll>-1.08</roll>
+<yaw>11.60</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00450</x>
+<y id="1">00266</y>
+<z id="1">24757</z>
+<time id="1">32.277</time>
+<x id="2">00395</x>
+<y id="2">00168</y>
+<z id="2">24738</z>
+<time id="2">32.348</time>
+<x id="3">00506</x>
+<y id="3">00278</y>
+<z id="3">24660</z>
+<time id="3">32.389</time>
+<x id="4">00371</x>
+<y id="4">00078</y>
+<z id="4">24491</z>
+<time id="4">32.434</time>
+<x id="5">00544</x>
+<y id="5">00254</y>
+<z id="5">25144</z>
+<time id="5">32.494</time>
+</Accelerometer>
+</imu>
+
+<imu id="57">
+<Timestamp>32.944</Timestamp>
+<Orientation>
+<pitch>0.37</pitch>
+<roll>-1.09</roll>
+<yaw>9.59</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00454</x>
+<y id="1">00094</y>
+<z id="1">24387</z>
+<time id="1">32.561</time>
+<x id="2">00582</x>
+<y id="2">00380</y>
+<z id="2">24972</z>
+<time id="2">32.616</time>
+<x id="3">00509</x>
+<y id="3">00082</y>
+<z id="3">24458</z>
+<time id="3">32.816</time>
+<x id="4">00454</x>
+<y id="4">00333</y>
+<z id="4">24861</z>
+<time id="4">32.865</time>
+<x id="5">00332</x>
+<y id="5">00195</y>
+<z id="5">24845</z>
+<time id="5">32.916</time>
+</Accelerometer>
+</imu>
+
+<imu id="58">
+<Timestamp>33.235</Timestamp>
+<Orientation>
+<pitch>0.39</pitch>
+<roll>-1.10</roll>
+<yaw>11.19</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00450</x>
+<y id="1">00325</y>
+<z id="1">24956</z>
+<time id="1">32.981</time>
+<x id="2">00506</x>
+<y id="2">00356</y>
+<z id="2">24861</z>
+<time id="2">33.26</time>
+<x id="3">00606</x>
+<y id="3">00239</y>
+<z id="3">24592</z>
+<time id="3">33.74</time>
+<x id="4">00468</x>
+<y id="4">00282</y>
+<z id="4">24491</z>
+<time id="4">33.126</time>
+<x id="5">00513</x>
+<y id="5">00305</y>
+<z id="5">24972</z>
+<time id="5">33.208</time>
+</Accelerometer>
+</imu>
+
+<imu id="59">
+<Timestamp>33.594</Timestamp>
+<Orientation>
+<pitch>0.39</pitch>
+<roll>-1.10</roll>
+<yaw>10.79</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00527</x>
+<y id="1">00309</y>
+<z id="1">24494</z>
+<time id="1">33.363</time>
+<x id="2">00593</x>
+<y id="2">00274</y>
+<z id="2">25027</z>
+<time id="2">33.422</time>
+<x id="3">00357</x>
+<y id="3">00325</y>
+<z id="3">24679</z>
+<time id="3">33.459</time>
+<x id="4">00520</x>
+<y id="4">00286</y>
+<z id="4">24731</z>
+<time id="4">33.522</time>
+<x id="5">00530</x>
+<y id="5">00474</y>
+<z id="5">24809</z>
+<time id="5">33.559</time>
+</Accelerometer>
+</imu>
+
+<imu id="60">
+<Timestamp>33.904</Timestamp>
+<Orientation>
+<pitch>0.40</pitch>
+<roll>-1.10</roll>
+<yaw>10.37</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00464</x>
+<y id="1">00258</y>
+<z id="1">24754</z>
+<time id="1">33.639</time>
+<x id="2">00488</x>
+<y id="2">00423</y>
+<z id="2">24744</z>
+<time id="2">33.679</time>
+<x id="3">00499</x>
+<y id="3">00192</y>
+<z id="3">24627</z>
+<time id="3">33.762</time>
+<x id="4">00565</x>
+<y id="4">00384</y>
+<z id="4">24809</z>
+<time id="4">33.831</time>
+<x id="5">00426</x>
+<y id="5">00337</y>
+<z id="5">24608</z>
+<time id="5">33.875</time>
+</Accelerometer>
+</imu>
+
+<imu id="61">
+<Timestamp>34.154</Timestamp>
+<Orientation>
+<pitch>0.40</pitch>
+<roll>-1.09</roll>
+<yaw>12.45</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00339</x>
+<y id="1">00290</y>
+<z id="1">24845</z>
+<time id="1">33.940</time>
+<x id="2">00464</x>
+<y id="2">00313</y>
+<z id="2">24644</z>
+<time id="2">33.979</time>
+<x id="3">00568</x>
+<y id="3">00195</y>
+<z id="3">24592</z>
+<time id="3">34.27</time>
+<x id="4">00440</x>
+<y id="4">00337</y>
+<z id="4">24670</z>
+<time id="4">34.74</time>
+<x id="5">00471</x>
+<y id="5">00113</y>
+<z id="5">24735</z>
+<time id="5">34.126</time>
+</Accelerometer>
+</imu>
+
+<imu id="62">
+<Timestamp>34.544</Timestamp>
+<Orientation>
+<pitch>0.41</pitch>
+<roll>-1.10</roll>
+<yaw>12.15</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00513</x>
+<y id="1">00309</y>
+<z id="1">24835</z>
+<time id="1">34.275</time>
+<x id="2">00402</x>
+<y id="2">00097</y>
+<z id="2">24657</z>
+<time id="2">34.345</time>
+<x id="3">00464</x>
+<y id="3">00184</y>
+<z id="3">24484</z>
+<time id="3">34.404</time>
+<x id="4">00551</x>
+<y id="4">00482</y>
+<z id="4">24998</z>
+<time id="4">34.455</time>
+<x id="5">00593</x>
+<y id="5">00301</y>
+<z id="5">24637</z>
+<time id="5">34.522</time>
+</Accelerometer>
+</imu>
+
+<imu id="63">
+<Timestamp>34.904</Timestamp>
+<Orientation>
+<pitch>0.43</pitch>
+<roll>-1.09</roll>
+<yaw>12.15</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00464</x>
+<y id="1">00239</y>
+<z id="1">24650</z>
+<time id="1">34.575</time>
+<x id="2">00509</x>
+<y id="2">00286</y>
+<z id="2">24822</z>
+<time id="2">34.626</time>
+<x id="3">00534</x>
+<y id="3">00243</y>
+<z id="3">24624</z>
+<time id="3">34.714</time>
+<x id="4">00520</x>
+<y id="4">00329</y>
+<z id="4">24559</z>
+<time id="4">34.826</time>
+<x id="5">00513</x>
+<y id="5">00262</y>
+<z id="5">24608</z>
+<time id="5">34.875</time>
+</Accelerometer>
+</imu>
+
+<imu id="64">
+<Timestamp>35.154</Timestamp>
+<Orientation>
+<pitch>0.45</pitch>
+<roll>-1.09</roll>
+<yaw>12.46</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00631</x>
+<y id="1">00333</y>
+<z id="1">24816</z>
+<time id="1">34.940</time>
+<x id="2">00544</x>
+<y id="2">00348</y>
+<z id="2">24953</z>
+<time id="2">34.979</time>
+<x id="3">00440</x>
+<y id="3">00129</y>
+<z id="3">24631</z>
+<time id="3">35.26</time>
+<x id="4">00582</x>
+<y id="4">00341</y>
+<z id="4">24754</z>
+<time id="4">35.74</time>
+<x id="5">00586</x>
+<y id="5">00384</y>
+<z id="5">24692</z>
+<time id="5">35.126</time>
+</Accelerometer>
+</imu>
+
+<imu id="65">
+<Timestamp>35.504</Timestamp>
+<Orientation>
+<pitch>0.47</pitch>
+<roll>-1.10</roll>
+<yaw>13.68</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00450</x>
+<y id="1">00207</y>
+<z id="1">24520</z>
+<time id="1">35.269</time>
+<x id="2">00488</x>
+<y id="2">00344</y>
+<z id="2">24868</z>
+<time id="2">35.340</time>
+<x id="3">00364</x>
+<y id="3">00352</y>
+<z id="3">24725</z>
+<time id="3">35.379</time>
+<x id="4">00381</x>
+<y id="4">00203</y>
+<z id="4">24686</z>
+<time id="4">35.426</time>
+<x id="5">00540</x>
+<y id="5">00215</y>
+<z id="5">24845</z>
+<time id="5">35.475</time>
+</Accelerometer>
+</imu>
+
+<imu id="66">
+<Timestamp>35.824</Timestamp>
+<Orientation>
+<pitch>0.48</pitch>
+<roll>-1.10</roll>
+<yaw>10.73</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00509</x>
+<y id="1">00207</y>
+<z id="1">24715</z>
+<time id="1">35.540</time>
+<x id="2">00579</x>
+<y id="2">00384</y>
+<z id="2">24923</z>
+<time id="2">35.579</time>
+<x id="3">00516</x>
+<y id="3">00207</y>
+<z id="3">24666</z>
+<time id="3">35.626</time>
+<x id="4">00520</x>
+<y id="4">00164</y>
+<z id="4">24705</z>
+<time id="4">35.708</time>
+<x id="5">00520</x>
+<y id="5">00321</y>
+<z id="5">24705</z>
+<time id="5">35.799</time>
+</Accelerometer>
+</imu>
+
+<imu id="67">
+<Timestamp>36.94</Timestamp>
+<Orientation>
+<pitch>0.48</pitch>
+<roll>-1.09</roll>
+<yaw>9.86</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00575</x>
+<y id="1">00403</y>
+<z id="1">24660</z>
+<time id="1">35.856</time>
+<x id="2">00561</x>
+<y id="2">00160</y>
+<z id="2">24673</z>
+<time id="2">35.922</time>
+<x id="3">00575</x>
+<y id="3">00235</y>
+<z id="3">24553</z>
+<time id="3">35.959</time>
+<x id="4">00523</x>
+<y id="4">00364</y>
+<z id="4">24618</z>
+<time id="4">36.22</time>
+<x id="5">00475</x>
+<y id="5">00246</y>
+<z id="5">24803</z>
+<time id="5">36.59</time>
+</Accelerometer>
+</imu>
+
+<imu id="68">
+<Timestamp>36.384</Timestamp>
+<Orientation>
+<pitch>0.47</pitch>
+<roll>-1.08</roll>
+<yaw>11.36</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00457</x>
+<y id="1">00246</y>
+<z id="1">24887</z>
+<time id="1">36.139</time>
+<x id="2">00502</x>
+<y id="2">00266</y>
+<z id="2">24618</z>
+<time id="2">36.179</time>
+<x id="3">00482</x>
+<y id="3">00337</y>
+<z id="3">24731</z>
+<time id="3">36.226</time>
+<x id="4">00395</x>
+<y id="4">00278</y>
+<z id="4">24585</z>
+<time id="4">36.303</time>
+<x id="5">00572</x>
+<y id="5">00278</y>
+<z id="5">24618</z>
+<time id="5">36.359</time>
+</Accelerometer>
+</imu>
+
+<imu id="69">
+<Timestamp>36.654</Timestamp>
+<Orientation>
+<pitch>0.47</pitch>
+<roll>-1.08</roll>
+<yaw>10.19</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00485</x>
+<y id="1">00199</y>
+<z id="1">24783</z>
+<time id="1">36.439</time>
+<x id="2">00398</x>
+<y id="2">00325</y>
+<z id="2">24465</z>
+<time id="2">36.479</time>
+<x id="3">00547</x>
+<y id="3">00235</y>
+<z id="3">24653</z>
+<time id="3">36.526</time>
+<x id="4">00419</x>
+<y id="4">00254</y>
+<z id="4">24761</z>
+<time id="4">36.574</time>
+<x id="5">00468</x>
+<y id="5">00274</y>
+<z id="5">24891</z>
+<time id="5">36.626</time>
+</Accelerometer>
+</imu>
+
+<imu id="70">
+<Timestamp>37.4</Timestamp>
+<Orientation>
+<pitch>0.49</pitch>
+<roll>-1.10</roll>
+<yaw>10.65</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00475</x>
+<y id="1">00235</y>
+<z id="1">24618</z>
+<time id="1">36.759</time>
+<x id="2">00627</x>
+<y id="2">00317</y>
+<z id="2">24660</z>
+<time id="2">36.828</time>
+<x id="3">00606</x>
+<y id="3">00113</y>
+<z id="3">24107</z>
+<time id="3">36.875</time>
+<x id="4">00655</x>
+<y id="4">00634</y>
+<z id="4">24614</z>
+<time id="4">36.926</time>
+<x id="5">00374</x>
+<y id="5">00062</y>
+<z id="5">24286</z>
+<time id="5">36.975</time>
+</Accelerometer>
+</imu>
+
+<imu id="71">
+<Timestamp>37.324</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.11</roll>
+<yaw>10.80</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00679</x>
+<y id="1">00427</y>
+<z id="1">24780</z>
+<time id="1">37.40</time>
+<x id="2">00381</x>
+<y id="2">00246</y>
+<z id="2">24813</z>
+<time id="2">37.79</time>
+<x id="3">00596</x>
+<y id="3">00203</y>
+<z id="3">24423</z>
+<time id="3">37.127</time>
+<x id="4">00482</x>
+<y id="4">00431</y>
+<z id="4">24803</z>
+<time id="4">37.207</time>
+<x id="5">00537</x>
+<y id="5">00321</y>
+<z id="5">24884</z>
+<time id="5">37.298</time>
+</Accelerometer>
+</imu>
+
+<imu id="72">
+<Timestamp>37.604</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.12</roll>
+<yaw>12.37</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00482</x>
+<y id="1">00250</y>
+<z id="1">24741</z>
+<time id="1">37.356</time>
+<x id="2">00606</x>
+<y id="2">00250</y>
+<z id="2">24822</z>
+<time id="2">37.434</time>
+<x id="3">00509</x>
+<y id="3">00297</y>
+<z id="3">24465</z>
+<time id="3">37.479</time>
+<x id="4">00509</x>
+<y id="4">00282</y>
+<z id="4">24705</z>
+<time id="4">37.526</time>
+<x id="5">00641</x>
+<y id="5">00282</y>
+<z id="5">24640</z>
+<time id="5">37.574</time>
+</Accelerometer>
+</imu>
+
+<imu id="73">
+<Timestamp>37.904</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.12</roll>
+<yaw>11.82</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00495</x>
+<y id="1">00195</y>
+<z id="1">24845</z>
+<time id="1">37.641</time>
+<x id="2">00530</x>
+<y id="2">00333</y>
+<z id="2">24741</z>
+<time id="2">37.698</time>
+<x id="3">00454</x>
+<y id="3">00243</y>
+<z id="3">24774</z>
+<time id="3">37.793</time>
+<x id="4">00586</x>
+<y id="4">00356</y>
+<z id="4">24673</z>
+<time id="4">37.840</time>
+<x id="5">00468</x>
+<y id="5">00254</y>
+<z id="5">24848</z>
+<time id="5">37.879</time>
+</Accelerometer>
+</imu>
+
+<imu id="74">
+<Timestamp>38.154</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.11</roll>
+<yaw>9.56</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00412</x>
+<y id="1">00293</y>
+<z id="1">24897</z>
+<time id="1">37.940</time>
+<x id="2">00506</x>
+<y id="2">00297</y>
+<z id="2">24270</z>
+<time id="2">37.979</time>
+<x id="3">00478</x>
+<y id="3">00117</y>
+<z id="3">24894</z>
+<time id="3">38.26</time>
+<x id="4">00436</x>
+<y id="4">00145</y>
+<z id="4">24959</z>
+<time id="4">38.74</time>
+<x id="5">00537</x>
+<y id="5">00329</y>
+<z id="5">24666</z>
+<time id="5">38.126</time>
+</Accelerometer>
+</imu>
+
+<imu id="75">
+<Timestamp>38.504</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.10</roll>
+<yaw>12.18</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00572</x>
+<y id="1">00250</y>
+<z id="1">24871</z>
+<time id="1">38.261</time>
+<x id="2">00482</x>
+<y id="2">00137</y>
+<z id="2">24679</z>
+<time id="2">38.328</time>
+<x id="3">00558</x>
+<y id="3">00239</y>
+<z id="3">24839</z>
+<time id="3">38.376</time>
+<x id="4">00478</x>
+<y id="4">00274</y>
+<z id="4">24803</z>
+<time id="4">38.426</time>
+<x id="5">00499</x>
+<y id="5">00180</y>
+<z id="5">24848</z>
+<time id="5">38.475</time>
+</Accelerometer>
+</imu>
+
+<imu id="76">
+<Timestamp>38.804</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.10</roll>
+<yaw>11.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00551</x>
+<y id="1">00286</y>
+<z id="1">24793</z>
+<time id="1">38.546</time>
+<x id="2">00430</x>
+<y id="2">00258</y>
+<z id="2">24605</z>
+<time id="2">38.596</time>
+<x id="3">00606</x>
+<y id="3">00348</y>
+<z id="3">24835</z>
+<time id="3">38.640</time>
+<x id="4">00402</x>
+<y id="4">00266</y>
+<z id="4">24634</z>
+<time id="4">38.688</time>
+<x id="5">00572</x>
+<y id="5">00380</y>
+<z id="5">24907</z>
+<time id="5">38.775</time>
+</Accelerometer>
+</imu>
+
+<imu id="77">
+<Timestamp>39.54</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.10</roll>
+<yaw>10.86</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00558</x>
+<y id="1">00250</y>
+<z id="1">24806</z>
+<time id="1">38.852</time>
+<x id="2">00544</x>
+<y id="2">00341</y>
+<z id="2">24891</z>
+<time id="2">38.896</time>
+<x id="3">00464</x>
+<y id="3">00274</y>
+<z id="3">24341</z>
+<time id="3">38.940</time>
+<x id="4">00624</x>
+<y id="4">00344</y>
+<z id="4">25073</z>
+<time id="4">38.979</time>
+<x id="5">00516</x>
+<y id="5">00329</y>
+<z id="5">24806</z>
+<time id="5">39.26</time>
+</Accelerometer>
+</imu>
+
+<imu id="78">
+<Timestamp>39.364</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.10</roll>
+<yaw>11.40</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00593</x>
+<y id="1">00309</y>
+<z id="1">24770</z>
+<time id="1">39.100</time>
+<x id="2">00683</x>
+<y id="2">00148</y>
+<z id="2">24949</z>
+<time id="2">39.140</time>
+<x id="3">00586</x>
+<y id="3">00254</y>
+<z id="3">24624</z>
+<time id="3">39.195</time>
+<x id="4">00544</x>
+<y id="4">00368</y>
+<z id="4">24673</z>
+<time id="4">39.263</time>
+<x id="5">00475</x>
+<y id="5">00286</y>
+<z id="5">24686</z>
+<time id="5">39.343</time>
+</Accelerometer>
+</imu>
+
+<imu id="79">
+<Timestamp>39.652</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.10</roll>
+<yaw>11.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00554</x>
+<y id="1">00243</y>
+<z id="1">24822</z>
+<time id="1">39.416</time>
+<x id="2">00488</x>
+<y id="2">00235</y>
+<z id="2">24770</z>
+<time id="2">39.465</time>
+<x id="3">00378</x>
+<y id="3">00231</y>
+<z id="3">24839</z>
+<time id="3">39.516</time>
+<x id="4">00544</x>
+<y id="4">00227</y>
+<z id="4">24871</z>
+<time id="4">39.565</time>
+<x id="5">00565</x>
+<y id="5">00090</y>
+<z id="5">24725</z>
+<time id="5">39.616</time>
+</Accelerometer>
+</imu>
+
+<imu id="80">
+<Timestamp>40.44</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.11</roll>
+<yaw>11.46</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00641</x>
+<y id="1">00282</y>
+<z id="1">24757</z>
+<time id="1">39.832</time>
+<x id="2">00464</x>
+<y id="2">00082</y>
+<z id="2">24663</z>
+<time id="2">39.869</time>
+<x id="3">00544</x>
+<y id="3">00246</y>
+<z id="3">24943</z>
+<time id="3">39.916</time>
+<x id="4">00586</x>
+<y id="4">00368</y>
+<z id="4">25226</z>
+<time id="4">39.965</time>
+<x id="5">00450</x>
+<y id="5">00231</y>
+<z id="5">24605</z>
+<time id="5">40.16</time>
+</Accelerometer>
+</imu>
+
+<imu id="81">
+<Timestamp>40.334</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.10</roll>
+<yaw>10.45</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00513</x>
+<y id="1">00137</y>
+<z id="1">24832</z>
+<time id="1">40.75</time>
+<x id="2">00634</x>
+<y id="2">00509</y>
+<z id="2">25086</z>
+<time id="2">40.132</time>
+<x id="3">00530</x>
+<y id="3">00145</y>
+<z id="3">24410</z>
+<time id="3">40.173</time>
+<x id="4">00599</x>
+<y id="4">00270</y>
+<z id="4">24865</z>
+<time id="4">40.239</time>
+<x id="5">00436</x>
+<y id="5">00156</y>
+<z id="5">24822</z>
+<time id="5">40.304</time>
+</Accelerometer>
+</imu>
+
+<imu id="82">
+<Timestamp>40.594</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.11</roll>
+<yaw>10.79</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00690</x>
+<y id="1">00521</y>
+<z id="1">24800</z>
+<time id="1">40.371</time>
+<x id="2">00319</x>
+<y id="2">00160</y>
+<z id="2">24644</z>
+<time id="2">40.416</time>
+<x id="3">00648</x>
+<y id="3">00348</y>
+<z id="3">24676</z>
+<time id="3">40.465</time>
+<x id="4">00551</x>
+<y id="4">00493</y>
+<z id="4">25096</z>
+<time id="4">40.516</time>
+<x id="5">00374</x>
+<y id="5">-0066</y>
+<z id="5">24341</z>
+<time id="5">40.565</time>
+</Accelerometer>
+</imu>
+
+<imu id="83">
+<Timestamp>40.974</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.11</roll>
+<yaw>11.22</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00651</x>
+<y id="1">00474</y>
+<z id="1">24946</z>
+<time id="1">40.632</time>
+<x id="2">00398</x>
+<y id="2">00274</y>
+<z id="2">24400</z>
+<time id="2">40.673</time>
+<x id="3">00651</x>
+<y id="3">00356</y>
+<z id="3">24904</z>
+<time id="3">40.735</time>
+<x id="4">00544</x>
+<y id="4">00246</y>
+<z id="4">24956</z>
+<time id="4">40.854</time>
+<x id="5">00606</x>
+<y id="5">00243</y>
+<z id="5">24631</z>
+<time id="5">40.952</time>
+</Accelerometer>
+</imu>
+
+<imu id="84">
+<Timestamp>41.355</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.11</roll>
+<yaw>12.31</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00540</x>
+<y id="1">00097</y>
+<z id="1">24517</z>
+<time id="1">41.48</time>
+<x id="2">00589</x>
+<y id="2">00160</y>
+<z id="2">24637</z>
+<time id="2">41.96</time>
+<x id="3">00492</x>
+<y id="3">00384</y>
+<z id="3">24946</z>
+<time id="3">41.155</time>
+<x id="4">00572</x>
+<y id="4">00337</y>
+<z id="4">24783</z>
+<time id="4">41.281</time>
+<x id="5">00492</x>
+<y id="5">00282</y>
+<z id="5">24634</z>
+<time id="5">41.332</time>
+</Accelerometer>
+</imu>
+
+<imu id="85">
+<Timestamp>41.624</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.11</roll>
+<yaw>11.99</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00436</x>
+<y id="1">00333</y>
+<z id="1">24855</z>
+<time id="1">41.394</time>
+<x id="2">00516</x>
+<y id="2">00286</y>
+<z id="2">24494</z>
+<time id="2">41.446</time>
+<x id="3">00468</x>
+<y id="3">00274</y>
+<z id="3">24748</z>
+<time id="3">41.489</time>
+<x id="4">00530</x>
+<y id="4">00309</y>
+<z id="4">24696</z>
+<time id="4">41.534</time>
+<x id="5">00398</x>
+<y id="5">00121</y>
+<z id="5">24712</z>
+<time id="5">41.594</time>
+</Accelerometer>
+</imu>
+
+<imu id="86">
+<Timestamp>41.964</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.10</roll>
+<yaw>11.88</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00384</x>
+<y id="1">00278</y>
+<z id="1">24614</z>
+<time id="1">41.698</time>
+<x id="2">00568</x>
+<y id="2">00313</y>
+<z id="2">24712</z>
+<time id="2">41.802</time>
+<x id="3">00405</x>
+<y id="3">00219</y>
+<z id="3">24683</z>
+<time id="3">41.860</time>
+<x id="4">00402</x>
+<y id="4">00203</y>
+<z id="4">24585</z>
+<time id="4">41.893</time>
+<x id="5">00440</x>
+<y id="5">00282</y>
+<z id="5">24839</z>
+<time id="5">41.934</time>
+</Accelerometer>
+</imu>
+
+<imu id="87">
+<Timestamp>42.434</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.09</roll>
+<yaw>11.50</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00582</x>
+<y id="1">00380</y>
+<z id="1">24842</z>
+<time id="1">42.36</time>
+<x id="2">00554</x>
+<y id="2">00250</y>
+<z id="2">24731</z>
+<time id="2">42.94</time>
+<x id="3">00315</x>
+<y id="3">00352</y>
+<z id="3">24549</z>
+<time id="3">42.186</time>
+<x id="4">00530</x>
+<y id="4">00258</y>
+<z id="4">24783</z>
+<time id="4">42.352</time>
+<x id="5">00513</x>
+<y id="5">00148</y>
+<z id="5">24566</z>
+<time id="5">42.404</time>
+</Accelerometer>
+</imu>
+
+<imu id="88">
+<Timestamp>42.794</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.09</roll>
+<yaw>13.62</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00561</x>
+<y id="1">00156</y>
+<z id="1">24696</z>
+<time id="1">42.497</time>
+<x id="2">00475</x>
+<y id="2">00395</y>
+<z id="2">24904</z>
+<time id="2">42.553</time>
+<x id="3">00419</x>
+<y id="3">00058</y>
+<z id="3">24556</z>
+<time id="3">42.612</time>
+<x id="4">00471</x>
+<y id="4">00270</y>
+<z id="4">24949</z>
+<time id="4">42.657</time>
+<x id="5">00409</x>
+<y id="5">00133</y>
+<z id="5">25157</z>
+<time id="5">42.770</time>
+</Accelerometer>
+</imu>
+
+<imu id="89">
+<Timestamp>43.64</Timestamp>
+<Orientation>
+<pitch>0.50</pitch>
+<roll>-1.06</roll>
+<yaw>12.20</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00540</x>
+<y id="1">00007</y>
+<z id="1">24387</z>
+<time id="1">42.846</time>
+<x id="2">00575</x>
+<y id="2">00219</y>
+<z id="2">24871</z>
+<time id="2">42.896</time>
+<x id="3">00433</x>
+<y id="3">00246</y>
+<z id="3">24813</z>
+<time id="3">42.946</time>
+<x id="4">00412</x>
+<y id="4">00137</y>
+<z id="4">24588</z>
+<time id="4">42.989</time>
+<x id="5">00502</x>
+<y id="5">00360</y>
+<z id="5">25044</z>
+<time id="5">43.34</time>
+</Accelerometer>
+</imu>
+
+<imu id="90">
+<Timestamp>43.464</Timestamp>
+<Orientation>
+<pitch>0.49</pitch>
+<roll>-1.07</roll>
+<yaw>12.31</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00405</x>
+<y id="1">00148</y>
+<z id="1">24393</z>
+<time id="1">43.116</time>
+<x id="2">00551</x>
+<y id="2">00148</y>
+<z id="2">24826</z>
+<time id="2">43.273</time>
+<x id="3">00374</x>
+<y id="3">00246</y>
+<z id="3">24436</z>
+<time id="3">43.349</time>
+<x id="4">00506</x>
+<y id="4">00121</y>
+<z id="4">24592</z>
+<time id="4">43.389</time>
+<x id="5">00551</x>
+<y id="5">00235</y>
+<z id="5">24683</z>
+<time id="5">43.435</time>
+</Accelerometer>
+</imu>
+
+<imu id="91">
+<Timestamp>43.854</Timestamp>
+<Orientation>
+<pitch>0.52</pitch>
+<roll>-1.09</roll>
+<yaw>11.54</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00468</x>
+<y id="1">00309</y>
+<z id="1">24715</z>
+<time id="1">43.516</time>
+<x id="2">00378</x>
+<y id="2">00066</y>
+<z id="2">24325</z>
+<time id="2">43.565</time>
+<x id="3">00478</x>
+<y id="3">00231</y>
+<z id="3">24923</z>
+<time id="3">43.616</time>
+<x id="4">00551</x>
+<y id="4">00317</y>
+<z id="4">24705</z>
+<time id="4">43.751</time>
+<x id="5">00364</x>
+<y id="5">00188</y>
+<z id="5">24751</z>
+<time id="5">43.826</time>
+</Accelerometer>
+</imu>
+
+<imu id="92">
+<Timestamp>44.254</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.10</roll>
+<yaw>10.89</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00638</x>
+<y id="1">00164</y>
+<z id="1">25525</z>
+<time id="1">43.906</time>
+<x id="2">00596</x>
+<y id="2">00199</y>
+<z id="2">24663</z>
+<time id="2">43.973</time>
+<x id="3">00547</x>
+<y id="3">00231</y>
+<z id="3">24780</z>
+<time id="3">44.35</time>
+<x id="4">00364</x>
+<y id="4">00290</y>
+<z id="4">24712</z>
+<time id="4">44.97</time>
+<x id="5">00464</x>
+<y id="5">00254</y>
+<z id="5">24783</z>
+<time id="5">44.225</time>
+</Accelerometer>
+</imu>
+
+<imu id="93">
+<Timestamp>44.594</Timestamp>
+<Orientation>
+<pitch>0.51</pitch>
+<roll>-1.08</roll>
+<yaw>11.14</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00579</x>
+<y id="1">00442</y>
+<z id="1">24754</z>
+<time id="1">44.363</time>
+<x id="2">00405</x>
+<y id="2">00082</y>
+<z id="2">24507</z>
+<time id="2">44.416</time>
+<x id="3">00534</x>
+<y id="3">00301</y>
+<z id="3">24910</z>
+<time id="3">44.465</time>
+<x id="4">00502</x>
+<y id="4">00282</y>
+<z id="4">24666</z>
+<time id="4">44.516</time>
+<x id="5">00461</x>
+<y id="5">00168</y>
+<z id="5">24666</z>
+<time id="5">44.565</time>
+</Accelerometer>
+</imu>
+
+<imu id="94">
+<Timestamp>44.874</Timestamp>
+<Orientation>
+<pitch>0.53</pitch>
+<roll>-1.10</roll>
+<yaw>11.32</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00475</x>
+<y id="1">00211</y>
+<z id="1">24725</z>
+<time id="1">44.639</time>
+<x id="2">00350</x>
+<y id="2">00141</y>
+<z id="2">24455</z>
+<time id="2">44.688</time>
+<x id="3">00638</x>
+<y id="3">00254</y>
+<z id="3">24705</z>
+<time id="3">44.737</time>
+<x id="4">00464</x>
+<y id="4">00156</y>
+<z id="4">24696</z>
+<time id="4">44.807</time>
+<x id="5">00613</x>
+<y id="5">00282</y>
+<z id="5">24436</z>
+<time id="5">44.850</time>
+</Accelerometer>
+</imu>
+
+<imu id="95">
+<Timestamp>45.152</Timestamp>
+<Orientation>
+<pitch>0.58</pitch>
+<roll>-1.14</roll>
+<yaw>11.46</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00440</x>
+<y id="1">00419</y>
+<z id="1">24865</z>
+<time id="1">44.933</time>
+<x id="2">00516</x>
+<y id="2">00286</y>
+<z id="2">24748</z>
+<time id="2">44.969</time>
+<x id="3">00530</x>
+<y id="3">00489</y>
+<z id="3">24835</z>
+<time id="3">45.16</time>
+<x id="4">00388</x>
+<y id="4">00266</y>
+<z id="4">24809</z>
+<time id="4">45.65</time>
+<x id="5">00513</x>
+<y id="5">00415</y>
+<z id="5">24809</z>
+<time id="5">45.116</time>
+</Accelerometer>
+</imu>
+
+<imu id="96">
+<Timestamp>45.554</Timestamp>
+<Orientation>
+<pitch>0.58</pitch>
+<roll>-1.13</roll>
+<yaw>11.00</yaw>
+</Orientation>
+<Accelerometer>
+<x id="1">00478</x>
+<y id="1">00180</y>
+<z id="1">24800</z>
+<time id="1">45.330</time>
+<x id="2">00527</x>
+<y id="2">00192</y>
+<z id="2">24549</z>
+<time id="2">45.375</time>
+<x id="3">00430</x>
+<y id="3">00509</y>
+<z id="3">24874</z>
+<time id="3">45.426</time>
+<x id="4">00610</x>
+<y id="4">00301</y>
+<z id="4">24787</z>
+<time id="4">45.475</time>
+<x id="5">00599</x>
+<y id="5">00176</y>
+<z id="5">24445</z>
+<time id="5">45.526</time>
+</Accelerometer>
+</imu>

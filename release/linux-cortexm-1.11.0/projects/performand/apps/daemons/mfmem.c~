@@ -1,0 +1,204 @@
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/time.h>
+#include <math.h>
+#include <unistd.h>
+#include <math.h>
+#include <sys/mman.h>
+#include <time.h>
+#include <string.h>
+
+#include "mfmem.h"
+#include "gps_utils.h"
+
+
+/* 
+ * Prepare a memory mapped file
+ */
+int preparemappedMem(char *file) {
+	FILE *fd;
+	char *file_memory;
+
+	/* Prepare a file large enough.*/
+	if((fd = open (file, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR)) < 0) {
+		fprintf(stderr, "Unable to open file: %s\n",file);
+		return -1;	
+	}
+
+	/* Initialize the flock structure. */
+
+	/* go to the location corresponding to the last byte */
+	if (lseek (fd, FILE_LENGTH-1, SEEK_SET) == -1) {
+		fprintf(stderr, "lseek error");
+		return -1;
+	}
+
+	/* write a dummy byte at the last location */
+	if (write (fd, "", 1) != 1) {
+		fprintf(stderr, "write error");
+		return -1;
+	}
+
+	//Go to the start of the file again
+	lseek (fd, 0, SEEK_SET);
+
+	file_memory = (char*)mmap (0, FILE_LENGTH, PROT_WRITE, MAP_SHARED, fd, 0);
+
+	if(file_memory == ((caddr_t) -1))
+      	{
+        	fprintf(stderr, "%s: mmap error for file %s \n",strerror(errno),file);
+		return -1;
+        }
+
+	memset(file_memory,0,FILE_LENGTH);
+
+	printf("%s Daemon: Buffer memory mapped at %02X [%d Bytes]\n",file ,file_memory, FILE_LENGTH);
+	
+	/* Release the lock. */
+
+	close(fd);
+	
+	return (int)file_memory;		
+}
+
+int check_size_available(char *file_memory, int size) {
+	int mem_ptr = 0;
+
+	/* Place write lock on file. */
+	//printf("Check size at: %X\n", file_memory);
+
+	mem_ptr = *file_memory;
+	mem_ptr = (mem_ptr<<8) + *(file_memory+1);
+
+	if((mem_ptr+size+2) > FILE_LENGTH) {
+		memset(file_memory,'\0', FILE_LENGTH);		
+	}
+
+	/* Release the lock. */
+
+	
+	return mem_ptr;
+}
+
+void append_mm_file(char *content, char *file_memory) {
+	int len = 0;	
+	int mem_ptr = 0;
+
+	mem_ptr = *file_memory;
+	mem_ptr = (mem_ptr<<8) + *(file_memory+1);
+		
+	len=strlen(content);
+
+	check_size_available(file_memory, len+10);
+
+	//printf("Write %d Bytes to: %X\n",len, file_memory+mem_ptr);
+
+	sprintf((char*) file_memory+2+mem_ptr, "%s",content);
+
+	*file_memory = (char)(((len+mem_ptr) & 0xFF00)>>8);
+	*(file_memory+1) = (char)((len+mem_ptr) & 0xFF);
+
+}
+
+int lock_file(char *file) {
+	struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };
+    	int fd;
+
+	if( (fd=open(file, O_RDWR)) < 0) {
+		printf("gps: File open error. file: %s\n",file);
+		return -1;
+	}
+
+	if (fcntl(fd, F_SETLKW, &fl) == -1) {
+        	printf("gps: Obtain lock error. file: %s\n",file);
+        	return -1;
+    	}
+
+	return 1;
+}
+
+int unlock_file(int fd) {
+	struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };	
+
+	fl.l_type = F_UNLCK;  /* set to unlock same region */
+
+      	if (fcntl(fd, F_SETLK, &fl) == -1) {
+        	printf("gps_daemon: Obtain unlock error.\n");
+        	return -1;
+   	 }
+	
+	close(fd);
+	return 1;
+}
+
+void toXMLfile(char *file, char *file_memory, RMC_DATA *gpsRMCData, int runtime_count) {
+	int strlen = 0;	
+	int mem_ptr = 0;
+	FILE *fd;
+
+	if((fd = lock_file(file)) < 0) {
+		printf("File locked.\n");
+		return 0;
+	}
+
+	check_size_available(file_memory, 550);
+
+	mem_ptr = *file_memory;
+	mem_ptr = (mem_ptr<<8) + *(file_memory+1);
+
+	//if((mem_ptr+MAX_STREAM_SIZE) < FILE_LENGTH+2) {
+		strlen = sprintf((char*)(file_memory+2+mem_ptr),"\n<gps id=%d>\n\
+<gmttime>\n\
+<hours>%02d</hours>\n\
+<minutes>%02d</minutes>\n\
+<seconds>%02d</seconds>\n\
+<milliseconds>%03d</milliseconds>\n\
+</gmttime>\n\
+<date>\n\
+<dd>%02d</dd>\n\
+<mm>%02d</mm>\n\
+<yyyy>20%02d</yyyy>\n\
+</date>\n\
+<latitude>\n\
+<degrees>%02d</degrees>\n\
+<minutes>%02d</minutes>\n\
+<seconds>%02d</seconds>\n\
+<hemisphere>%c</hemisphere>\n\
+</latitude>\n\
+<longitude>\n\
+<degrees>%03d</degrees>\n\
+<minutes>%02d</minutes>\n\
+<seconds>%02d</seconds>\n\
+<hemisphere>%c</hemisphere>\n\
+</longitude>\n\
+<speedMS>%3.2f</speedMS>\n\
+<cog>%3.2f</cog>\n\
+</gps>\n",runtime_count,
+	gpsRMCData->timeHour, 
+	gpsRMCData->timeMinute, 
+	gpsRMCData->timeSecond,
+	gpsRMCData->timeMillisecond,
+	gpsRMCData->dateDay, 
+	gpsRMCData->dateMonth,
+	gpsRMCData->dateYear, 
+	gpsRMCData->latitudeDegrees, 
+	gpsRMCData->latitudeMinutes, 
+	gpsRMCData->latitudeSeconds, 
+	gpsRMCData->latitudeHemisphere,
+	gpsRMCData->longitudeDegrees, 
+	gpsRMCData->longitudeMinutes, 
+	gpsRMCData->longitudeSeconds, 
+	gpsRMCData->longitudeHemisphere, 
+	gpsRMCData->speedOverGround, 
+	gpsRMCData->courseOverGround);
+
+	*file_memory = (char)(((strlen+mem_ptr) & 0xFF00)>>8);
+	*(file_memory+1) = (char)((strlen+mem_ptr) & 0xFF);
+
+	unlock_file(fd);
+} 

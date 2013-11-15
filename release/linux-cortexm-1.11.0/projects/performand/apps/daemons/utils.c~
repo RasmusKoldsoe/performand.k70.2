@@ -1,0 +1,111 @@
+/* Includes */
+#include <unistd.h>     /* Symbolic Constants */
+#include <sys/types.h>  /* Primitive System Data Types */ 
+#include <errno.h>      /* Errors */
+#include <stdio.h>      /* Input/Output */
+#include <stdlib.h>     /* General Utilities */
+#include <string.h>     /* String handling */
+#include <unistd.h>     /* for close() */
+#include <time.h>
+#include <math.h>
+#include <sys/statfs.h>
+
+#define MAX_FILE_SIZE 5242880 //5MB
+
+void print_byte_array(char *buff, int length, int offset)
+{
+	int i;
+	for(i=offset; i<length; i++) {
+		printf("%02X ", buff[i] & 0xff);
+	}
+	printf("\n");
+}
+
+void print_char_array(char *buff, int length, int offset)
+{
+	int i;
+	for(i=offset; i<length; i++) {
+		printf("%c", buff[i] & 0xff);
+	}
+	printf("\n");
+}
+
+int write_log_file(char *name, int runtime_count, int file_idx, char *receiveMessage) {
+	FILE *file;
+	int size=0;
+ 	struct statfs _statfs;
+	long long usedBytes;
+
+	if(statfs("/dev/mmcblk0p1", &_statfs)<0)
+		printf("Error can't determine remain capacity on SD-Card\n");
+
+	usedBytes=(_statfs.f_blocks-_statfs.f_bfree)*_statfs.f_bsize;	 
+	printf("SD Card Capacity: %d\n",_statfs.f_blocks);
+
+	char format[] = "/sdcard/datalog-%s" "%d.%d.txt";
+	char filename[sizeof format+10];
+	sprintf(filename,format, name, runtime_count, file_idx);	
+
+	file = fopen(filename,"a+"); 
+
+	fseek(file, 0, SEEK_END);
+   	size = ftell(file);
+	if(size >= MAX_FILE_SIZE) {
+		fclose(file);
+		file_idx+=1;
+		sprintf(filename,format, name, runtime_count, file_idx);
+		file = fopen(filename,"a+");
+	}
+	
+	fwrite(receiveMessage,1,strlen(receiveMessage),file);
+
+	fclose(file);
+
+	return file_idx;
+}
+
+int read_rt_count(void) {
+		FILE *ptr_myfile;
+		int runtime_count = 0;
+
+		ptr_myfile=fopen("/nand/runtime_cnt.bin","rb");
+		if (!ptr_myfile)
+		{
+			printf("Error reading runtime count.\n");
+			return -1;
+		} else {
+			fread(&runtime_count, sizeof(int), 1, ptr_myfile);
+		}
+		fclose(ptr_myfile);
+		return runtime_count;
+}
+
+int rw_rnt_count(void) {
+		FILE *ptr_myfile;
+		int runtime_count = 0;
+
+		ptr_myfile=fopen("/nand/runtime_cnt.bin","rb");
+		if (!ptr_myfile)
+		{
+			printf("Unable to open runtime count file. Creating new file.\n");
+			ptr_myfile=fopen("/nand/runtime_cnt.bin","wb+");
+		} else {
+			fread(&runtime_count, sizeof(int), 1, ptr_myfile);
+		}
+		fclose(ptr_myfile);
+		runtime_count++;
+
+		ptr_myfile=fopen("/nand/runtime_cnt.bin","wb");
+
+		if (!ptr_myfile) {
+			printf("Unable to write runtime count file.\n");
+			return -1;
+		}
+		if (!fwrite(&runtime_count, sizeof(int), 1, ptr_myfile)) {
+			printf("Unable to write runtime count file.\n");
+			return -1;
+		}
+
+		fclose(ptr_myfile);
+		return runtime_count;
+}
