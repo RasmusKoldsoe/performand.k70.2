@@ -25,7 +25,7 @@ void register_sig_handler();
 void sigint_handler(int sig);
 
 struct RMC_DATA gprmc;
-static int fd;
+int fd;
 int runtime_count,file_idx = 0;
 
 int done;

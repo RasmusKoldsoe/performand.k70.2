@@ -19,6 +19,8 @@
 #include "GATT_Parser/GATT_Parser.h"
 #include "APP.h"
 
+#define BLE_DEVICE_COUNT sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t)
+
 void processTimeouts(void);
 #define eventHandlerFcn_Count 3
 const eventHandlerFcn taskArr[] = {
@@ -40,6 +42,16 @@ BLE_Central_t *bleCentral;
 long AppEvents[sizeof(taskArr)];
 int APP_TaskID;
 static long devices;
+//static struct timespec idle, stop;
+//static int worktime, idletime;
+/*
+int timespec_subtract(struct timespec *t1, struct timespec *t2) {
+	int us_delay;
+	us_delay = (t1->tv_sec - t2->tv_sec) * 1000000;
+	us_delay += (t1->tv_nsec - t2->tv_nsec) / 1000;
+	return us_delay;
+}
+*/
 
 void APP_Run( void )
 {
@@ -57,15 +69,18 @@ void APP_Run( void )
 
 		events = APP_GetEvent(idx);
 		APP_ClearEvent(idx);
-		debug(2, "Task ID %d events before call: %08X\n", idx, events);
+		//debug(2, "Task ID %d events before call: %08X\n", idx, events);
 		events = (taskArr[idx])(idx, events);
-		debug(2, "Task ID %d events after call: %08X\n", idx, events);
+		//debug(2, "Task ID %d events after call: %08X\n", idx, events);
 		APP_SetEvent(idx, events);
-
-		//usleep(10*STD_WAIT_TIME);
 	}
 	else {
+//clock_gettime(CLOCK_REALTIME, &idle);
+//worktime = timespec_subtract(&idle, &stop);
 		usleep(10*STD_WAIT_TIME); // 100ms
+//clock_gettime(CLOCK_REALTIME, &stop);
+//idletime = timespec_subtract(&stop, &idle);
+//printf("worktime= %dus, idletime= %dus, Workload %0.4f\n", worktime, idletime, (float)((float)worktime/((float)worktime+(float)idletime)*100.0));
 	}
 }
 
@@ -80,7 +95,7 @@ long APP_ProcessEvent(int taskID, long events)
 	}
 
 	if(events & APP_SHUTDOWN_EVENT) {
-	// Request to shutdown program, sign off and disconnect to all connected peripheral devices.
+	// Request to shutdown program, disconnect to all connected peripheral devices.
 		APP_SetEvent(GATT_TaskID, GATT_TERMINATE_CONNECTION | devices);
 		_shutdown = 1;
 		return events ^ APP_SHUTDOWN_EVENT;
@@ -88,7 +103,7 @@ long APP_ProcessEvent(int taskID, long events)
 
 	if(events & APP_DEVICE_INIT_DONE_EVENT) {
 	// When system is initialized, connect to all devices
-		printf("Devices: %08X\n",devices);
+		printf("Devices: %d, %08X\n", MAX_PERIPHERAL_DEV, devices);
 		APP_SetEvent(GATT_TaskID, GATT_ESTABLISH_CONNECTION | devices);
 		return events ^ APP_DEVICE_INIT_DONE_EVENT;
 	}
@@ -100,10 +115,10 @@ long APP_ProcessEvent(int taskID, long events)
 	}
 
 	if(events & APP_CONNECTION_TERMINATED) {
-	// When a device is disconnected, do nothing right now (TODO: Reconnect if not in process of terminating)
+	// When a device is disconnected, reconnect if not  terminating
 		debug(2, "CONNECTION TERMINATED %08X\n", events);
 
-		if(_shutdown) {
+		if(_shutdown == 1) {
 			int i;
 			int stillConnected = 0;
 			for(i=0; i<sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t); i++) {
@@ -132,26 +147,28 @@ int APP_Init(BLE_Central_t *b)
 
 	i = pthread_mutex_init(&app_event_mutex, NULL);
 	if(i < 0) {
-		perror("ERROR: APP Initializing event mutex");
+		fprintf(stderr, "ERROR: APP - Initializing event mutex\n");
 		return i;
 	}
 
 	memset(AppEvents, 0, sizeof(AppEvents));
-
 	memset(delayedEvents, 0, sizeof(delayedEvents));
 
-
-	devices = 0;
-	//devices |= bleCentral->devices[0].ID; // Log
-	//devices |= bleCentral->devices[1].ID; // KeyFob
-	devices |= bleCentral->devices[0].ID; // Wind sensor
-
 	int t_id=0;
-
 	HCI_Init(t_id++, bleCentral);
 	GATT_Init(t_id++, bleCentral);
 	APP_TaskID = t_id;
 
+	devices = 0;
+	devices |= bleCentral->devices[0].ID; // Log
+	//devices |= bleCentral->devices[1].ID; // KeyFob
+	devices |= bleCentral->devices[2].ID; // Wind sensor
+
+	for(i=0; i<BLE_DEVICE_COUNT; i++) {
+		if(devices & bleCentral->devices[i].ID) {
+			bleCentral->devices[i].initialize();
+		}
+	}
 	return 0;
 }
 
@@ -189,13 +206,18 @@ void APP_ClearEvent(int taskID)
 	pthread_mutex_unlock(&app_event_mutex);
 }
 
-// if first is larger than last return 1
-int tscomp(struct timespec *first, struct timespec *last)
+/*
+ * lhs < rhs:  return <0
+ * lhs == rhs: return 0
+ * lhs > rhs:  return >0
+ */
+int tscomp(const struct timespec *lhs, const struct timespec *rhs)
 {
-	long first_ms = (first->tv_sec*1000 + first->tv_nsec/1000000.0) + 0.5;
-	long last_ms  = ( last->tv_sec*1000 +  last->tv_nsec/1000000.0) + 0.5;
-	if(first_ms > last_ms) return 1;
-	return 0;
+	if (lhs->tv_sec < rhs->tv_sec)
+		return -1;
+	if (lhs->tv_sec > rhs->tv_sec)
+		return 1;
+	return lhs->tv_nsec - rhs->tv_nsec;
 }
 
 void processTimeouts(void)
@@ -206,7 +228,7 @@ void processTimeouts(void)
 
 	for(idx=0; idx < delayedEvents_MaxCount; idx++) {
 		if(delayedEvents[idx]._enabled > 0) { // if enabled
-			if(tscomp(&now, &delayedEvents[idx].timestamp)) {
+			if(tscomp(&now, &delayedEvents[idx].timestamp) > 0) {
 				APP_SetEvent(delayedEvents[idx].taskID, delayedEvents[idx].events);
 				APP_ClearTimer(idx);
 			}
@@ -221,11 +243,16 @@ int APP_StartTimer(int taskID, long events, int timeout)
 
 	int newIndex;
 	for(newIndex=0; newIndex < delayedEvents_MaxCount; newIndex++) {
-		if(delayedEvents[newIndex]._enabled == 0) break;
+		if(delayedEvents[newIndex]._enabled == 0) 
+			break;
 	}
-	
+	if(newIndex >= delayedEvents_MaxCount) {
+		fprintf(stderr, "Warning: APP - No available timers ready. Timer not initialized");
+		return -1;
+	}
+
 	clock_gettime(CLOCK_REALTIME, &delayedEvents[newIndex].timestamp);
-	delayedEvents[newIndex].timestamp.tv_sec += timeout/1000;
+	delayedEvents[newIndex].timestamp.tv_sec += timeout / 1000;
 	delayedEvents[newIndex].timestamp.tv_nsec += (timeout % 1000) * 1000000;
 	delayedEvents[newIndex].events = events;
 	delayedEvents[newIndex].taskID = taskID;
@@ -258,7 +285,7 @@ int APP_ClearTimer(int index)
 	return 0;
 }
 
-int  APP_ClearTimerByEvent(int taskID, long events)
+int APP_ClearTimerByEvent(int taskID, long events)
 {
 	int i;
 	for(i=0; i<delayedEvents_MaxCount; i++) {

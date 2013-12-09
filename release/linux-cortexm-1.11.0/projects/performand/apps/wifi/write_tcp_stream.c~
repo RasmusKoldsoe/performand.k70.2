@@ -203,19 +203,8 @@ int main(int argc, char **argv)
 		return -1;	
 	}
 
-	FILE *ptr_myfile;
 
-	ptr_myfile=fopen("/nand/runtime_cnt.bin","rb");
-	if (!ptr_myfile)
-	{
-		printf("Error reading runtime count.\n");
-		return -1;
-	} else {
-		fread(&runtime_count, sizeof(int), 1, ptr_myfile);
-		printf("Runtime count: %d\n",runtime_count);
-	}
-	fclose(ptr_myfile);
-
+	runtime_count = read_rt_count();
 	printf("Runtime count: %d\n",runtime_count);
 
 	//pthread_create(&monitor_ConnStat_thread,&thread_attr,monitor_ConnStat,NULL);
@@ -413,6 +402,7 @@ void *sendData() {
 
 			sendTCPStream(&gps_mapped_file);	
 			sendTCPStream(&imu_mapped_file);	
+
 
 			//*** **** *** *** ***						
 			len = sprintf(sensDatindex,"\n</dataset>\n");

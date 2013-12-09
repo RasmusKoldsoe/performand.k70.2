@@ -174,8 +174,8 @@ int main(int argc, char **argv)
 	pthread_t monitor_ConnStat_thread, sendData_thread, ledIndication_thread;
 	pthread_attr_t thread_attr;
 
-	if(!gpio_export(LED_IND2) || !gpio_setDirection(LED_IND2,0))
-		printf("ERROR: Exporting gpio port.");
+	//if(!gpio_export(LED_IND2) || !gpio_setDirection(LED_IND2,0))
+	//	printf("ERROR: Exporting gpio port.");
 
 	//*** IMPORTANT TO DO THIS FIRST ***
 	GS_HAL_uart_set_comm_port("/dev/ttyS3");
@@ -209,7 +209,7 @@ int main(int argc, char **argv)
 
 	//pthread_create(&monitor_ConnStat_thread,&thread_attr,monitor_ConnStat,NULL);
 	pthread_create(&sendData_thread,&thread_attr,sendData,NULL);
-	pthread_create(&ledIndication_thread,&thread_attr,ledIndication,NULL);
+//	pthread_create(&ledIndication_thread,&thread_attr,ledIndication,NULL);
 
 	pthread_join(sendData_thread,NULL);
 
@@ -402,6 +402,7 @@ void *sendData() {
 
 			sendTCPStream(&gps_mapped_file);	
 			sendTCPStream(&imu_mapped_file);	
+
 
 			//*** **** *** *** ***						
 			len = sprintf(sensDatindex,"\n</dataset>\n");

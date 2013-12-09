@@ -1,8 +1,8 @@
-cmd_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.o := arm-uclinuxeabi-gcc -Wp,-MD,/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/.inv_mpu_dmp_motion_driver.o.d  -nostdinc -isystem /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/tools/arm-2010q1/bin/../lib/gcc/arm-uclinuxeabi/4.4.1/include -I/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include -Iinclude  -include include/generated/autoconf.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-kinetis/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -fno-delete-null-pointer-checks -Os -marm -mabi=aapcs-linux -mno-thumb-interwork -mthumb -Wa,-mimplicit-it=always -Wa,-mno-warn-deprecated -D__LINUX_ARM_ARCH__=7 -mcpu=cortex-m3 -Wa,-mcpu=cortex-m3 -msoft-float -Uarm -Wframe-larger-than=1024 -fno-stack-protector -fomit-frame-pointer -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fno-dwarf2-cfi-asm -fconserve-stack -DMPU9150 -DAK8975_SECONDARY -I/eMPL -I/mpu9150  -DMODULE -mlong-calls -fno-optimize-sibling-calls -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(inv_mpu_dmp_motion_driver)"  -D"KBUILD_MODNAME=KBUILD_STR(imu)"  -c -o /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/.tmp_inv_mpu_dmp_motion_driver.o /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.c
+cmd_/home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.o := arm-uclinuxeabi-gcc -Wp,-MD,/home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/.inv_mpu_dmp_motion_driver.o.d  -nostdinc -isystem /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/tools/arm-2010q1/bin/../lib/gcc/arm-uclinuxeabi/4.4.1/include -I/home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include -Iinclude  -include include/generated/autoconf.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-kinetis/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -fno-delete-null-pointer-checks -Os -marm -mabi=aapcs-linux -mno-thumb-interwork -mthumb -Wa,-mimplicit-it=always -Wa,-mno-warn-deprecated -D__LINUX_ARM_ARCH__=7 -mcpu=cortex-m3 -Wa,-mcpu=cortex-m3 -msoft-float -Uarm -Wframe-larger-than=1024 -fno-stack-protector -fomit-frame-pointer -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fno-dwarf2-cfi-asm -fconserve-stack -DMPU9150 -DAK8975_SECONDARY -I/eMPL -I/mpu9150  -DMODULE -mlong-calls -fno-optimize-sibling-calls -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(inv_mpu_dmp_motion_driver)"  -D"KBUILD_MODNAME=KBUILD_STR(imu)"  -c -o /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/.tmp_inv_mpu_dmp_motion_driver.o /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.c
 
-deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.o := \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.c \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.h \
+deps_/home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.o := \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.c \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.h \
   include/linux/module.h \
     $(wildcard include/config/symbol/prefix.h) \
     $(wildcard include/config/modules.h) \
@@ -38,24 +38,24 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
     $(wildcard include/config/lbdaf.h) \
     $(wildcard include/config/phys/addr/t/64bit.h) \
     $(wildcard include/config/64bit.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/types.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/types.h \
   include/asm-generic/int-ll64.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/bitsperlong.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/bitsperlong.h \
   include/asm-generic/bitsperlong.h \
   include/linux/posix_types.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/posix_types.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/processor.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/posix_types.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/processor.h \
     $(wildcard include/config/mmu.h) \
     $(wildcard include/config/cpu/v7m.h) \
     $(wildcard include/config/mpu.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/ptrace.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/ptrace.h \
     $(wildcard include/config/cpu/endian/be8.h) \
     $(wildcard include/config/arm/thumb.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/hwcap.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/cache.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/hwcap.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/cache.h \
     $(wildcard include/config/arm/l1/cache/shift.h) \
     $(wildcard include/config/aeabi.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/system.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/system.h \
     $(wildcard include/config/cpu/xsc3.h) \
     $(wildcard include/config/cpu/fa526.h) \
     $(wildcard include/config/arch/has/barriers.h) \
@@ -64,20 +64,20 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
     $(wildcard include/config/arch/a2f.h) \
     $(wildcard include/config/cpu/32v6k.h) \
   include/linux/linkage.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/linkage.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/linkage.h \
   include/linux/irqflags.h \
     $(wildcard include/config/trace/irqflags.h) \
     $(wildcard include/config/irqsoff/tracer.h) \
     $(wildcard include/config/preempt/tracer.h) \
     $(wildcard include/config/trace/irqflags/support.h) \
   include/linux/typecheck.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/irqflags.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/outercache.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/irqflags.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/outercache.h \
     $(wildcard include/config/outer/cache/sync.h) \
     $(wildcard include/config/outer/cache.h) \
   include/asm-generic/cmpxchg-local.h \
   include/linux/stat.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/stat.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/stat.h \
   include/linux/time.h \
     $(wildcard include/config/arch/uses/gettimeoffset.h) \
   include/linux/cache.h \
@@ -90,12 +90,12 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
     $(wildcard include/config/dynamic/debug.h) \
     $(wildcard include/config/ring/buffer.h) \
     $(wildcard include/config/numa.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/tools/arm-2010q1/bin/../lib/gcc/arm-uclinuxeabi/4.4.1/include/stdarg.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/tools/arm-2010q1/bin/../lib/gcc/arm-uclinuxeabi/4.4.1/include/stdarg.h \
   include/linux/bitops.h \
     $(wildcard include/config/generic/find/first/bit.h) \
     $(wildcard include/config/generic/find/last/bit.h) \
     $(wildcard include/config/generic/find/next/bit.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/bitops.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/bitops.h \
   include/asm-generic/bitops/non-atomic.h \
   include/asm-generic/bitops/fls64.h \
   include/asm-generic/bitops/sched.h \
@@ -105,17 +105,17 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
     $(wildcard include/config/arch/has/ilog2/u32.h) \
     $(wildcard include/config/arch/has/ilog2/u64.h) \
   include/linux/dynamic_debug.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/byteorder.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/byteorder.h \
   include/linux/byteorder/little_endian.h \
   include/linux/swab.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/swab.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/swab.h \
   include/linux/byteorder/generic.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/bug.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/bug.h \
     $(wildcard include/config/bug.h) \
     $(wildcard include/config/debug/bugverbose.h) \
   include/asm-generic/bug.h \
     $(wildcard include/config/generic/bug/relative/pointers.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/div64.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/div64.h \
   include/linux/seqlock.h \
   include/linux/spinlock.h \
     $(wildcard include/config/debug/spinlock.h) \
@@ -127,13 +127,13 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
     $(wildcard include/config/preempt/notifiers.h) \
   include/linux/thread_info.h \
     $(wildcard include/config/compat.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/thread_info.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/thread_info.h \
     $(wildcard include/config/arm/thumbee.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/fpstate.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/fpstate.h \
     $(wildcard include/config/vfpv3.h) \
     $(wildcard include/config/vfpm.h) \
     $(wildcard include/config/iwmmxt.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/domain.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/domain.h \
     $(wildcard include/config/io/36.h) \
     $(wildcard include/config/cpu/use/domains.h) \
   include/linux/stringify.h \
@@ -148,7 +148,7 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
   include/linux/spinlock_up.h \
   include/linux/rwlock.h \
   include/linux/spinlock_api_up.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/atomic.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/atomic.h \
     $(wildcard include/config/generic/atomic64.h) \
   include/asm-generic/atomic64.h \
   include/asm-generic/atomic-long.h \
@@ -178,7 +178,7 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
     $(wildcard include/config/holes/in/zone.h) \
     $(wildcard include/config/arch/has/holes/memorymodel.h) \
   include/linux/wait.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/current.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/current.h \
   include/linux/threads.h \
     $(wildcard include/config/nr/cpus.h) \
     $(wildcard include/config/base/small.h) \
@@ -190,12 +190,12 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
   include/linux/bitmap.h \
   include/linux/string.h \
     $(wildcard include/config/binary/printf.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/string.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/string.h \
   include/linux/pageblock-flags.h \
     $(wildcard include/config/hugetlb/page.h) \
     $(wildcard include/config/hugetlb/page/size/variable.h) \
   include/generated/bounds.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/page.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/page.h \
     $(wildcard include/config/cpu/copy/v3.h) \
     $(wildcard include/config/cpu/copy/v4wt.h) \
     $(wildcard include/config/cpu/copy/v4wb.h) \
@@ -203,16 +203,16 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
     $(wildcard include/config/cpu/copy/fa.h) \
     $(wildcard include/config/cpu/xscale.h) \
     $(wildcard include/config/cpu/copy/v6.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/page-nommu.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/page-nommu.h \
     $(wildcard include/config/small/tasks.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/memory.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/memory.h \
     $(wildcard include/config/page/offset.h) \
     $(wildcard include/config/thumb2/kernel.h) \
     $(wildcard include/config/dram/size.h) \
     $(wildcard include/config/dram/base.h) \
   include/linux/const.h \
   arch/arm/mach-kinetis/include/mach/memory.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/sizes.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/sizes.h \
   include/asm-generic/memory_model.h \
     $(wildcard include/config/sparsemem/vmemmap.h) \
   include/asm-generic/getorder.h \
@@ -221,7 +221,7 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
     $(wildcard include/config/memory/hotremove.h) \
   include/linux/notifier.h \
   include/linux/errno.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/errno.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/errno.h \
   include/asm-generic/errno.h \
   include/asm-generic/errno-base.h \
   include/linux/mutex.h \
@@ -240,14 +240,14 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
     $(wildcard include/config/disable/obsolete/cpumask/functions.h) \
   include/linux/smp.h \
     $(wildcard include/config/use/generic/smp/helpers.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/topology.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/topology.h \
   include/asm-generic/topology.h \
   include/linux/mmdebug.h \
     $(wildcard include/config/debug/virtual.h) \
   include/linux/elf.h \
   include/linux/elf-em.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/elf.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/user.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/elf.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/user.h \
   include/linux/kobject.h \
   include/linux/sysfs.h \
   include/linux/kref.h \
@@ -263,7 +263,7 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
   include/linux/completion.h \
   include/linux/rcutree.h \
     $(wildcard include/config/no/hz.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/local.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/local.h \
   include/asm-generic/local.h \
   include/linux/percpu.h \
     $(wildcard include/config/need/per/cpu/embed/first/chunk.h) \
@@ -282,22 +282,22 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
   include/trace/define_trace.h \
   include/linux/kmalloc_sizes.h \
   include/linux/pfn.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/percpu.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/percpu.h \
   include/asm-generic/percpu.h \
   include/linux/percpu-defs.h \
     $(wildcard include/config/debug/force/weak/per/cpu.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/module.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/module.h \
     $(wildcard include/config/arm/unwind.h) \
   include/trace/events/module.h \
   include/linux/jiffies.h \
   include/linux/timex.h \
   include/linux/param.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/param.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/param.h \
     $(wildcard include/config/hz.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/timex.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/timex.h \
   arch/arm/mach-kinetis/include/mach/timex.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/../i2c_lib.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/../i2c_lib.h \
   include/linux/i2c.h \
     $(wildcard include/config/i2c.h) \
     $(wildcard include/config/i2c/boardinfo.h) \
@@ -321,7 +321,7 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
   include/linux/debugobjects.h \
     $(wildcard include/config/debug/objects/free.h) \
   include/linux/semaphore.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/device.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/device.h \
     $(wildcard include/config/dmabounce.h) \
   include/linux/pm_wakeup.h \
     $(wildcard include/config/pm.h) \
@@ -370,24 +370,24 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
     $(wildcard include/config/proc/fs.h) \
     $(wildcard include/config/mmu/notifier.h) \
   include/linux/auxvec.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/auxvec.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/auxvec.h \
   include/linux/prio_tree.h \
   include/linux/page-debug-flags.h \
     $(wildcard include/config/page/poisoning.h) \
     $(wildcard include/config/page/debug/something/else.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/mmu.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/mmu.h \
     $(wildcard include/config/cpu/has/asid.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/cputime.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/cputime.h \
   include/asm-generic/cputime.h \
   include/linux/sem.h \
   include/linux/ipc.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/ipcbuf.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/sembuf.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/ipcbuf.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/sembuf.h \
   include/linux/signal.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/signal.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/signal.h \
   include/asm-generic/signal-defs.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/sigcontext.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/siginfo.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/sigcontext.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/siginfo.h \
   include/asm-generic/siginfo.h \
   include/linux/path.h \
   include/linux/pid.h \
@@ -401,7 +401,7 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
   include/linux/plist.h \
     $(wildcard include/config/debug/pi/list.h) \
   include/linux/resource.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/resource.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/resource.h \
   include/asm-generic/resource.h \
   include/linux/hrtimer.h \
     $(wildcard include/config/high/res/timers.h) \
@@ -425,12 +425,12 @@ deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver
   include/asm-generic/gpio.h \
     $(wildcard include/config/gpio/sysfs.h) \
     $(wildcard include/config/have/gpio/lib.h) \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/irq.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/linux/arch/arm/include/asm/irq.h \
   arch/arm/mach-kinetis/include/mach/irqs.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/../local_defaults.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/dmpKey.h \
-  /home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/dmpmap.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/../local_defaults.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/dmpKey.h \
+  /home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/dmpmap.h \
 
-/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.o: $(deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.o)
+/home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.o: $(deps_/home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.o)
 
-$(deps_/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.o):
+$(deps_/home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand/driver/imu/eMPL/inv_mpu_dmp_motion_driver.o):

@@ -3,7 +3,7 @@
 #
 
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=1 -DSTD_BUF_SIZE=64
+CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=3 -DSTD_BUF_SIZE=64
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
 
 COMPARSER_DIR = COM_Parser
@@ -12,6 +12,7 @@ GATTPARSER_DIR = GATT_Parser
 NETWORKSTAT_DIR = NetworkStat
 QUEUE_DIR = Queue
 SERIALLOGIC_DIR = SerialLogic
+SENSORS_DIR = Sensors
 COMMON = ../Common
 GPIO_DIR = $(COMMON)/GPIO
 MEMORY_MAP_DIR = $(COMMON)/MemoryMapping
@@ -28,7 +29,9 @@ OBJS = dev_tools.o \
        COM_Parser.o \
        HCI_Parser.o \
        GATT_Parser.o \
-       APP.o
+       APP.o \
+       speedLog.o \
+       wind.o
 
 all : bleCentral
 
@@ -64,6 +67,12 @@ GATT_Parser.o : $(GATTPARSER_DIR)/GATT_Parser.c
 
 APP.o : APP.c
 	$(CC) $(CFLAGS) -c APP.c
+
+speedLog.o : $(SENSORS_DIR)/speedLog.c
+	$(CC) $(CFLAGS) -c $(SENSORS_DIR)/speedLog.c
+
+wind.o : $(SENSORS_DIR)/wind.c
+	$(CC) $(CFLAGS) -c $(SENSORS_DIR)/wind.c
 
 gpio_api.o : $(GPIO_DIR)/gpio_api.c
 	$(CC) $(CFLAGS) -c $(GPIO_DIR)/gpio_api.c

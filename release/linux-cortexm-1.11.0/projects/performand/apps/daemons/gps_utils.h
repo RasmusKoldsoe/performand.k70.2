@@ -36,11 +36,11 @@ typedef struct RMC_DATA{
     enum POSITION_FIX_STATUS positionFix;
     unsigned long latitudeDegrees;
     unsigned long latitudeMinutes;
-    unsigned float latitudeSeconds;
+    float latitudeSeconds;
     unsigned char latitudeHemisphere;
     unsigned long longitudeDegrees;
     unsigned long longitudeMinutes;
-    unsigned float longitudeSeconds;
+    float longitudeSeconds;
     unsigned char longitudeHemisphere;
     float speedOverGround;//in m/s
     float courseOverGround;//in degrees

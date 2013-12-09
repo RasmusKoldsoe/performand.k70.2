@@ -12,7 +12,7 @@
 #define STD_TIMEOUT     5    // sec
 #define STD_TIMEOUT_CNT (STD_TIMEOUT * 1000000)/STD_WAIT_TIME
 
-#define MAX_PERIPHERAL_DEV 2 // Hardware don't support more than 5 simultanious connections
+#define MAX_PERIPHERAL_DEV 3 // Hardware don't support more than 5 simultanious connections
 //#define STD_BUF_SIZE 64
 
 #define MAC_ADDR_SIZE 6
@@ -20,12 +20,15 @@
 
 #include "Queue/Queue.h"
 #include "../Common/common_tools.h"
+#include "../Common/MemoryMapping/memory_map.h"
 
 typedef struct {
 		long ID;
 		long connHandle;
 		char connMAC[6];
-		long serviceHDLS[5];
+		long *serviceHDLS;
+		int  (*initialize)();
+		int  (*parseDataCB)();
 		char _connected;
 		char _defined;
 } BLE_Peripheral_t;
@@ -39,7 +42,7 @@ typedef struct {
 		queue_t txQueue;
 		queue_t rxQueue;
 
-		char *mapped_mem;
+		h_mmapped_file ble_mapped_file;
 		int rt_count;
 } BLE_Central_t;
 

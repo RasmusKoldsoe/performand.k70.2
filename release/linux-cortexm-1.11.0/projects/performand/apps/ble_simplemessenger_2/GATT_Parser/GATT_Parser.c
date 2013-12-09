@@ -21,7 +21,8 @@
 #include "../../Common/MemoryMapping/memory_map.h"
 #include "GATT_Parser.h"
 
-#define BLE_DEVICE_COUNT 1 //sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t)
+
+#define BLE_DEVICE_COUNT MAX_PERIPHERAL_DEV
 
 int GATT_Parse(void);
 
@@ -33,8 +34,7 @@ long backupOfDevicesToConnect;
 long lastEstablishDeviceID;
 int deviceIterator;
 
-static int l = 0;
-char winddata[50];
+
 
 //TODO: Remove this function !!!
 void GATT_pretty_print_datagram(datagram_t *datagram)
@@ -93,18 +93,19 @@ long GATT_ProcessEvent(int taskID, long events)
 		// If INITIALIZE timeout
 		if( events & GATT_INITIALIZE) {
 			APP_SetEvent(APP_TaskID, APP_SHUTDOWN_EVENT);
-			debug(1, "Initialize timed out. Shutting down program.");
+			debug(1, "Initialize timed out.");
 			events ^= GATT_INITIALIZE;
 		}
 
-		// If ESTABLISH CONNECTION timeout, cancel request
+		// If ESTABLISH CONNECTION timeout -> cancel request
 		if( events & GATT_ESTABLISH_CONNECTION ) {
 			APP_SetEvent(GATT_TaskID, GATT_CANCEL_COMMAND | GATT_ESTABLISH_CONNECTION);
 			events ^= GATT_ESTABLISH_CONNECTION;
 		}
 		
 		// If ENABLE SERVICES timeout, schedule for later
-		if(events & GATT_ENABLE_SERVICES)
+		if(events & GATT_ENABLE_SERVICES){}
+
 		return events ^ GATT_COMMAND_TIMEOUT;
 	}
 
@@ -132,11 +133,10 @@ long GATT_ProcessEvent(int taskID, long events)
 		return events ^ GATT_INITIALIZE;
 	}
 
-	/***************************************************
-	 * Establish connection.                           *
-	 * For all defined peripherals, request link if    *
-	 * selected in 'events'. Timeout after 30 seconds  *
-	 ***************************************************/
+	/************************************************************************************************
+	 * Establish connection.                                                                        *
+	 * For all defined peripherals, request link if selected in 'events'. Timeout after 30 seconds  *
+	 ************************************************************************************************/
 	if( events & GATT_ESTABLISH_CONNECTION ) {
 		backupOfDevicesToConnect |= events & 0xFFFF0000;
 		int i;
@@ -151,13 +151,13 @@ long GATT_ProcessEvent(int taskID, long events)
 				GATT_Transmit_Datagram(&datagram, GATT_ESTABLISH_CONNECTION | bleCentral->devices[deviceIterator].ID);
 				lastEstablishDeviceID = bleCentral->devices[deviceIterator].ID;
 
-
-char mac_s[18]; int m;
-for(m=0; m<6; m++){
-	sprintf(mac_s+(3*m), "%02X%c", (unsigned int)bleCentral->devices[deviceIterator].connMAC[m]&0xFF, (m<5)?':':' ');
-}
-debug(1, "Connecting to device %s", mac_s);
-
+#if (defined VERBOSITY) && (VERBOSITY >= 1)
+				char mac_s[19]; int m;
+				for(m=0; m<6; m++){
+					sprintf(mac_s+(3*m), "%02X%c", (unsigned int)bleCentral->devices[deviceIterator].connMAC[m]&0xFF, (m<5)?':':'\n');
+				}
+				printf("Connecting to device %s", mac_s);
+#endif
 				events ^= bleCentral->devices[deviceIterator].ID;
 				break;
 			}
@@ -171,7 +171,7 @@ debug(1, "Connecting to device %s", mac_s);
 
 		for(i=0; i<=BLE_DEVICE_COUNT; i++) {
 			if( events & bleCentral->devices[i].ID) {
-				for(j=0; j<sizeof(*bleCentral->devices[i].serviceHDLS); j++) {
+				for(j=0; j<bleCentral->devices[i].numServiceHDLS; j++) {
 					if(bleCentral->devices[i].serviceHDLS[j] != 0) {	
 						char data[] = {0x00, 0x01};
 						get_GATT_WriteCharValue(&datagram, bleCentral->devices[i].connHandle, bleCentral->devices[i].serviceHDLS[j], data, 2);
@@ -189,7 +189,7 @@ debug(1, "Connecting to device %s", mac_s);
 
 		for(i=0; i<=BLE_DEVICE_COUNT; i++) {
 			if( events & bleCentral->devices[i].ID) {
-				for(j=0; j<sizeof(*bleCentral->devices[i].serviceHDLS); j++) {
+				for(j=0; j<sizeof(*bleCentral->devices[i].serviceHDLS)/SERVICE_HDL_SIZE; j++) {
 					if(bleCentral->devices[i].serviceHDLS[j] != 0) {	
 						char data[] = {0x00, 0x00};
 						get_GATT_WriteCharValue(&datagram, bleCentral->devices[i].connHandle, bleCentral->devices[i].serviceHDLS[j], data, 2);
@@ -222,106 +222,6 @@ debug(1, "Connecting to device %s", mac_s);
 	return 0;
 }
 
-enum MESSAGE_ID {
-   IIMWV,
-   WIXDR,
-   PLCJE,
-   GENERIC,
-   ERROR
-};
-
-int decodeMessage(char* message)
-{
-         int messageType = ERROR;
-        int i = 0;
-         int checksum = 0;
-         char recCsStr[3];
-        char* foundChar = NULL;
-        int offset = 0;
- /*       foundChar = strchr(message, '*');
-        if(foundChar != NULL)
-        {
-                offset = foundChar - message + 1;
-                recCsStr[0] = message[offset];
-                recCsStr[1] = message[offset+1];
-                recCsStr[2] = '\0';
-        }
-
-        for(i=1; i<=offset; i++)
-        {
-                if(message[i] == '*')
-                {
-                        break;
-                }
-                checksum = checksum ^ message[i];
-        }
-        char csStr[3];
-        //printk("Computed checksum is: %X\n", checksum);
-        sprintf(csStr,"%02X", checksum);
-*/
-//        if(strcmp(csStr, recCsStr) == 0)
-//        {
-          char* pch;
-          char **bp = &(message);
-          pch = strsep (bp,",");
-          if (pch != NULL)
-          {
-                if(strcmp(pch, "$IIMWV") == 0)
-                {
-                        messageType = IIMWV;
-                }
-                else if(strcmp(pch, "$WIXDR") == 0)
-                {
-                        messageType = WIXDR;
-                }
-                else if(strcmp(pch, "$PLCJE") == 0)
-                {
-                        messageType = PLCJE;
-                }
-                else
-                {
-                        messageType = GENERIC;
-                }
-          }
- //       }
-        return messageType;
-}
-
-typedef struct WIND_DATA{
-  float speedSI;
-  float relativeDir;
-} WIND_DATA;
-
-short readMWV(char* receiveMessage)
-{
-        char **bp = &(receiveMessage);
-        char* pch;
-       pch = strsep(bp,",");//messageID
-
-        if(pch != NULL)
-        {
-                pch = strsep(bp, ",");
-		
-                if(pch != NULL)
-                {
-			printf("Direction: %.2f\n",(float)atof(pch));
-                }
-                pch = strsep(bp, ",");//This part is always 'R'
-                pch = strsep(bp, ",");
-                if(pch != NULL)
-                {
-                  
-			printf("Speed: %.2f\n",(float)atof(pch));
-                }
-                pch = strsep(bp, ",");
-                if(pch != NULL)
-                {
-                  
-                }
-        }
-        return 1;
-}
-
 void print_s_array(char *buff, int length, int offset)
 {
 	int i;
@@ -330,8 +230,6 @@ void print_s_array(char *buff, int length, int offset)
 	}
 	printf("\n");
 }
-
-char messageToPass[100];
 
 int GATT_Parse(void)
 {
@@ -371,16 +269,16 @@ int GATT_Parse(void)
 			char address_type = unload_8_bit(datagram.data, &i);
 			char connMAC[6]; memset(connMAC, 0, sizeof(connMAC));
 			unload_MAC(datagram.data, &i, connMAC);
+
 			long remainingDevices;
 			// Store a variable with a copy of the devices to connect to, excluding the one we just tried
 			remainingDevices = backupOfDevicesToConnect & ~lastEstablishDeviceID;
 
-			int i;
+			int j;
 			// From the devices we are connecting to, remove those that are already connected
-			for(i=0; i<=BLE_DEVICE_COUNT; i++) {
-				if( remainingDevices & bleCentral->devices[i].ID && bleCentral->devices[i]._connected) {
-//printf("Already connected %08X\n", bleCentral->devices[i].ID);
-					remainingDevices &= ~bleCentral->devices[i].ID;
+			for(j=0; j<=BLE_DEVICE_COUNT; j++) {
+				if( remainingDevices & bleCentral->devices[j].ID && bleCentral->devices[j]._connected) {
+					remainingDevices &= ~bleCentral->devices[j].ID;
 				}
 			}
 
@@ -391,17 +289,16 @@ int GATT_Parse(void)
 				 **************************************************************************/
 				BLE_Peripheral_t* device = findDeviceByMAC(bleCentral, connMAC);
 				if(device == NULL) {//No available devices: bail out
-					fprintf(stderr, "WARNING: GATT No available device handles.\n");
+					fprintf(stderr, "ERROR: GATT Establish - No available device handles\n");
 					break;
 				}
 
 				debug(1, "Connected to device ");
-				int j;
+
 				for(j=0; j<6; j++) {
 					debug(1, "%02X%c", (unsigned int)connMAC[j] & 0xFF, (j<5)?':':' ');
 				}
 
-				device->_defined = 1;
 				device->_connected = 1;
 				device->connHandle = unload_16_bit(datagram.data, &i, 1);
 				debug(1, "with connHandle 0x%04X.\n", device->connHandle);
@@ -444,12 +341,10 @@ int GATT_Parse(void)
 
 			BLE_Peripheral_t* device = findDeviceByConnHandle(bleCentral, connHandle);
 			if(device != NULL) {
-				fprintf(stderr, "WARNING: GATT TerminateLink - findDeviceByConnHandle return NULL\n");
 				device->_connected = 0;
+				APP_ClearTimerByEvent(GATT_TaskID, GATT_TERMINATE_CONNECTION | device->ID);
+				APP_SetEvent(APP_TaskID, APP_CONNECTION_TERMINATED | device->ID);
 			}
-
-			APP_ClearTimerByEvent(GATT_TaskID, GATT_TERMINATE_CONNECTION | bleCentral->devices[i].ID);
-			APP_SetEvent(APP_TaskID, APP_CONNECTION_TERMINATED | device->ID);
 			break;
 		}
 	case ATT_ErrorRsp:
@@ -472,44 +367,35 @@ int GATT_Parse(void)
 	case ATT_HandleValueNotification:
 		{
 			int j;
-			//debug(0, "ATT_HandleValueNotifiction return %s ", getSuccessString(success, esg));
+			debug(1, "ATT_HandleValueNotifiction return %s ", getSuccessString(success, esg));
+
 			long connHandle = unload_16_bit(datagram.data, &i, 1);
 
-			char pduLength = unload_8_bit(datagram.data, &i);
-			if(pduLength < 2) {
-				fprintf(stderr, "ERROR: HCI Not enough data in pdu\n");
-				break;
-			}
-
-			long handle = unload_16_bit(datagram.data, &i, 1);
-			char str[100]; format_time_of_day(str, &datagram.timestamp);
 			BLE_Peripheral_t *curr_device;
 			curr_device = findDeviceByConnHandle(bleCentral, connHandle);
 
-			//debug(0, "from connHandle %04X for handle 0x%04X at %s with data: ", (unsigned int)connHandle & 0xFFFF, (unsigned int)handle & 0xFFFF, str);
-			for(j=0; j<pduLength-2; j++) {
-				char c = (unsigned int)datagram.data[i++] & 0xFF;
-				//debug(0, "%02X ", c);
-				if(j==0 || j==20)
-					continue;
+			if(curr_device != NULL) {
+				//debug(0, "from connHandle %04X, handle 0x%04X at %s with data: ", \
+				//			(unsigned int)connHandle & 0xFFFF, (unsigned int)handle & 0xFFFF, str);
+				char hd_string[40], mm_string[100];
+				memset(hd_string, 0, sizeof(hd_string));
+				memset(mm_string, 0, sizeof(mm_string));
 
-				if(curr_device->ID == bleCentral->devices[0].ID) {
-					if(c=='$') {
-						//print_s_array(winddata, l, 0);
-						strncpy(messageToPass, winddata, sizeof(messageToPass));
-						if(decodeMessage(messageToPass)==0) {
-							
-							readMWV(winddata);
-						}	
-						l=0;
-					}	
-					if(c!=0x0A)			
-						winddata[l++] = c;
-						
+				if( curr_device->parseDataCB(&datagram.data, &i, hd_string) == 0 ) {
+					format_time_of_day(mm_string, &datagram.timestamp);
+					strcat(mm_string, hd_string);
+					debug(0, "%s", mm_string);
+					//mm_append(mm_string, &bleCentral->ble_mapped_file);
+				}
+				else {
+					fprintf(stderr, "ERROR: GATT HandleValueNotification - Parse Data failed\n");
 				}
 			}
-			//debug(0, "\n");
-/*			data = ((datagram.data[9]&0xFF)<<8)+(datagram.data[8]&0xFF);
+			else {
+				fprintf(stderr, "ERROR: GATT HandleValueNotification - Connection handle not identified\n");
+			}
+/*
+			data = ((datagram.data[9]&0xFF)<<8)+(datagram.data[8]&0xFF);
 						
 			//Check if there is more space in the mapped mem. We need Bytes for the
 			//XML string.
@@ -518,12 +404,6 @@ int GATT_Parse(void)
 			snprintf(buf, pduLength-2, "%d",data*2);
 			mm_append_to_XMLfile(bleCentral->rt_count,buf,bleCentral->mapped_mem);
 			bleCentral->rt_count++;
-
-			if( !gpio_setValue(LED_IND3, led_value) ) {
-				printf("ERROR: Exporting gpio port.");
-				return 0;
-			}
-			led_value=1-led_value;	
 */
 			break;
 		}

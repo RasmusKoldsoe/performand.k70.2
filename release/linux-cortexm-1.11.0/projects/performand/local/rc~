@@ -9,7 +9,8 @@ mount -t devpts none /dev/pts
 #mount kernel debugfs
 mount -t debugfs none /sys/kernel/debug/
 
-mount -o nolock,rsize=1024 192.168.1.2:/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand /mnt
+#mount -o nolock,rsize=1024 192.168.1.2:/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand /mnt
+mount -o nolock,rsize=1024 192.168.1.2:/home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand /mnt
 ifconfig lo 127.0.0.1
 # ifconfig eth0 192.168.0.100
 
@@ -23,7 +24,7 @@ mount -t jffs2 /dev/mtdblock2 /nand
 echo "GPS: Changing serial port settings to 9600 Baud."
 stty -F /dev/ttyS1 9600 
 
-echo "GS1500M: Changing serial port settings to 9600 Baud."
+echo "GS1500M: Changing serial port settings to 115200 Baud."
 stty -F /dev/ttyS3 115200 
 
 echo "CC2541: Changing serial port settings to 115200 Baud."
@@ -62,20 +63,21 @@ echo "Starting Data Aggregation and TCP stream ..."
 echo " "
 echo " "
 echo "****************************************************"
-#echo "W E L C O M E   T O   P E R F O R M A N D"
-echo "W E L C O M E   T O  D A T A B O Y"
+echo "W E L C O M E   T O   P E R F O R M A N D"
 echo " "
-echo "Databoy 2.0 Generic data controller ..."
+echo "DataBoy (v2.0) Generic Data Controller ..."
 echo " "
-echo "by SpectraSense Technologies, 2013"
+echo "... and Sailing Performance."
 echo " "
+echo "by Mads Clausen Institute, 2013"
 echo " "
 echo " "
 echo "For questions please contact:"
-echo "rbrehm@spectrasense.com - 0045 6550 1612"
+echo "brehm@mci.sdu.dk - 0045 6550 1612"
+echo "rasko@mci.sdu.dk - 0045 6550 1636"
 echo " "
 echo " "
-echo " "
+echo " financed by Interreg K.E.R.N "
 echo "****************************************************"
 echo " "
 echo " "

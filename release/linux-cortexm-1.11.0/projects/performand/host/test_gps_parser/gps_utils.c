@@ -51,12 +51,19 @@ int parseGPRMC(char *receiveMessage, RMC_DATA* gpsRMCData)
                   {
                           gpsRMCData->latitudeDegrees = (pch[0]-'0')*10 + pch[1]-'0';
                           gpsRMCData->latitudeMinutes = (pch[2]-'0')*10 + pch[3]-'0';
-                          gpsRMCData->latitudeSeconds = (pch[5]-'0')*6;
-			  
-			gpsRMCData->latitudeSeconds =  ((pch[6]-'0')*1000) +
-							((pch[7]-'0')*100) +
-							((pch[8]-'0')*10) +
-							((pch[9]-'0'));
+                          //gpsRMCData->latitudeSeconds = (pch[5]-'0')*6;
+			
+			if((pch[5]-'0') < 0) printf("%d < 0\n", pch[5]-'0');
+			if((pch[6]-'0') < 0) printf("%d < 0\n", pch[5]-'0');
+			if((pch[7]-'0') < 0) printf("%d < 0\n", pch[5]-'0');
+			if((pch[8]-'0') < 0) printf("%d < 0\n", pch[5]-'0');
+
+			gpsRMCData->latitudeSeconds =  ((pch[5]-'0')*1000) +
+							((pch[6]-'0')*100) +
+							((pch[7]-'0')*10) +
+							((pch[8]-'0'));
+
+
 			//printf("Seconds: %f\n",gpsRMCData->longitudeSeconds);
 			gpsRMCData->latitudeSeconds = 60.0 * gpsRMCData->latitudeSeconds/10000;
 

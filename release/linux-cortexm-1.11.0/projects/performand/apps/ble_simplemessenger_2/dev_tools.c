@@ -77,7 +77,7 @@ BLE_Peripheral_t* findDeviceByMAC(BLE_Central_t *central, char *MAC)
 } 
 
 BLE_Peripheral_t* findDeviceByConnHandle(BLE_Central_t *central, long connHandle) 
-{ 
+{
 	int i; 
 	for(i=0; i<MAX_PERIPHERAL_DEV; i++) { 
 		if(central->devices[i]._defined) { 

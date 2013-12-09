@@ -19,10 +19,11 @@
 #include "Queue/Queue.h"
 #include "NetworkStat/NetworkStatistics.h"
 #include "SerialLogic/serialLogic.h"
-//#include "COM_Parser/COM_Parser.h"
-//#include "HCI_Parser/HCI_Parser.h"
 #include "APP.h"
 #include "../Common/GPIO/gpio_api.h"
+
+#include "Sensors/speedLog.h"
+#include "Sensors/wind.h"
 
 void register_sig_handler();
 void sigint_handler(int sig);
@@ -89,31 +90,40 @@ int main (void)
 	BLE_Central_t bleCentral;
 	memset(&bleCentral, 0, sizeof(BLE_Central_t));
 
-	bleCentral.port = "/dev/ttyS4"; // "/dev/ttyS4"
+	bleCentral.port = "/dev/ttyS4"; // "/dev/ttyS3"
 	bleCentral._run = 1;
 	bleCentral.rxQueue = queueCreate();
 	bleCentral.txQueue = queueCreate();
-	BLE_Peripheral_t dev[] = { /*{.ID = 0x1 << 16, // bitwise id - lowest id available
-	                           .connHandle = 0,
-	                           .connMAC = {0x78, 0xC5, 0xE5, 0xA0, 0x14, 0x12},
-		                       .serviceHDLS = {0x004D},
-		                       ._connected = 0,
-		                       ._defined = 1
-		                      },
-		                      {.ID = 0x1 << 17,
-	                           .connHandle = 0,
-	                           .connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x18, 0xD8},
-		                       .serviceHDLS = {0x0048, 0x0030},
-		                       ._connected = 0,
-		                       ._defined = 1
-		                      },*/
-		                      {.ID = 0x1 << 18,
-	                           .connHandle = 0,
-	                           .connMAC = {0x90, 0x59, 0xaf, 0x09, 0xd5, 0x9f},
-		                       .serviceHDLS = {0x003C, 0x0037},
-		                       ._connected = 0,
-		                       ._defined = 1
-		                      }
+	BLE_Peripheral_t dev[] = { {.ID = 0x1 << 16, // bitwise id - lowest id available
+	                            .connHandle = -1,
+	                            .connMAC = {0x78, 0xC5, 0xE5, 0xA0, 0x14, 0x12},
+		                        .serviceHDLS = Log_serviceHdls,
+	                            .numServiceHDLS = Log_nServiceHdls,
+	                            .initialize = Log_initialize,
+	                            .parseDataCB = Log_parseData,
+		                        ._connected = 0,
+		                        ._defined = 1
+		                       },
+		                       {.ID = 0x1 << 17,
+	                            .connHandle = -1,
+	                            .connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x18, 0xD8},
+		                        .serviceHDLS = NULL,
+	                            .numServiceHDLS = 0,
+	                            .initialize = NULL,
+	                            .parseDataCB = NULL,
+		                        ._connected = 0,
+		                        ._defined = 0
+		                       },
+		                       {.ID = 0x1 << 18,
+	                            .connHandle = -1,
+	                            .connMAC = {0x90, 0x59, 0xaf, 0x09, 0xd5, 0x9f},
+		                        .serviceHDLS = Wind_serviceHdls,
+	                            .numServiceHDLS = Wind_nServiceHdls,
+	                            .initialize = Wind_initialize,
+							    .parseDataCB = Wind_parseData,
+		                        ._connected = 0,
+		                        ._defined = 1
+		                       }
 		                     };
 		
 	bleCentral.devices = dev;
@@ -121,15 +131,19 @@ int main (void)
 	if(bleCentral.fd < 0){
 		printf("ERROR Opening port: %d\n", bleCentral.fd);
 		return -1;
-	} 
+	}
+	bleCentral.ble_mapped_file.filename = "gps";
+	bleCentral.ble_mapped_file.size = DEFAULT_FILE_LENGTH;
 
 	initNetworkStat();
 
 	APP_Init(&bleCentral);
 
-	//Prepare mapped mem.
-	//bleCentral.mapped_mem = (char*) mm_prepare_mapped_mem("ble");
-	//bleCentral.rt_count = 0;
+	//Prepare the mapped Memory file
+	if((mm_prepare_mapped_mem(&bleCentral.ble_mapped_file)) < 0) {
+		fprintf(stderr, "ERROR: While mapping %s file.\n",bleCentral.ble_mapped_file.filename);
+		return -1;	
+	}
 
 	//Register signal handler.
 	register_sig_handler(); 
