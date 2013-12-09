@@ -217,9 +217,7 @@ int main(int argc, char **argv)
 								
 				file_idx = write_log_file("gps", runtime_counter, 
 								file_idx, buffer);				
-char tmp_str[100];
-strcpy(
-strsep(
+
 				//printf("%s\n", buffer);
 				parseGPRMC(buffer, &gprmc);
 				//printf("%d\n", gprmc.latitudeSeconds);
