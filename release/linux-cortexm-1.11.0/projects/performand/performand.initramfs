@@ -190,6 +190,7 @@ file /performand/apps/imucal ${INSTALL_ROOT}/projects/${SAMPLE}/apps/mpu9150-cal
 file /performand/apps/wifi_ap_init ${INSTALL_ROOT}/projects/${SAMPLE}/apps/wifi/main 755 0 0
 file /performand/apps/stream_data ${INSTALL_ROOT}/projects/${SAMPLE}/apps/wifi/w_tcp_str 755 0 0
 
-nod /dev/imu 0600 0 0 c 168 0
+nod /dev/compass 0600 0 0 c 168 0
+
 
 

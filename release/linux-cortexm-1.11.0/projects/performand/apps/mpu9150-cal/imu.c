@@ -337,6 +337,8 @@ void read_loop(unsigned int sample_rate)
 				time_s[i]=s;
 				time_ms[i]=ms;
 
+				//Read Mast rotation ....
+				
 				/*if (mpu9150_read(&mpu) == 0) {
 					printf("\rX: %05d Y: %05d Z: %05d        \n",
 						mpu.calibratedAccel[VEC3_X], 

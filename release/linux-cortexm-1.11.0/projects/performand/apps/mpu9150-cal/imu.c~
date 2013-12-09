@@ -337,13 +337,13 @@ void read_loop(unsigned int sample_rate)
 				time_s[i]=s;
 				time_ms[i]=ms;
 
-				if (mpu9150_read(&mpu) == 0) {
+				/*if (mpu9150_read(&mpu) == 0) {
 					printf("\rX: %05d Y: %05d Z: %05d        \n",
 						mpu.calibratedAccel[VEC3_X], 
 						mpu.calibratedAccel[VEC3_Y], 
 						mpu.calibratedAccel[VEC3_Z]);
 				}
-				fflush(stdout);
+				fflush(stdout);*/
 
 				usleep(20000);
 			}
