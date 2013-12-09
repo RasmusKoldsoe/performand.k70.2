@@ -19,7 +19,7 @@
 #include "GATT_Parser/GATT_Parser.h"
 #include "APP.h"
 
-#define BLE_DEVICE_COUNT sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t)
+#define BLE_DEVICE_COUNT 3 //sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t)
 
 void processTimeouts(void);
 #define eventHandlerFcn_Count 3
@@ -115,7 +115,7 @@ long APP_ProcessEvent(int taskID, long events)
 	}
 
 	if(events & APP_CONNECTION_TERMINATED) {
-	// When a device is disconnected, do nothing right now (TODO: Reconnect if not in process of terminating)
+	// When a device is disconnected, reconnect if not  terminating
 		debug(2, "CONNECTION TERMINATED %08X\n", events);
 
 		if(_shutdown == 1) {
@@ -147,7 +147,7 @@ int APP_Init(BLE_Central_t *b)
 
 	i = pthread_mutex_init(&app_event_mutex, NULL);
 	if(i < 0) {
-		perror("ERROR: APP Initializing event mutex");
+		fprintf(stderr, "ERROR: APP - Initializing event mutex\n");
 		return i;
 	}
 
@@ -166,7 +166,8 @@ int APP_Init(BLE_Central_t *b)
 
 	for(i=0; i<BLE_DEVICE_COUNT; i++) {
 		if(devices & bleCentral->devices[i].ID) {
-			bleCentral->devices[i].initialize();
+			printf("******************Call init %d....\n",i);
+			bleCentral->devices[i].initialize(&bleCentral->devices[i]);
 		}
 	}
 	return 0;
@@ -243,10 +244,11 @@ int APP_StartTimer(int taskID, long events, int timeout)
 
 	int newIndex;
 	for(newIndex=0; newIndex < delayedEvents_MaxCount; newIndex++) {
-		if(delayedEvents[newIndex]._enabled == 0) break;
+		if(delayedEvents[newIndex]._enabled == 0) 
+			break;
 	}
 	if(newIndex >= delayedEvents_MaxCount) {
-		fprintf(stderr, "Warning: APP No available timers ready. Timer not initialized");
+		fprintf(stderr, "Warning: APP - No available timers ready. Timer not initialized");
 		return -1;
 	}
 
@@ -284,7 +286,7 @@ int APP_ClearTimer(int index)
 	return 0;
 }
 
-int  APP_ClearTimerByEvent(int taskID, long events)
+int APP_ClearTimerByEvent(int taskID, long events)
 {
 	int i;
 	for(i=0; i<delayedEvents_MaxCount; i++) {

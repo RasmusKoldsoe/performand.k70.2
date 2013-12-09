@@ -170,7 +170,7 @@ int rw_rnt_count(void) {
 			printf("Unable to write runtime count file.\n");
 			return random();
 		} else  {
-			printf("Writing new runtime count!!!\n");
+			printf("Writing new runtime count: %d !!!\n",runtime_count);
 			fprintf(ptr_myfile,"%d",runtime_count);
 		}
 

@@ -5,9 +5,10 @@
  *       Author: Rasmus Koldsø
  * Organisation: University of Southern Denmark - MCI
  */
+#include "../HCI_Parser/HCI_Defs.h"
 
 static long Log_serviceHdls[] = {0x004D, 0x0030};
-static int Log_nServiceHdls = 2;
+static int  Log_nServiceHdls = 2;
 
 int Log_initialize(void);
-int Log_parseData(char* data, int *i, char* mm_str);
+int Log_parseData(datagram_t* datagram, int *i, char* mm_str);

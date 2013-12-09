@@ -19,7 +19,7 @@
 #include "GATT_Parser/GATT_Parser.h"
 #include "APP.h"
 
-#define BLE_DEVICE_COUNT sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t)
+#define BLE_DEVICE_COUNT 3 //sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t)
 
 void processTimeouts(void);
 #define eventHandlerFcn_Count 3
@@ -166,7 +166,7 @@ int APP_Init(BLE_Central_t *b)
 
 	for(i=0; i<BLE_DEVICE_COUNT; i++) {
 		if(devices & bleCentral->devices[i].ID) {
-			bleCentral->devices[i].initialize();
+			bleCentral->devices[i].initialize(&bleCentral->devices[i]);
 		}
 	}
 	return 0;

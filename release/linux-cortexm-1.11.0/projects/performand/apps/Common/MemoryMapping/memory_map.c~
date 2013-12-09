@@ -44,7 +44,7 @@ void mm_append(char *content, h_mmapped_file *mapped_file) {
 	fd = open(mapped_file->filename, O_WRONLY);  	// get the file descriptor	
 
 	fcntl(fd, F_SETLKW, &fl);  			// set the lock, waiting if necessary
-	printf("mem: %x\n",mapped_file->mem_ptr);	
+	
 	/* ****** CRITICAL REGION *********** */
 	mem_ptr = mm_get_next_available(mapped_file, len);
 	

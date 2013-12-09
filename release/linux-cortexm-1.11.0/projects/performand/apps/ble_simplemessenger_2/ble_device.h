@@ -32,6 +32,9 @@ typedef struct {
 		int  (*parseDataCB)();
 		char _connected;
 		char _defined;
+
+		h_mmapped_file mapped_mem;
+
 } BLE_Peripheral_t;
 
 typedef struct {
@@ -43,7 +46,6 @@ typedef struct {
 		queue_t txQueue;
 		queue_t rxQueue;
 
-		h_mmapped_file ble_mapped_file;
 		int rt_count;
 } BLE_Central_t;
 

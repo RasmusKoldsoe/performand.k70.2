@@ -381,10 +381,10 @@ int GATT_Parse(void)
 				memset(hd_string, 0, sizeof(hd_string));
 				memset(mm_string, 0, sizeof(mm_string));
 
-				if( curr_device->parseDataCB(&datagram.data, &i, hd_string) == 0 ) {
-					format_time_of_day(mm_string, &datagram.timestamp);
-					strcat(mm_string, hd_string);
-					debug(0, "%s", mm_string);
+				if( curr_device->parseDataCB(&datagram, &i, hd_string) == 0 ) {
+					
+					//strcat(mm_string, hd_string);
+					debug(0, "%s", hd_string);
 					//mm_append(mm_string, &bleCentral->ble_mapped_file);
 				}
 				else {

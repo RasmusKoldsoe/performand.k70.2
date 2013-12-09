@@ -132,18 +132,9 @@ int main (void)
 		printf("ERROR Opening port: %d\n", bleCentral.fd);
 		return -1;
 	}
-	bleCentral.ble_mapped_file.filename = "gps";
-	bleCentral.ble_mapped_file.size = DEFAULT_FILE_LENGTH;
-
 	initNetworkStat();
 
 	APP_Init(&bleCentral);
-
-	//Prepare the mapped Memory file
-	if((mm_prepare_mapped_mem(&bleCentral.ble_mapped_file)) < 0) {
-		fprintf(stderr, "ERROR: While mapping %s file.\n",bleCentral.ble_mapped_file.filename);
-		return -1;	
-	}
 
 	//Register signal handler.
 	register_sig_handler(); 

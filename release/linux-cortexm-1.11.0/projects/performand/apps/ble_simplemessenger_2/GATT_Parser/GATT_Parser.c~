@@ -289,7 +289,7 @@ int GATT_Parse(void)
 				 **************************************************************************/
 				BLE_Peripheral_t* device = findDeviceByMAC(bleCentral, connMAC);
 				if(device == NULL) {//No available devices: bail out
-					fprintf(stderr, "WARNING: GATT No available device handles.\n");
+					fprintf(stderr, "ERROR: GATT Establish - No available device handles\n");
 					break;
 				}
 
@@ -341,12 +341,10 @@ int GATT_Parse(void)
 
 			BLE_Peripheral_t* device = findDeviceByConnHandle(bleCentral, connHandle);
 			if(device != NULL) {
-				fprintf(stderr, "WARNING: GATT TerminateLink - findDeviceByConnHandle return NULL\n");
 				device->_connected = 0;
+				APP_ClearTimerByEvent(GATT_TaskID, GATT_TERMINATE_CONNECTION | device->ID);
+				APP_SetEvent(APP_TaskID, APP_CONNECTION_TERMINATED | device->ID);
 			}
-
-			APP_ClearTimerByEvent(GATT_TaskID, GATT_TERMINATE_CONNECTION | bleCentral->devices[i].ID);
-			APP_SetEvent(APP_TaskID, APP_CONNECTION_TERMINATED | device->ID);
 			break;
 		}
 	case ATT_ErrorRsp:
@@ -369,7 +367,7 @@ int GATT_Parse(void)
 	case ATT_HandleValueNotification:
 		{
 			int j;
-			//debug(0, "ATT_HandleValueNotifiction return %s ", getSuccessString(success, esg));
+			debug(1, "ATT_HandleValueNotifiction return %s ", getSuccessString(success, esg));
 
 			long connHandle = unload_16_bit(datagram.data, &i, 1);
 
@@ -379,15 +377,14 @@ int GATT_Parse(void)
 			if(curr_device != NULL) {
 				//debug(0, "from connHandle %04X, handle 0x%04X at %s with data: ", \
 				//			(unsigned int)connHandle & 0xFFFF, (unsigned int)handle & 0xFFFF, str);
-				//i += curr_device->parseDataCB(&datagram.data[i], pduLength-2);
 				char hd_string[40], mm_string[100];
 				memset(hd_string, 0, sizeof(hd_string));
 				memset(mm_string, 0, sizeof(mm_string));
 
-				if( curr_device->parseDataCB(&datagram.data, &i, hd_string) == 0 ) {
-					format_time_of_day(mm_string, &datagram.timestamp);
-					strcat(mm_string, hd_string);
-					debug(0, "%s", mm_string);
+				if( curr_device->parseDataCB(&datagram, &i, hd_string) == 0 ) {
+					//format_time_of_day(mm_string, &datagram.timestamp);
+					//strcat(mm_string, hd_string);
+					debug(0, "%s", hd_string);
 					//mm_append(mm_string, &bleCentral->ble_mapped_file);
 				}
 				else {
@@ -407,12 +404,6 @@ int GATT_Parse(void)
 			snprintf(buf, pduLength-2, "%d",data*2);
 			mm_append_to_XMLfile(bleCentral->rt_count,buf,bleCentral->mapped_mem);
 			bleCentral->rt_count++;
-
-			if( !gpio_setValue(LED_IND3, led_value) ) {
-				printf("ERROR: Exporting gpio port.");
-				return 0;
-			}
-			led_value=1-led_value;	
 */
 			break;
 		}
