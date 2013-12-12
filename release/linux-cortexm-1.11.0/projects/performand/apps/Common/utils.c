@@ -6,12 +6,14 @@
 #include <stdlib.h>     /* General Utilities */
 #include <string.h>     /* String handling */
 #include <unistd.h>     /* for close() */
-#include <time.h>
+
 #include <math.h>
 #include <sys/statfs.h>
 #include <time.h>
 #include <sys/time.h>
+
 #include "../Common/common_tools.h"
+#include "../Common/utils.h"
 
 #define MAX_FILE_SIZE 5242880 //5MB
 
@@ -57,6 +59,64 @@ int setDate(int dd, int mm, int yy, int h, int min, int sec)  // format like MMD
 	time_to_set.tm_sec);
 
 	return 0;
+}
+
+/**
+ * set_normalized_timespec - set timespec sec and nsec parts and normalize
+ *
+ * @ts:		pointer to timespec variable to be set
+ * @sec:	seconds to set
+ * @nsec:	nanoseconds to set
+ *
+ * Set seconds and nanoseconds field of a timespec variable and
+ * normalize to the timespec storage format
+ *
+ * Note: The tv_nsec part is always in the range of
+ *	0 <= tv_nsec < NSEC_PER_SEC
+ * For negative values only the tv_sec field is negative !
+ */
+
+void set_normalized_timespec(struct timespec *ts, time_t sec, signed long nsec)
+{
+	while (nsec >= NSEC_PER_SEC) {
+		/*
+		 * The following asm() prevents the compiler from
+		 * optimising this loop into a modulo operation. See
+		 * also __iter_div_u64_rem() in include/linux/time.h
+		 */
+		asm("" : "+rm"(nsec));
+		nsec -= NSEC_PER_SEC;
+		++sec;
+	}
+	while (nsec < 0) {
+		asm("" : "+rm"(nsec));
+		nsec += NSEC_PER_SEC;
+		--sec;
+	}
+	ts->tv_sec = sec;
+	ts->tv_nsec = nsec;
+}
+
+struct timespec subtract_timespec(struct timespec lhs, struct timespec rhs)
+{
+	struct timespec ts_delta;
+	set_normalized_timespec(&ts_delta, lhs.tv_sec - rhs.tv_sec,
+				lhs.tv_nsec - rhs.tv_nsec);
+	return ts_delta;
+}
+
+void format_timespec(char* str, struct timespec *ts)
+{
+	char tmbuf[100];
+	struct tm tmp;
+
+	if(localtime_r(&(ts->tv_sec), &tmp) == NULL) {
+		snprintf(str, sizeof(tmbuf), "ERROR: localtime\n");
+		return;
+	}
+
+	strftime(tmbuf, sizeof(tmbuf),  "%Y-%m-%d %H:%M:%S", &tmp);
+	sprintf(str, "%s.%03ld", tmbuf, ts->tv_nsec/NSEC_PER_MSEC);
 }
 
 void print_byte_array(char *buff, int length, int offset)

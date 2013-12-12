@@ -8,18 +8,19 @@
 #include <stdio.h>
 
 #include "../dev_tools.h"
+#include "../HCI_Parser/HCI_Defs.h"
 #include "../../Common/common_tools.h"
 #include "speedLog.h"
 
-BLE_Peripheral_t *bleDevice;
+BLE_Peripheral_t *Log_Device;
 
 int Log_initialize(BLE_Peripheral_t *ble_device)
 {
-	bleDevice = ble_device;
+	Log_Device = ble_device;
 
 	//Init mapped mem ...
-	bleDevice->mapped_mem.filename = "speedlog";
-	bleDevice->mapped_mem.size = DEFAULT_FILE_LENGTH;
+	Log_Device->mapped_mem.filename = "speedlog";
+	Log_Device->mapped_mem.size = DEFAULT_FILE_LENGTH;
 
 	//Prepare the mapped Memory file
 	if((mm_prepare_mapped_mem(&ble_device->mapped_mem)) < 0) {
@@ -31,44 +32,53 @@ int Log_initialize(BLE_Peripheral_t *ble_device)
 }
 
 // First thing to do is unload pduLength, handle and data
-int Log_parseData(datagram_t* datagram, int *i, char* mm_str)
+int Log_parseData(datagram_t* datagram, int *i)
 {
-	char pduLength = unload_8_bit(datagram->data, i) - 2;
+	char pduLength = unload_8_bit(datagram->data, i);
 	long handle = unload_16_bit(datagram->data, i, 1);
-// Battery attribute is 1 byte long
-// Log Period attribute is 2 bytes long
-	char hdlLength = (handle==0x0030)?1:2;
+	char index = getIndexInAttributeArray(Log_Services, Log_ServiceCount, handle+1);
 
-	if(pduLength < hdlLength) {
-		fprintf(stderr, "ERROR: Log - Not enough data in datagram, pduLength=%d, expected %d for handle %#04X\n", pduLength, hdlLength, handle);
+	if(index < 0) {
+		fprintf(stderr, "ERROR: Log - Handle %#04X not found\n", handle);
+		return index;
+	}
+
+	if(pduLength < 2+Log_Services[index].length) {
+		fprintf(stderr, "ERROR: Log - Not enough data in datagram, pduLength=%d, expected %d for handle %#04X\n", pduLength, Log_Services[index].length+2, handle);
 		return -1;
 	}
-	if(pduLength > hdlLength) {
-		fprintf(stderr, "WARNING: Log - Data length mismatch, pduLength=%d, expected %d for handle %#04X\n", pduLength, hdlLength, handle); // Attempt to continue anyway.
+	if(pduLength > 2+Log_Services[index].length) {
+		fprintf(stderr, "WARNING: Log - Data length mismatch, pduLength=%d, expected %d for handle %#04X\n", pduLength, Log_Services[index].length+2, handle); 
+		// Attempt to continue anyway.
 	}
 
-	int idx;
-	char d[10];
+	char mm_str[100], d_str[12];
+	memset(mm_str, '\0', sizeof(mm_str));
+	memset(d_str, '\0', sizeof(d_str));
+	format_time_of_day(mm_str, &datagram->timestamp);
 	
-	if(handle+1 == Log_serviceHdls[idx = 0]) { // period
-		snprintf(d, 10, "%d", unload_16_bit(datagram->data, i, 1));
+	if(index == 0) { // Period attribute of type uint_16
+		snprintf(d_str, sizeof(d_str), "%d", unload_16_bit(datagram->data, i, 1));
 	}
-	else if(handle+1 == Log_serviceHdls[idx = 1]) { // Battery
-		snprintf(d, 10, "%d", unload_8_bit(datagram->data, i));
+	else if(index == 1) { // Battery attribute of type char
+		snprintf(d_str, sizeof(d_str), "%d", unload_8_bit(datagram->data, i));
 	}
-	else {
-		fprintf(stderr, "ERROR: Log - Could not find requested serviceHandle 0x%04X\n", handle);
-		return -1;
+	else { // Invalid attribute - go puke!
+		snprintf(d_str, sizeof(d_str), "Invalid Hdl");
+		index = Log_ServiceCount - 1;
 	}
 
-	char str[10];
-	int h;
-	for( h=0; h<Log_nServiceHdls; h++ ) {
-		sprintf(str, ",%s", idx==h?d:"");
-		strcat(mm_str, str);
+	char tmp_str[sizeof(d_str)+1];
+	int j;
+	for( j=0; j<Log_ServiceCount; j++ ) {
+		sprintf(tmp_str, ",%s", index==j?d_str:"");
+		strcat(mm_str, tmp_str);
 	}
+	//strcat(mm_str, Log_Services[index].description);
 	strcat(mm_str, "\n");
-	mm_append(mm_str, &bleDevice->mapped_mem);
+	debug(1, "%s", mm_str);
+
+	mm_append(mm_str, &Log_Device->mapped_mem);
 
 	return 0;
 }

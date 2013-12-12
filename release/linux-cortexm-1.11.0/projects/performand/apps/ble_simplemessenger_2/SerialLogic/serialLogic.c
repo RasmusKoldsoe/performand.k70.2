@@ -139,7 +139,7 @@ void *write_serial(void *_bleCentral)
 		debug(2, "Message sent (%d bytes) ", n);
 		print_byte_array(msg, l, 0);
 		pretty_print_datagram(&datagram);
-		usleep(20*STD_WAIT_TIME);
+		usleep(50*STD_WAIT_TIME);
 	}
 
 	debug(1, "Write thread exiting\n");

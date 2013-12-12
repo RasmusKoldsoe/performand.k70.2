@@ -20,6 +20,7 @@ extern BLE_Peripheral_t* findDeviceByConnHandle(BLE_Central_t *central, long con
 extern BLE_Peripheral_t* getNextAvailableDevice(BLE_Central_t *central, char *MAC);
 extern long getDevIDbyConnHandle(BLE_Central_t *central, long connHandle); 
 
-//extern void format_time_of_day(char* str, struct timeval tv);
+extern size_t getIndexInAttributeArray(attribute_t* arr, size_t length, long token);
+
 extern void format_time_of_day(char* str, struct timespec *ts);
 #endif /* DEV_TOOLS_H_ */

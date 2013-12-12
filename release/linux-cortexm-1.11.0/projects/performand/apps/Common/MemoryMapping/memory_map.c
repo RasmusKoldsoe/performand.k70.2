@@ -7,7 +7,7 @@ long ms, s;
 int mm_get_next_available(h_mmapped_file *mapped_file, int size_required)
 {
 	int mem_ptr = 0;
-	struct timespec spec;
+	//struct timespec spec;
 	long s, ms;
 
 	mem_ptr = *mapped_file->mem_ptr;
@@ -17,7 +17,7 @@ int mm_get_next_available(h_mmapped_file *mapped_file, int size_required)
 
 	if((mem_ptr+size_required+2) > mapped_file->size) {
 
-		clock_gettime(CLOCK_REALTIME, &spec);
+		//clock_gettime(CLOCK_REALTIME, &spec);
 		
 		debug(2, "[%s daemon] Reset buffer because 0x%X > 0x%X\n", 
 					mapped_file->filename, 
@@ -59,7 +59,7 @@ void mm_append(char *content, h_mmapped_file *mapped_file) {
 	// DSB acts as a special data synchronization memory barrier. Instructions that come after the DSB, 
 	// in program order, do not execute until the DSB instruction completes. The DSB instruction 
 	// completes when all explicit memory accesses before it complete.
-	// For safety I added a 1ms delay ...
+	// For safety I added a delay ...
 	asm("dsb");
 	usleep(5000);
 
@@ -70,7 +70,7 @@ void mm_append(char *content, h_mmapped_file *mapped_file) {
 	fcntl(fd, F_SETLK, &fl); 			// set the region to unlocked
 	close(fd);
 }
-
+/*
 void mm_append_to_XMLfile(int runtime_count, char *content, char *file_memory)
 {
 	int strlen = 0;	
@@ -93,7 +93,7 @@ void mm_append_to_XMLfile(int runtime_count, char *content, char *file_memory)
 	*file_memory = (char)(((strlen+mem_ptr) & 0xFF00)>>8);
 	*(file_memory+1) = (char)((strlen+mem_ptr) & 0xFF);
 }
-
+*/
 /* 
  * Prepare a memory mapped file
  */
@@ -128,13 +128,12 @@ int mm_prepare_mapped_mem(h_mmapped_file *mapped_file)
 	}
 
 	mapped_file->mem_ptr = (char*)mmap (0, mapped_file->size, PROT_WRITE, MAP_SHARED, fd, 0);
-	if(mapped_file->mem_ptr == MAP_FAILED)
-      	{
-        	perror("ERROR: mm_prepare_mapped_mem mmap");
+	if(mapped_file->mem_ptr == MAP_FAILED) {
+    	perror("ERROR: mm_prepare_mapped_mem mmap");
 		return -1;
-        }
+    }
 
-	memset(mapped_file->mem_ptr,0,mapped_file->size);
+	memset(mapped_file->mem_ptr, 0, mapped_file->size);
 
 	debug(1, "[%s daemon] Buffer memory mapped at %02X [%d Bytes]\n",mapped_file->filename, mapped_file->mem_ptr, mapped_file->size);
 

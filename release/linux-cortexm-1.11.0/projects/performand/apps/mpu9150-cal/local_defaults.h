@@ -32,11 +32,11 @@
 
 // Gumstix Overo
  #define DEFAULT_I2C_BUS 0
-
+/*
  #define EMPL_TARGET_LINUX
 #define MPU9150 
 #define AK8975_SECONDARY
-
+*/
 // Gumstix Duovero
 // #define DEFAULT_I2C_BUS 2
 

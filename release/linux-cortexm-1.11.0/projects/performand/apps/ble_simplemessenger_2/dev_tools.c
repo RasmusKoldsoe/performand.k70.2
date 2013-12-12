@@ -111,22 +111,16 @@ long getDevIDbyConnHandle(BLE_Central_t *central, long connHandle)
 	return device->ID;
 }
 
-/*
-void format_time_of_day(char* str, struct timeval tv)
+size_t getIndexInAttributeArray(attribute_t* arr, size_t length, long token)
 {
-	char tmbuf[100];
-	struct tm *tmp;
-	
-	time_t t = (time_t)tv.tv_sec;
-	tmp = localtime(&t);
-	if(tmp == NULL) {
-		sprintf(str, "ERROR: localtime\n");
-		return;
+	length--;
+	for(; length >= 0; length--) {
+		if(arr[length].handle == token)
+			return length;
 	}
-	strftime(tmbuf, sizeof(tmbuf),  "%Y-%m-%d %H:%M:%S", tmp);
-	sprintf(str, "%s.%06d", tmbuf, tv.tv_usec);
+	return -1;
 }
-*/
+
 void format_time_of_day(char* str, struct timespec *ts)
 {
 	char tmbuf[100];

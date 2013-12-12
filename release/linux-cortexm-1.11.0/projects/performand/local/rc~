@@ -57,7 +57,7 @@ echo "Starting IMU daemon ..."
 
 echo "Starting Wifi AP and TCP Service daemon ..."
 #./mnt/apps/wifi/main
-./performand/apps/wifi_ap_init
+./performand/apps/wifi_ap_init &
 
 echo "Starting Data Aggregation and TCP stream ..."
 echo " "

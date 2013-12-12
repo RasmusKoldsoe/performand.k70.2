@@ -26,7 +26,7 @@ typedef struct {
 } h_mmapped_file;
 
 int mm_prepare_mapped_mem(h_mmapped_file *mapped_file);
-void mm_append_to_XMLfile(int runtime_count,char *content, char *file_memory);
+//void mm_append_to_XMLfile(int runtime_count,char *content, char *file_memory);
 int mm_get_next_available(h_mmapped_file *mapped_file, int size_required);
 void mm_append(char *content, h_mmapped_file *mapped_file);
 

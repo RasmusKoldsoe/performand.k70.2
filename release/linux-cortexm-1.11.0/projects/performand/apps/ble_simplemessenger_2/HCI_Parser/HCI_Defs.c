@@ -30,6 +30,9 @@ char* getSuccessString(char status, int esg){
 		case HCI_ERR_REMOTE_DEVICE_TERM_CONN_LOW_RESOURCES:
 			sprintf(sStr, "Remote device terminated connection due to low resources");
 			break;
+		case HCI_ERR_CONN_TERM_BY_LOCAL_HOST:
+			sprintf(sStr, "Connection terminated by local host");
+			break;
 		default:
 			sprintf(sStr, "Unknown HCI Ext Status 0x%02X", (unsigned int)status & 0xFF);
 			break;
@@ -54,6 +57,9 @@ char* getSuccessString(char status, int esg){
 			break;
 		case HCI_ERR_REMOTE_DEVICE_TERM_CONN_LOW_RESOURCES:
 			sprintf(sStr, "Can't perform function when not in connection");
+			break;
+		case HCI_ERR_CONN_TERM_BY_LOCAL_HOST:
+			sprintf(sStr, "Waiting");
 			break;
 		case HCI_ERR_RESERVED2:
 			sprintf(sStr, "Connection was not accepted");

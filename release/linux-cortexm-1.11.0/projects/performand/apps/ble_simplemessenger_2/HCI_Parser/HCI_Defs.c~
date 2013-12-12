@@ -57,6 +57,7 @@ char* getSuccessString(char status, int esg){
 			break;
 		case HCI_ERR_RESERVED2:
 			sprintf(sStr, "Connection was not accepted");
+			break;
 		default:
 			sprintf(sStr, "Unknown Status 0x%02X", (unsigned int)status & 0xFF);
 			break;

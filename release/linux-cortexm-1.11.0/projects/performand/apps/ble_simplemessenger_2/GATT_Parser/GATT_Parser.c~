@@ -171,12 +171,10 @@ long GATT_ProcessEvent(int taskID, long events)
 
 		for(i=0; i<=BLE_DEVICE_COUNT; i++) {
 			if( events & bleCentral->devices[i].ID) {
-				for(j=0; j<bleCentral->devices[i].numServiceHDLS; j++) {
-					if(bleCentral->devices[i].serviceHDLS[j] != 0) {	
-						char data[] = {0x00, 0x01};
-						get_GATT_WriteCharValue(&datagram, bleCentral->devices[i].connHandle, bleCentral->devices[i].serviceHDLS[j], data, 2);
-						GATT_Transmit_Datagram(&datagram, GATT_ENABLE_SERVICES | bleCentral->devices[i].ID);
-					}
+				char data[] = {0x00, 0x01};
+				for(j=0; j<bleCentral->devices[i].serviceHdlsCount; j++) {
+					get_GATT_WriteCharValue(&datagram, bleCentral->devices[i].connHandle, bleCentral->devices[i].serviceHdls[j].handle, data, 2);
+					GATT_Transmit_Datagram(&datagram, GATT_ENABLE_SERVICES | bleCentral->devices[i].ID);
 				}
 				return events ^ bleCentral->devices[i].ID;
 			}
@@ -189,15 +187,12 @@ long GATT_ProcessEvent(int taskID, long events)
 
 		for(i=0; i<=BLE_DEVICE_COUNT; i++) {
 			if( events & bleCentral->devices[i].ID) {
-				for(j=0; j<sizeof(*bleCentral->devices[i].serviceHDLS)/SERVICE_HDL_SIZE; j++) {
-					if(bleCentral->devices[i].serviceHDLS[j] != 0) {	
-						char data[] = {0x00, 0x00};
-						get_GATT_WriteCharValue(&datagram, bleCentral->devices[i].connHandle, bleCentral->devices[i].serviceHDLS[j], data, 2);
-						enqueue(&HCI_Tx_Queue, &datagram);
-						APP_SetEvent(HCI_TaskID, HCI_TX_DATA_READY);
-					}
+				char data[] = {0x00, 0x00};
+				for(j=0; j<bleCentral->devices[i].serviceHdlsCount; j++) {
+					get_GATT_WriteCharValue(&datagram, bleCentral->devices[i].connHandle, bleCentral->devices[i].serviceHdls[j].handle, data, 2);
+					GATT_Transmit_Datagram(&datagram, GATT_DISABLE_SERVICES | bleCentral->devices[i].ID);
 				}
-				events ^ bleCentral->devices[i].ID;
+				return events ^ bleCentral->devices[i].ID;
 			}
 		}
 		return events ^ GATT_DISABLE_SERVICES;
@@ -367,7 +362,7 @@ int GATT_Parse(void)
 	case ATT_HandleValueNotification:
 		{
 			int j;
-			debug(1, "ATT_HandleValueNotifiction return %s ", getSuccessString(success, esg));
+			//debug(1, "ATT_HandleValueNotifiction return %s\n", getSuccessString(success, esg));
 
 			long connHandle = unload_16_bit(datagram.data, &i, 1);
 
@@ -377,34 +372,15 @@ int GATT_Parse(void)
 			if(curr_device != NULL) {
 				//debug(0, "from connHandle %04X, handle 0x%04X at %s with data: ", \
 				//			(unsigned int)connHandle & 0xFFFF, (unsigned int)handle & 0xFFFF, str);
-				char hd_string[40], mm_string[100];
-				memset(hd_string, 0, sizeof(hd_string));
-				memset(mm_string, 0, sizeof(mm_string));
 
-				if( curr_device->parseDataCB(&datagram, &i, hd_string) == 0 ) {
-					//format_time_of_day(mm_string, &datagram.timestamp);
-					//strcat(mm_string, hd_string);
-					debug(0, "%s", hd_string);
-					//mm_append(mm_string, &bleCentral->ble_mapped_file);
-				}
-				else {
+				if( curr_device->parseDataCB(&datagram, &i) < 0 ) {
 					fprintf(stderr, "ERROR: GATT HandleValueNotification - Parse Data failed\n");
 				}
 			}
 			else {
 				fprintf(stderr, "ERROR: GATT HandleValueNotification - Connection handle not identified\n");
 			}
-/*
-			data = ((datagram.data[9]&0xFF)<<8)+(datagram.data[8]&0xFF);
-						
-			//Check if there is more space in the mapped mem. We need Bytes for the
-			//XML string.
-			mm_get_next_available(bleCentral->mapped_mem, pduLength-2);
-	
-			snprintf(buf, pduLength-2, "%d",data*2);
-			mm_append_to_XMLfile(bleCentral->rt_count,buf,bleCentral->mapped_mem);
-			bleCentral->rt_count++;
-*/
+
 			break;
 		}
 	default:

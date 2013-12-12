@@ -36,9 +36,6 @@
  * fabsf(float x)
  * min(int a, int b)
  */
- #define EMPL_TARGET_LINUX
-#define MPU9150 
-#define AK8975_SECONDARY
 
 #if defined MOTION_DRIVER_TARGET_MSP430
 #include "msp430.h"
