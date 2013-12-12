@@ -21,7 +21,7 @@
 #include "../HCI_Parser/HCI_Parser.h"
 #include "../APP.h"
 
-void print_byte_array(char *buff, int length, int offset)
+void print_b_array(char *buff, int length, int offset)
 {
 #if (defined VERBOSITY) && (VERBOSITY >= 3)
 	int i;
@@ -100,7 +100,7 @@ void *read_serial(void *_bleCentral)
 			clock_gettime(CLOCK_REALTIME, &datagram.timestamp);
 
 			debug(2, "Datagram received ");
-			print_byte_array(buff, count, 0);
+			print_b_array(buff, count, 0);
 			pretty_print_datagram(&datagram);
 
 			enqueue(&bleCentral->rxQueue, &datagram);
@@ -137,9 +137,9 @@ void *write_serial(void *_bleCentral)
 		n = write(bleCentral->fd, msg, l);
 		updateTxStat(1, n);
 		debug(2, "Message sent (%d bytes) ", n);
-		print_byte_array(msg, l, 0);
+		print_b_array(msg, l, 0);
 		pretty_print_datagram(&datagram);
-		usleep(20*STD_WAIT_TIME);
+		usleep(50*STD_WAIT_TIME);
 	}
 
 	debug(1, "Write thread exiting\n");

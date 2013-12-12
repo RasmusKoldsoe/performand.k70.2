@@ -26,15 +26,14 @@ typedef struct {
 		long ID;
 		long connHandle;
 		char connMAC[6];
-		long *serviceHDLS;
-		int  numServiceHDLS;
+		attribute_t *serviceHdls;
+		int  serviceHdlsCount;
 		int  (*initialize)();
 		int  (*parseDataCB)();
 		char _connected;
 		char _defined;
 
 		h_mmapped_file mapped_mem;
-
 } BLE_Peripheral_t;
 
 typedef struct {

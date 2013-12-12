@@ -5,11 +5,20 @@
  *       Author: Rasmus Koldsø
  * Organisation: University of Southern Denmark - MCI
  */
-#include "../HCI_Parser/HCI_Defs.h"
+/*
+typedef struct {
+	long handle;
+	char length;
+	char *description;
+} attribute_t;
+*/
 
-static long Wind_serviceHdls[] = {0x0040, 0x0044, 0x0048, 0x0037};
-static char* Wind_serviceHdlCharDesc[] = {"Battery", "Speed", "Direction", "Temperature"};
-static int Wind_nServiceHdls = 4;
+static int Wind_ServiceCount = 4;
+static attribute_t Wind_Services[] = {{0x0040, 4, " Speed"},
+                                      {0x0044, 4, " Direction"},
+                                      {0x0048, 4, " Temperature"},
+                                      {0x0037, 1, " Battery"}
+                                     };
 
-int Wind_initialize(void);
-int Wind_parseData(datagram_t* datagram, int *i, char* mm_str);
+int Wind_initialize(BLE_Peripheral_t *ble_device);
+int Wind_parseData(datagram_t* datagram, int *i);

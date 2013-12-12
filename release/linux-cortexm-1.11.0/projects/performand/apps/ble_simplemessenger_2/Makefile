@@ -3,7 +3,7 @@
 #
 
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=1 -DSTD_BUF_SIZE=64
+CFLAGS := -O2 -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=0 -DSTD_BUF_SIZE=64
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
 
 COMPARSER_DIR = COM_Parser
@@ -20,6 +20,7 @@ MEMORY_MAP_DIR = $(COMMON)/MemoryMapping
 VPATH = ../Common
 
 OBJS = dev_tools.o \
+       utils.o \
        HCI_Defs.o \
        Queue.o \
        NetworkStatistics.o \
@@ -79,6 +80,10 @@ gpio_api.o : $(GPIO_DIR)/gpio_api.c
 
 memory_map.o : $(MEMORY_MAP_DIR)/memory_map.c
 	$(CC) $(CFLAGS) -c $(MEMORY_MAP_DIR)/memory_map.c
+
+utils.o : $(COMMON)/utils.c
+	$(CC) $(CFLAGS) -c $(COMMON)/utils.c
+
 
 clean:
 	rm -f *.o bleCentral bleCentral.gdb

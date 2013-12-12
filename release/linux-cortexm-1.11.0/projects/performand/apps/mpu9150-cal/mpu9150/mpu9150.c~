@@ -247,7 +247,7 @@ int mpu9150_read_dmp(mpudata_t *mpu)
 		printf("dmp_read_fifo() failed\n");
 		return -1;
 	}
-
+printf("more= %d\n", more);
 	while (more) {
 		// Fell behind, reading again
 		if (dmp_read_fifo(mpu->rawGyro, mpu->rawAccel, mpu->rawQuat, &mpu->dmpTimestamp, &sensors, &more) < 0) {
@@ -317,7 +317,6 @@ void calibrate_data(mpudata_t *mpu)
 	}
 
 	if (use_accel_cal) {
-	printf("use acc cal.\n");
       mpu->calibratedAccel[VEC3_X] = -(short)(((long)mpu->rawAccel[VEC3_X] * (long)ACCEL_SENSOR_RANGE)
 			/ (long)accel_cal_data.range[VEC3_X]);
 

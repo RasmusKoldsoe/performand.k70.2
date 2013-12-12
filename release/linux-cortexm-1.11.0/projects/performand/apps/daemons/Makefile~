@@ -20,8 +20,8 @@ imu_daemon : $(OBJS) imu_daemon.o
 gps_daemon : $(OBJS) gps_daemon.o
 	$(CC) $(CFLAGS) $(OBJS) gps_daemon.o -lm -o gps_daemon
 
-#testing : $(OBJS) testing.o
-#	$(CC) $(CFLAGS) $(OBJS) testing.o -lm -o testing
+testing : $(OBJS) testing.o
+	$(CC) $(CFLAGS) $(OBJS) testing.o -lm -o testing
 
 gps_utils.o : gps_utils.c
 	$(CC) $(CFLAGS) -c gps_utils.c
@@ -35,3 +35,5 @@ utils.o : $(COMMON)/utils.c
 clean:
 	rm -f *.o imu_daemon gps_daemon testing
 
+redo : clean all
+	chmod +x gps_daemon

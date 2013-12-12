@@ -1,5 +1,5 @@
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=1
+CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=0
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
 
 VPATH = ../Common
@@ -35,3 +35,5 @@ utils.o : $(COMMON)/utils.c
 clean:
 	rm -f *.o imu_daemon gps_daemon testing
 
+redo : clean all
+	chmod +x gps_daemon

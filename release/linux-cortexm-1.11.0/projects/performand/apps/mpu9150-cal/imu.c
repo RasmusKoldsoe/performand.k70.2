@@ -186,24 +186,19 @@ int main(int argc, char **argv)
 
 	read_loop(sample_rate);
 
-	fclose(logfd);
+	//fclose(logfd);
 
 	mpu9150_exit();
 
 	return 0;
 }
 
-void tomappedMemXMLPacket(mpudata_t *mpu, h_mmapped_file *mapped_file, int *sample_id) {
+void tomappedMemXMLPacket(mpudata_t *mpu, h_mmapped_file *mapped_file, int *sample_id, struct timespec spec) {
 	char buffer[600];
-	struct timespec spec;
-	long ms, s;
-	int strlen = 0;
 
-	clock_gettime(CLOCK_REALTIME, &spec);
-	ms = round(spec.tv_nsec / 1.0e6);
-	s = spec.tv_sec; 
-
-	if (strlen=sprintf(buffer,"\n<imu id=\"%d\">\n\
+	format_timespec(buffer, &spec);
+	if (sprintf(buffer+strlen(buffer),",%d,%0.2f,%0.2f,%0.2f,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d\n",
+/*"\n<imu id=\"%d\">\n\
 <Timestamp>%d.%d</Timestamp>\n\
 <Orientation>\n\
 <pitch>%0.2f</pitch>\n\
@@ -214,7 +209,6 @@ void tomappedMemXMLPacket(mpudata_t *mpu, h_mmapped_file *mapped_file, int *samp
 <x id=\"1\">%05d</x>\n\
 <y id=\"1\">%05d</y>\n\
 <z id=\"1\">%05d</z>\n\
-<time id=\"1\">%d.%d</time>\n\
 <x id=\"2\">%05d</x>\n\
 <y id=\"2\">%05d</y>\n\
 <z id=\"2\">%05d</z>\n\
@@ -232,8 +226,8 @@ void tomappedMemXMLPacket(mpudata_t *mpu, h_mmapped_file *mapped_file, int *samp
 <z id=\"5\">%05d</z>\n\
 <time id=\"5\">%d.%d</time>\n\
 </Accelerometer>\n\
-</imu>\n",	*sample_id,
-		s, ms,	
+</imu>\n",*/
+		*sample_id,
 		x_avg,
 		y_avg,
 		z_avg,		
@@ -261,22 +255,19 @@ void tomappedMemXMLPacket(mpudata_t *mpu, h_mmapped_file *mapped_file, int *samp
 		mm_append(buffer, mapped_file);
 		file_idx = write_log_file("imu", runtime_count, file_idx, buffer);
 	}
-	
 	return;
 }
 
 void read_loop(unsigned int sample_rate)
 {
-	unsigned long loop_delay;
-	mpudata_t mpu;
+	if (sample_rate == 0)
+		return;
 
 	int i;
-	int sample_id=0;
+	mpudata_t mpu; memset(&mpu, 0, sizeof(mpudata_t));
 	h_mmapped_file imu_mapped_file;
-		struct timespec spec;
-	long ms, s;
-	int strlen = 0;
-
+	struct timespec ts_begin, ts_end, ts_interval;
+	int sample_id;
 
 	//Prepare and initialise memory mapping
 	memset(&imu_mapped_file, 0, sizeof(h_mmapped_file));
@@ -284,26 +275,13 @@ void read_loop(unsigned int sample_rate)
 	imu_mapped_file.filename = "imu";
 	imu_mapped_file.size = DEFAULT_FILE_LENGTH;
 
-	runtime_count = read_rt_count();
-
 	//Prepare the mapped Memory file
 	if((mm_prepare_mapped_mem(&imu_mapped_file)) < 0) {
 		printf("Error mapping %s file.\n",imu_mapped_file.filename);
-		return -1;	
+		return;	
 	}
 
-	memset(&mpu, 0, sizeof(mpudata_t));
-
-	if (sample_rate == 0)
-		return;
-
-	loop_delay = (1000 / sample_rate) - 2;
-
-	linux_delay_ms(loop_delay);
-
 	runtime_count = read_rt_count();
-
-	sample_id=0;
 
 	while (!done) {
 		/*if (mpu9150_read(&mpu) == 0) {
@@ -315,27 +293,25 @@ void read_loop(unsigned int sample_rate)
 		}
 
 		linux_delay_ms(loop_delay); */
-		
-		//call imu -b 0 -y 0
 
 		x_avg = 0;
 		y_avg = 0;
 		z_avg = 0;
 
 		for(i=0;i<5;i++) {
-			if (mpu9150_read(&mpu) == 0) {
-				clock_gettime(CLOCK_REALTIME, &spec);
-				ms = round(spec.tv_nsec / 1.0e6);
-				s = spec.tv_sec; 
+			usleep(10000);
 
-				x_avg = x_avg + (mpu.fusedEuler[VEC3_X] * RAD_TO_DEGREE) / 5;
-				y_avg = y_avg + (mpu.fusedEuler[VEC3_Y] * RAD_TO_DEGREE) / 5;
-				z_avg = z_avg + ((mpu.fusedEuler[VEC3_Z] * RAD_TO_DEGREE) ) / 5;
-				acc_x[i]=mpu.calibratedAccel[VEC3_X]; 
-				acc_y[i]=mpu.calibratedAccel[VEC3_Y]; 
-				acc_z[i]=mpu.calibratedAccel[VEC3_Z];
-				time_s[i]=s;
-				time_ms[i]=ms;
+			if (mpu9150_read(&mpu) == 0) {
+				clock_gettime(CLOCK_REALTIME, &ts_begin);
+
+				x_avg += mpu.fusedEuler[VEC3_X] * RAD_TO_DEGREE;
+				y_avg += mpu.fusedEuler[VEC3_Y] * RAD_TO_DEGREE;
+				z_avg += mpu.fusedEuler[VEC3_Z] * RAD_TO_DEGREE;
+				acc_x[i] = mpu.calibratedAccel[VEC3_X]; 
+				acc_y[i] = mpu.calibratedAccel[VEC3_Y]; 
+				acc_z[i] = mpu.calibratedAccel[VEC3_Z];
+				time_s[i] = ts_begin.tv_sec;
+				time_ms[i] = ts_begin.tv_nsec / NSEC_PER_MSEC;
 
 				/*if (mpu9150_read(&mpu) == 0) {
 					printf("\rX: %05d Y: %05d Z: %05d        \n",
@@ -344,11 +320,13 @@ void read_loop(unsigned int sample_rate)
 						mpu.calibratedAccel[VEC3_Z]);
 				}
 				fflush(stdout);*/
-
-				usleep(20000);
+				clock_gettime(CLOCK_REALTIME, &ts_end);
 			}
-		
 		}
+
+		x_avg /= i;
+		y_avg /= i;
+		z_avg /= i;
 
 		//printf("\rX: %0.2f Y: %0.2f Z: %0.2f        \n",x_avg , y_avg , z_avg);
 		/*if (mpu9150_read(&mpu) == 0) {
@@ -359,13 +337,10 @@ void read_loop(unsigned int sample_rate)
 		}*/
 		//fflush(stdout);
 
-		tomappedMemXMLPacket(&mpu, &imu_mapped_file, &sample_id);
+		tomappedMemXMLPacket(&mpu, &imu_mapped_file, &sample_id, ts_end);
 		
 		sample_id=sample_id+1;
-
 	}
-
-	printf("\n\n");
 }
 
 void print_fused_euler_angles(mpudata_t *mpu)

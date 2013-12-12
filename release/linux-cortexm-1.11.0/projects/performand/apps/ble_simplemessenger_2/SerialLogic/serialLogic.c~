@@ -97,7 +97,7 @@ void *read_serial(void *_bleCentral)
 		parserState = COM_parse_data(&datagram, buff, count, &offset, parserState);
 
 		if( parserState == package_type_token && previousParserState != parserState ) {
-			clock_gettime(CLOCK_MONOTONIC_RAW, &datagram.timestamp);
+			clock_gettime(CLOCK_REALTIME, &datagram.timestamp);
 
 			debug(2, "Datagram received ");
 			print_byte_array(buff, count, 0);
@@ -139,7 +139,7 @@ void *write_serial(void *_bleCentral)
 		debug(2, "Message sent (%d bytes) ", n);
 		print_byte_array(msg, l, 0);
 		pretty_print_datagram(&datagram);
-		usleep(20*STD_WAIT_TIME);
+		usleep(50*STD_WAIT_TIME);
 	}
 
 	debug(1, "Write thread exiting\n");

@@ -16,5 +16,4 @@
 
 #define debug(level, str, ...) { if( level <= VERBOSITY ) printf(str, ## __VA_ARGS__); }
 
-
 #endif // COMMON_TOOLS_H_

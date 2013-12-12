@@ -6,12 +6,14 @@
 #include <stdlib.h>     /* General Utilities */
 #include <string.h>     /* String handling */
 #include <unistd.h>     /* for close() */
-#include <time.h>
+
 #include <math.h>
 #include <sys/statfs.h>
 #include <time.h>
 #include <sys/time.h>
+
 #include "../Common/common_tools.h"
+#include "../Common/utils.h"
 
 #define MAX_FILE_SIZE 5242880 //5MB
 
@@ -57,6 +59,66 @@ int setDate(int dd, int mm, int yy, int h, int min, int sec)  // format like MMD
 	time_to_set.tm_sec);
 
 	return 0;
+}
+
+/**
+ * set_normalized_timespec - set timespec sec and nsec parts and normalize
+ *
+ * @ts:		pointer to timespec variable to be set
+ * @sec:	seconds to set
+ * @nsec:	nanoseconds to set
+ *
+ * Set seconds and nanoseconds field of a timespec variable and
+ * normalize to the timespec storage format
+ *
+ * Note: The tv_nsec part is always in the range of
+ *	0 <= tv_nsec < NSEC_PER_SEC
+ * For negative values only the tv_sec field is negative !
+ */
+
+void set_normalized_timespec(struct timespec *ts, time_t sec, signed long nsec)
+{
+	while (nsec >= NSEC_PER_SEC) {
+		/*
+		 * The following asm() prevents the compiler from
+		 * optimising this loop into a modulo operation. See
+		 * also __iter_div_u64_rem() in include/linux/time.h
+		 */
+		asm("" : "+rm"(nsec));
+		nsec -= NSEC_PER_SEC;
+		++sec;
+	}
+	while (nsec < 0) {
+		asm("" : "+rm"(nsec));
+		nsec += NSEC_PER_SEC;
+		--sec;
+	}
+	ts->tv_sec = sec;
+	ts->tv_nsec = nsec;
+}
+
+struct timespec subtract_timespec(struct timespec lhs, struct timespec rhs)
+{
+	struct timespec ts_delta;
+	set_normalized_timespec(&ts_delta, lhs.tv_sec - rhs.tv_sec,
+				lhs.tv_nsec - rhs.tv_nsec);
+	return ts_delta;
+}
+
+void format_timespec(char* str, struct timespec *ts)
+{
+	char tmbuf[100];
+	struct tm tmp;
+
+	if(localtime_r(&(ts->tv_sec), &tmp) == NULL) {
+		fprintf(stderr, "ERROR: format_timespec - localtime_t()\n");
+		sprintf(str, " ");
+		return;
+	}
+
+	//strftime(tmbuf, sizeof(tmbuf),  "%Y-%m-%d %H:%M:%S", &tmp);
+	//sprintf(str, "%s.%03ld", tmbuf, ts->tv_nsec/NSEC_PER_MSEC);
+	sprintf(str, "%d.%ld", ts->tv_sec, ts->tv_nsec/NSEC_PER_MSEC);
 }
 
 void print_byte_array(char *buff, int length, int offset)
@@ -118,21 +180,10 @@ int read_rt_count(void) {
 		size_t len = 0;
 		ssize_t read;
 
-		ptr_myfile=fopen("/nand/runtime_count.txt","rb");
-		if (!ptr_myfile)
-		{
-			printf("Error reading runtime count.\n");
-			return random();
-		} else {
-			   read = getline(&line, &len, ptr_myfile);
-			   printf("Runtime count (txt): %d\n", atoi(line));
-		}
-		fclose(ptr_myfile);
-
 		ptr_myfile=fopen("/sdcard/runtime_cnt.bin","rb");
 		if (!ptr_myfile)
 		{
-			printf("Error reading runtime count.\n");
+			fprintf(stderr, "Error reading runtime count.\n");
 			return -1;
 		} else {
 			fread(&runtime_count, sizeof(int), 1, ptr_myfile);
@@ -151,36 +202,11 @@ int rw_rnt_count(void) {
 		size_t len = 0;
 		ssize_t read;
 
-		ptr_myfile=fopen("/nand/runtime_count.txt","rb");
-		if (!ptr_myfile)
-		{
-			printf("Unable to open runtime count file. Creating new file.\n");
-			ptr_myfile=fopen("/nand/runtime_count.txt","wb+");
-			return random();
-		} else {
-			   read = getline(&line, &len, ptr_myfile);
-			   printf("Runtime count (txt): %d\n", atoi(line));
-			   runtime_count=atoi(line);
-		}		
-		fclose(ptr_myfile);
-		runtime_count++;
-
-		ptr_myfile=fopen("/nand/runtime_count.txt","rb");
-		if (!ptr_myfile) {
-			printf("Unable to write runtime count file.\n");
-			return random();
-		} else  {
-			printf("Writing new runtime count: %d !!!\n",runtime_count);
-			fprintf(ptr_myfile,"%d",runtime_count);
-		}
-
-		fclose(ptr_myfile);
-
 		ptr_myfile=fopen("/sdcard/runtime_cnt.bin","rb");
 		if (!ptr_myfile)
 		{
-			printf("Unable to open runtime count file. Creating new file.\n");
-			ptr_myfile=fopen("/sdcard/runtime_cnt.bin","wb+");
+			fprintf(stdout, "Unable to open runtime count file. Creating new file.\n");
+			ptr_myfile = fopen("/sdcard/runtime_cnt.bin","wb+");
 		} else {
 			fread(&runtime_count, sizeof(int), 1, ptr_myfile);
 		}
@@ -190,14 +216,18 @@ int rw_rnt_count(void) {
 		ptr_myfile=fopen("/sdcard/runtime_cnt.bin","wb");
 
 		if (!ptr_myfile) {
-			printf("Unable to write runtime count file.\n");
+			fprintf(stderr, "Unable to open runtime count file for write.\n");
 			return -1;
 		}
 		if (!fwrite(&runtime_count, sizeof(int), 1, ptr_myfile)) {
-			printf("Unable to write runtime count file.\n");
+			fprintf(stderr, "Unable to write runtime count file.\n");
 			return -1;
 		}
-		usleep(500000);
+/*
+		if (!fflush(ptr_myfile)) {
+			fprintf(stderr, "Unable to flush file.\n");
+		}
+*/
 		fclose(ptr_myfile);
 
 		return runtime_count;

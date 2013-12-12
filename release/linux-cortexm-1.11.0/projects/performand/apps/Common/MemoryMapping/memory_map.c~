@@ -128,13 +128,12 @@ int mm_prepare_mapped_mem(h_mmapped_file *mapped_file)
 	}
 
 	mapped_file->mem_ptr = (char*)mmap (0, mapped_file->size, PROT_WRITE, MAP_SHARED, fd, 0);
-	if(mapped_file->mem_ptr == MAP_FAILED)
-      	{
-        	perror("ERROR: mm_prepare_mapped_mem mmap");
+	if(mapped_file->mem_ptr == MAP_FAILED) {
+    	perror("ERROR: mm_prepare_mapped_mem mmap");
 		return -1;
-        }
+    }
 
-	memset(mapped_file->mem_ptr,0,mapped_file->size);
+	memset(mapped_file->mem_ptr, 0, mapped_file->size);
 
 	debug(1, "[%s daemon] Buffer memory mapped at %02X [%d Bytes]\n",mapped_file->filename, mapped_file->mem_ptr, mapped_file->size);
 

@@ -24,10 +24,6 @@
 #include "dmpKey.h"
 #include "dmpmap.h"
 
- #define EMPL_TARGET_LINUX
-#define MPU9150 
-#define AK8975_SECONDARY
-
 /* The following functions must be defined for this platform:
  * i2c_write(unsigned char slave_addr, unsigned char reg_addr,
  *      unsigned char length, unsigned char const *data)

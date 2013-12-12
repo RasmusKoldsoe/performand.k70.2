@@ -66,6 +66,7 @@ enum HCIExt_StatusCodes {
 	HCI_ERR_UNSUPPORTED_FEATURE_PARAM_VAL = 0x11,
 	HCI_ERR_INVALID_HCI_CMD_PARAMS = 0x12,
 	HCI_ERR_REMOTE_DEVICE_TERM_CONN_LOW_RESOURCES = 0X14,
+	HCI_ERR_CONN_TERM_BY_LOCAL_HOST = 0X16,
 	HCI_ERR_RESERVED2 = 0x31
 };
 
@@ -76,6 +77,12 @@ typedef struct {
 	unsigned int data_length;
 	char data[ STD_BUF_SIZE - 4 ];
 } datagram_t;
+
+typedef struct {
+	long handle;
+	char length;
+	char *description;
+} attribute_t;
 
 // Datagram structures
 char* getSuccessString(char status, int esg);
