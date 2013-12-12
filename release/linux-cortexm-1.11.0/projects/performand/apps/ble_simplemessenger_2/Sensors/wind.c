@@ -11,6 +11,8 @@
 #include "../dev_tools.h"
 #include "../HCI_Parser/HCI_Defs.h"
 #include "../../Common/common_tools.h"
+#include "../../Common/MemoryMapping/memory_map.h"
+#include "../../Common/utils.h"
 #include "wind.h"
 
 typedef union {
@@ -19,6 +21,7 @@ typedef union {
 } float_u;
 
 BLE_Peripheral_t *Wind_Device;
+int runtime_count, file_idx;
 
 int Wind_initialize(BLE_Peripheral_t *ble_device)
 {
@@ -33,6 +36,8 @@ int Wind_initialize(BLE_Peripheral_t *ble_device)
 		fprintf(stderr, "ERROR: While mapping %s file.\n",ble_device->mapped_mem.filename);
 		return -1;	
 	}
+
+	runtime_count = read_rt_count();
 	
 	return 0;
 }
@@ -61,7 +66,7 @@ int Wind_parseData(datagram_t* datagram, int *i)
 	char mm_str[100], d_str[12];
 	memset(mm_str, '\0', sizeof(mm_str));
 	memset(d_str, '\0', sizeof(d_str));
-	format_time_of_day(mm_str, &datagram->timestamp);
+	format_timespec(mm_str, &datagram->timestamp);
 
 	if( index < 3 ) { // Wind attribute of type float_u
 		int j;
@@ -92,6 +97,7 @@ int Wind_parseData(datagram_t* datagram, int *i)
 	strcat(mm_str, "\n");
 	debug(1, "%s", mm_str);
 	mm_append(mm_str, &Wind_Device->mapped_mem);
+	file_idx = write_log_file("wind", runtime_count, file_idx, mm_str);
 
 	return 0;
 }

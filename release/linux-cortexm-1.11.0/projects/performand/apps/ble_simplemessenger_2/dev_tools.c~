@@ -111,11 +111,11 @@ long getDevIDbyConnHandle(BLE_Central_t *central, long connHandle)
 	return device->ID;
 }
 
-size_t getIndexInArray(long* arr, size_t length, long token)
+size_t getIndexInAttributeArray(attribute_t* arr, size_t length, long token)
 {
 	length--;
 	for(; length >= 0; length--) {
-		if(arr[length] == token)
+		if(arr[length].handle == token)
 			return length;
 	}
 	return -1;

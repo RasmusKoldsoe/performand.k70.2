@@ -20,6 +20,7 @@ MEMORY_MAP_DIR = $(COMMON)/MemoryMapping
 VPATH = ../Common
 
 OBJS = dev_tools.o \
+       utils.o \
        HCI_Defs.o \
        Queue.o \
        NetworkStatistics.o \
@@ -79,6 +80,10 @@ gpio_api.o : $(GPIO_DIR)/gpio_api.c
 
 memory_map.o : $(MEMORY_MAP_DIR)/memory_map.c
 	$(CC) $(CFLAGS) -c $(MEMORY_MAP_DIR)/memory_map.c
+
+utils.o : $(COMMON)/utils.c
+	$(CC) $(CFLAGS) -c $(COMMON)/utils.c
+
 
 clean:
 	rm -f *.o bleCentral bleCentral.gdb

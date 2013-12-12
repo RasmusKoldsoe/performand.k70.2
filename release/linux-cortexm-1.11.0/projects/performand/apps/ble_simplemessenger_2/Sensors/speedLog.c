@@ -10,9 +10,12 @@
 #include "../dev_tools.h"
 #include "../HCI_Parser/HCI_Defs.h"
 #include "../../Common/common_tools.h"
+#include "../../Common/MemoryMapping/memory_map.h"
+#include "../../Common/utils.h"
 #include "speedLog.h"
 
 BLE_Peripheral_t *Log_Device;
+int runtime_count, file_idx;
 
 int Log_initialize(BLE_Peripheral_t *ble_device)
 {
@@ -28,6 +31,8 @@ int Log_initialize(BLE_Peripheral_t *ble_device)
 		return -1;	
 	}
 	
+	runtime_count = read_rt_count();
+
 	return 0;
 }
 
@@ -55,7 +60,7 @@ int Log_parseData(datagram_t* datagram, int *i)
 	char mm_str[100], d_str[12];
 	memset(mm_str, '\0', sizeof(mm_str));
 	memset(d_str, '\0', sizeof(d_str));
-	format_time_of_day(mm_str, &datagram->timestamp);
+	format_timespec(mm_str, &datagram->timestamp);
 	
 	if(index == 0) { // Period attribute of type uint_16
 		snprintf(d_str, sizeof(d_str), "%d", unload_16_bit(datagram->data, i, 1));
@@ -79,6 +84,7 @@ int Log_parseData(datagram_t* datagram, int *i)
 	debug(1, "%s", mm_str);
 
 	mm_append(mm_str, &Log_Device->mapped_mem);
+	file_idx = write_log_file("log", runtime_count, file_idx, mm_str);
 
 	return 0;
 }

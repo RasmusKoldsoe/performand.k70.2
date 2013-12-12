@@ -182,7 +182,7 @@ int main(int argc, char **argv)
 	gps_mapped_file.filename = "gps";
 	gps_mapped_file.size = DEFAULT_FILE_LENGTH;
 
-	runtime_counter = rw_rnt_count();
+	runtime_counter = read_rt_count();
 	usleep(10000);
 
 	//Prepare the mapped Memory file

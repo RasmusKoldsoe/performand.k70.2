@@ -22,5 +22,5 @@ extern long getDevIDbyConnHandle(BLE_Central_t *central, long connHandle);
 
 extern size_t getIndexInAttributeArray(attribute_t* arr, size_t length, long token);
 
-extern void format_time_of_day(char* str, struct timespec *ts);
+//extern void format_time_of_day(char* str, struct timespec *ts);
 #endif /* DEV_TOOLS_H_ */
