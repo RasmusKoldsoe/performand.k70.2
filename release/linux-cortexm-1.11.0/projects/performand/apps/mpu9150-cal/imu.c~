@@ -299,7 +299,7 @@ void read_loop(unsigned int sample_rate)
 		z_avg = 0;
 
 		for(i=0;i<5;i++) {
-			usleep(20000);
+			usleep(10000);
 
 			if (mpu9150_read(&mpu) == 0) {
 				clock_gettime(CLOCK_REALTIME, &ts_begin);
@@ -307,9 +307,11 @@ void read_loop(unsigned int sample_rate)
 				x_avg += mpu.fusedEuler[VEC3_X] * RAD_TO_DEGREE;
 				y_avg += mpu.fusedEuler[VEC3_Y] * RAD_TO_DEGREE;
 				z_avg += mpu.fusedEuler[VEC3_Z] * RAD_TO_DEGREE;
+
 				acc_x[i] = mpu.calibratedAccel[VEC3_X]; 
 				acc_y[i] = mpu.calibratedAccel[VEC3_Y]; 
 				acc_z[i] = mpu.calibratedAccel[VEC3_Z];
+
 				time_s[i] = ts_begin.tv_sec;
 				time_ms[i] = ts_begin.tv_nsec / NSEC_PER_MSEC;
 

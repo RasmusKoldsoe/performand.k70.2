@@ -62,25 +62,6 @@ void *ledToggle(void);
 static void gs_handle_tcp_client_data(char cid, char data);
 static void gs_handle_tcp_server_data(char cid, char data);
 static TCP_SERVER_COMMANDS gs_tcp_scan_for_commands(void);
-/**
-@brief Sends periodic temperature using TCP client connection
-@private
-*/
-static void gs_send_tcp_client_data(){
-  //static uint8_t temperatureStr[] = TCP_CLIENT_DATA_STR;
-  // Check for a valid connection and timer interval
-  //if(tcpClientCID != GS_API_INVALID_CID && MSTimerDelta(tcpClientSentTime) > TCP_CLIENT_SEND_INTERVAL ){
-    // Format string with temperature
-   
-    // Reset sending interval
-   //tcpClientSentTime = MSTimerGet();
- // }
-  
-}
-
-static void gs_handle_tcp_client_data(char cid, char data){
-}
-
 
 static void gs_handle_tcp_server_data(char cid, char data){
 	// Save the data to the line buffer
@@ -206,10 +187,8 @@ int main(int argc, char **argv)
 			PROVISION_HOSTNAME);
   	gpio_setValue(LED_IND1,0);
 	// Create the TCP Server connection
-	//usleep(100000);	
 	tcpServerCID = GS_API_CreateTcpServerConnection(TCP_SERVER_PORT, gs_handle_tcp_server_data);
 	//tcpServerCID = GS_API_CreateTcpClientConnection("192.168.10.3", TCP_SERVER_PORT, gs_handle_tcp_server_data);
-//	AtLibGs_Check();
 	printf("TCP Server CID: %d \n", tcpServerCID);
   	if(tcpServerCID != GS_API_INVALID_CID){
     		printf("TCP PORT: %s\n", TCP_SERVER_PORT);
@@ -218,46 +197,6 @@ int main(int argc, char **argv)
 	gpio_setValue(LED_IND1,0);
 	gpio_setValue(LED_IND2,1);
 
-	//wait_for_client_connection();
-	//while(1) {
-	//	printf("%d",AtLib_ResponseHandle());
-	//	usleep(100000);	
-	//}
-	//GS_API_CloseAllConnections();
-
-/*	while(1) {
-		fp = fopen("gps", "r");
-		
-		if (fp == NULL)
-	  		exit(-1);
-		while ((read = getline(&line, &len, fp)) != -1) {		   
-			AtLib_BulkDataTransfer(0x31, line, strlen(line));
-		}
-	
-		fclose(fp);
-		usleep(500000);
-	}
-*/
-//	while(1)
-//	{
-	//	usleep(1500000);
-	//	printf("**** ****\n",file_memory);
-
-	/*	len = *file_memory;
-		len = (len<<8) + *(file_memory+1);
-
-		print_char_array(file_memory, len, 2);
-
-		*file_memory=0;
-		*(file_memory+1)=0;
-
-		/* Flush file */
-//		memset(file_memory, '\0', sizeof(char)*FILE_LENGTH);
-
-		//printf("**** ****\n",file_memory);
-//		gs1500m_sendTCPIPstring(" Z10005Hello\n",12);
-//		usleep(1000000);
-//	}
 	exit(0);
 }
 

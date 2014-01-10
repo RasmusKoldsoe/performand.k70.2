@@ -183,7 +183,7 @@ int read_rt_count(void) {
 		ptr_myfile=fopen("/sdcard/runtime_cnt.bin","rb");
 		if (!ptr_myfile)
 		{
-			printf("Error reading runtime count.\n");
+			fprintf(stderr, "Error reading runtime count.\n");
 			return -1;
 		} else {
 			fread(&runtime_count, sizeof(int), 1, ptr_myfile);
