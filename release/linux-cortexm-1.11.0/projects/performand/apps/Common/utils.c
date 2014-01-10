@@ -118,7 +118,7 @@ void format_timespec(char* str, struct timespec *ts)
 
 	//strftime(tmbuf, sizeof(tmbuf),  "%Y-%m-%d %H:%M:%S", &tmp);
 	//sprintf(str, "%s.%03ld", tmbuf, ts->tv_nsec/NSEC_PER_MSEC);
-	sprintf(str, "%d.%ld", ts->tv_sec, ts->tv_nsec/NSEC_PER_MSEC);
+	sprintf(str, "%d.%03ld", ts->tv_sec, ts->tv_nsec/NSEC_PER_MSEC);
 }
 
 void print_byte_array(char *buff, int length, int offset)

@@ -113,7 +113,7 @@ int convertIntoXml(char *buffer, RMC_DATA *gpsRMCData, int runtime_count) {
 	gpsRMCData->courseOverGround);
 */
 
-strlen = sprintf(buffer, ",%d,%02d,%02d,%02d,%03d,%02d,%02d,20%02d,%02d,%02d,%.3f,%c,%03d,%02d,%.3f,%c,%3.2f,%3.2f\n",
+strlen = sprintf(buffer, ",$GPS,%d,%02d,%02d,%02d,%03d,%02d,%02d,20%02d,%02d,%02d,%.3f,%c,%03d,%02d,%.3f,%c,%3.2f,%3.2f\n",
 	runtime_count,
 	gpsRMCData->timeHour, 
 	gpsRMCData->timeMinute, 
@@ -182,7 +182,7 @@ int main(int argc, char **argv)
 	gps_mapped_file.filename = "gps";
 	gps_mapped_file.size = DEFAULT_FILE_LENGTH;
 
-	runtime_counter = read_rnt_count();
+	runtime_counter = read_rt_count();
 	usleep(10000);
 
 	//Prepare the mapped Memory file

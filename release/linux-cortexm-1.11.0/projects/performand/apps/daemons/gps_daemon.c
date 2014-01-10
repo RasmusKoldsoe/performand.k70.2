@@ -113,7 +113,7 @@ int convertIntoXml(char *buffer, RMC_DATA *gpsRMCData, int runtime_count) {
 	gpsRMCData->courseOverGround);
 */
 
-strlen = sprintf(buffer, ",%d,%02d,%02d,%02d,%03d,%02d,%02d,20%02d,%02d,%02d,%.3f,%c,%03d,%02d,%.3f,%c,%3.2f,%3.2f\n",
+strlen = sprintf(buffer, ",$GPS,%d,%02d,%02d,%02d,%03d,%02d,%02d,20%02d,%02d,%02d,%.3f,%c,%03d,%02d,%.3f,%c,%3.2f,%3.2f\n",
 	runtime_count,
 	gpsRMCData->timeHour, 
 	gpsRMCData->timeMinute, 
@@ -235,7 +235,7 @@ int main(int argc, char **argv)
 
 				if(gprmc.positionFix==NO_FIX_INVALID) {
 					format_timespec(buffer, &ts_begin);
-					sprintf(buffer+strlen(buffer), ",%d,,,,,,,,,,,,,,,,,\n", runtime_count);
+					sprintf(buffer+strlen(buffer), ",$GPS,%d,,,,,,,,,,,,,,,,,\n", runtime_count);
 
 					//setDate(gprmc.dateDay, gprmc.dateMonth, gprmc.dateYear+2000, 
 					//		gprmc.timeHour, gprmc.timeMinute, gprmc.timeSecond);			      

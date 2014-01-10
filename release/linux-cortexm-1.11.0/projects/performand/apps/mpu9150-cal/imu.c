@@ -197,7 +197,7 @@ void tomappedMemXMLPacket(mpudata_t *mpu, h_mmapped_file *mapped_file, int *samp
 	char buffer[600];
 
 	format_timespec(buffer, &spec);
-	if (sprintf(buffer+strlen(buffer),",%d,%0.2f,%0.2f,%0.2f,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d\n",
+	if (sprintf(buffer+strlen(buffer),",$IMU,%d,%0.2f,%0.2f,%0.2f,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d\n",
 /*"\n<imu id=\"%d\">\n\
 <Timestamp>%d.%d</Timestamp>\n\
 <Orientation>\n\
@@ -307,9 +307,11 @@ void read_loop(unsigned int sample_rate)
 				x_avg += mpu.fusedEuler[VEC3_X] * RAD_TO_DEGREE;
 				y_avg += mpu.fusedEuler[VEC3_Y] * RAD_TO_DEGREE;
 				z_avg += mpu.fusedEuler[VEC3_Z] * RAD_TO_DEGREE;
+
 				acc_x[i] = mpu.calibratedAccel[VEC3_X]; 
 				acc_y[i] = mpu.calibratedAccel[VEC3_Y]; 
 				acc_z[i] = mpu.calibratedAccel[VEC3_Z];
+
 				time_s[i] = ts_begin.tv_sec;
 				time_ms[i] = ts_begin.tv_nsec / NSEC_PER_MSEC;
 

@@ -61,7 +61,8 @@ int Log_parseData(datagram_t* datagram, int *i)
 	memset(mm_str, '\0', sizeof(mm_str));
 	memset(d_str, '\0', sizeof(d_str));
 	format_timespec(mm_str, &datagram->timestamp);
-	
+	strcat(mm_str,",$LOG");
+
 	if(index == 0) { // Period attribute of type uint_16
 		snprintf(d_str, sizeof(d_str), "%d", unload_16_bit(datagram->data, i, 1));
 	}

@@ -49,6 +49,8 @@ long acc_cal_values[6];
 
 h_mmapped_file gps_mapped_file;
 h_mmapped_file imu_mapped_file;
+h_mmapped_file wind_mapped_file;
+h_mmapped_file speedlog_mapped_file;
 
 void register_sig_handler();
 void sigint_handler(int sig);
@@ -118,57 +120,6 @@ float get_battery_voltage(void) {
 	return ((float)adc_req.result*0.0001875);
 }
 
-long get_cal(int mag)
-{
-	int i;
-	FILE *f;
-	char buff[32];
-	static long val[6];
-
-	if (mag) {
-		f = fopen("./nand/magcal.txt", "r");
-	
-		if (!f) {
-			printf("Default magcal.txt not found\n");
-			return 0;
-		}
-	}
-	else {
-		f = fopen("./nand/accelcal.txt", "r");
-	
-		if (!f) {
-			printf("Default accelcal.txt not found\n");
-			return 0;
-		}
-	}		
-
-	memset(buff, 0, sizeof(buff));
-	
-	for (i = 0; i < 6; i++) {
-		if (!fgets(buff, 20, f)) {
-			printf("Not enough lines in calibration file\n");
-			break;
-		}
-
-		val[i] = atoi(buff);
-
-		if (val[i] == 0) {
-			printf("Invalid cal value: %s\n", buff);
-			break;
-		}
-		
-		if (mag) {
-			mag_cal_values[i] = val[i];
-		} else {
-			acc_cal_values[i] = val[i];
-		}	
-	}
-
-	fclose(f);
-
-	return (long)&val;
-}
-
 int main(int argc, char **argv)
 {
 	pthread_t monitor_ConnStat_thread, sendData_thread, ledIndication_thread;
@@ -203,13 +154,29 @@ int main(int argc, char **argv)
 		return -1;	
 	}
 
+	//Prepare memory mapping for wind
+	memset(&wind_mapped_file, 0, sizeof(h_mmapped_file));	
+	wind_mapped_file.filename = "wind";
+	wind_mapped_file.size = DEFAULT_FILE_LENGTH;
+	if((mm_prepare_mapped_mem(&wind_mapped_file)) < 0) {
+		printf("Error mapping %s file.\n",wind_mapped_file.filename);
+		return -1;	
+	}
+	
+	//Prepare memory mapping for speedlog
+	memset(&speedlog_mapped_file, 0, sizeof(h_mmapped_file));	
+	speedlog_mapped_file.filename = "speedlog";
+	speedlog_mapped_file.size = DEFAULT_FILE_LENGTH;
+	if((mm_prepare_mapped_mem(&speedlog_mapped_file)) < 0) {
+		printf("Error mapping %s file.\n",speedlog_mapped_file.filename);
+		return -1;	
+	}
 
 	runtime_count = read_rt_count();
-	printf("Runtime count: %d\n",runtime_count);
 
 	//pthread_create(&monitor_ConnStat_thread,&thread_attr,monitor_ConnStat,NULL);
 	pthread_create(&sendData_thread,&thread_attr,sendData,NULL);
-//	pthread_create(&ledIndication_thread,&thread_attr,ledIndication,NULL);
+	pthread_create(&ledIndication_thread,&thread_attr,ledIndication,NULL);
 
 	pthread_join(sendData_thread,NULL);
 
@@ -291,10 +258,8 @@ static void sendTCPStream(h_mmapped_file *mapped_file) {
 		write_alllog_file("all", runtime_count, mapped_file->mem_ptr+2, len);
 
 		if(len>1400) {
-			//printf("backlog greater than 1400.\n");
 			left=len;
 			for(memptr=0; memptr<len; memptr+=1400) {	
-				//printf("fmemsize: %d memptr: %d left: %d\n", fmemsize, memptr, left);
 				GS_API_SendTcpData(1, (mapped_file->mem_ptr)+2+memptr, (left>1400) ? 1400 : left);
 				left=left-1400;
 			}
@@ -381,7 +346,7 @@ void *sendData() {
 
 
 			//*** Send one dataset
-			len = sprintf(sensDatindex,"<dataset id=\"%d\">\n<timestamp>%d.%d</timestamp>\n\
+			/*len = sprintf(sensDatindex,"<dataset id=\"%d\">\n<timestamp>%d.%d</timestamp>\n\
 <system>\n\
 <bat_stat>%s</bat_stat>\n\
 <bat_volt>%1.2f</bat_volt>\n\
@@ -392,8 +357,9 @@ void *sendData() {
 		" N/A ",
 		(float)get_battery_voltage(),
 		" N/A ");
-
-			write_alllog_file("all", runtime_count, sensDatindex,len);		
+			*/	
+			//write_alllog_file("all", runtime_count, sensDatindex,len);		
+			//len = sprintf(sensDatindex,"Testing \n");
 			GS_API_SendTcpData(1, sensDatindex, strlen(sensDatindex));
 
 
@@ -402,14 +368,15 @@ void *sendData() {
 
 			sendTCPStream(&gps_mapped_file);	
 			sendTCPStream(&imu_mapped_file);	
-
+			sendTCPStream(&wind_mapped_file);
+			sendTCPStream(&speedlog_mapped_file);
 
 			//*** **** *** *** ***						
-			len = sprintf(sensDatindex,"\n</dataset>\n");
+			//len = sprintf(sensDatindex,"\n</dataset>\n");
 			
 			write_alllog_file("all", runtime_count, sensDatindex, len);
 
-			GS_API_SendTcpData(1, sensDatindex, strlen(sensDatindex));
+			//GS_API_SendTcpData(1, sensDatindex, strlen(sensDatindex));
 			
 			piv_rt_count+=1;
 
