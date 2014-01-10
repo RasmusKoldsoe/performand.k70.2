@@ -67,7 +67,7 @@ ssize_t COM_parse_data(datagram_t *datagram, char *data, int length, int *offset
 //			printf("Data:\t");
 
 			if( length > (STD_BUF_SIZE - 4) ) {
-				fprintf(stderr, "Too much data (%d bytes) for storage buffer (%d bytes).\n", length, STD_DATAGRAM_SIZE);
+				fprintf(stderr, "Too much data (%d bytes) for storage buffer (%d bytes).\n", length, (STD_BUF_SIZE - 4));
 				_continue = 0;
 				break;
 			}

@@ -3,7 +3,7 @@
 #
 
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -O2 -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=0 -DSTD_BUF_SIZE=64
+CFLAGS := -O2 -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=1 -DSTD_BUF_SIZE=64
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
 
 COMPARSER_DIR = COM_Parser
@@ -32,7 +32,8 @@ OBJS = dev_tools.o \
        GATT_Parser.o \
        APP.o \
        speedLog.o \
-       wind.o
+       wind.o \
+       compass.o
 
 all : bleCentral
 
@@ -74,6 +75,9 @@ speedLog.o : $(SENSORS_DIR)/speedLog.c
 
 wind.o : $(SENSORS_DIR)/wind.c
 	$(CC) $(CFLAGS) -c $(SENSORS_DIR)/wind.c
+
+compass.o : $(SENSORS_DIR)/compass.c
+	$(CC) $(CFLAGS) -c $(SENSORS_DIR)/compass.c
 
 gpio_api.o : $(GPIO_DIR)/gpio_api.c
 	$(CC) $(CFLAGS) -c $(GPIO_DIR)/gpio_api.c

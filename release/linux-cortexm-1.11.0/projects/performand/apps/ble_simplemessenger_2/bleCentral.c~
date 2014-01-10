@@ -24,6 +24,7 @@
 
 #include "Sensors/speedLog.h"
 #include "Sensors/wind.h"
+#include "Sensors/compass.h"
 
 void register_sig_handler();
 void sigint_handler(int sig);
@@ -97,8 +98,8 @@ int main (void)
 	BLE_Peripheral_t dev[] = { {.ID = 0x1 << 16, // bitwise id - lowest id available
 	                            .connHandle = -1,
 	                            .connMAC = {0x78, 0xC5, 0xE5, 0xA0, 0x14, 0x12},
-		                        .serviceHDLS = Log_serviceHdls,
-	                            .numServiceHDLS = Log_ServiceHdlCount,
+		                        .serviceHdls = Log_Services,
+	                            .serviceHdlsCount = Log_ServiceCount,
 	                            .initialize = Log_initialize,
 	                            .parseDataCB = Log_parseData,
 		                        ._connected = 0,
@@ -107,18 +108,18 @@ int main (void)
 		                       {.ID = 0x1 << 17,
 	                            .connHandle = -1,
 	                            .connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x18, 0xD8},
-		                        .serviceHDLS = NULL,
-	                            .numServiceHDLS = 0,
-	                            .initialize = NULL,
-	                            .parseDataCB = NULL,
+		                        .serviceHdls = Compass_Services,
+	                            .serviceHdlsCount = Compass_ServiceCount,
+	                            .initialize = Compass_initialize,
+	                            .parseDataCB = Compass_parseData,
 		                        ._connected = 0,
-		                        ._defined = 0
+		                        ._defined = 1
 		                       },
 		                       {.ID = 0x1 << 18,
 	                            .connHandle = -1,
 	                            .connMAC = {0x90, 0x59, 0xaf, 0x09, 0xd5, 0x9f},
-		                        .serviceHDLS = Wind_serviceHdls,
-	                            .numServiceHDLS = Wind_ServiceHdlCount,
+		                        .serviceHdls = Wind_Services,
+	                            .serviceHdlsCount = Wind_ServiceCount,
 	                            .initialize = Wind_initialize,
 							    .parseDataCB = Wind_parseData,
 		                        ._connected = 0,
@@ -141,13 +142,13 @@ int main (void)
 
 	pthread_attr_init(&thread_attr);
 	pthread_attr_setdetachstate(&thread_attr, PTHREAD_CREATE_JOINABLE);
-printf("----done----\n");
+
 	rt = pthread_create( &read_thread, &thread_attr, read_serial, (void *)&bleCentral);
 	if( rt ) {
 	  printf("ERROR read thread: Return code from pthread_create(): %d\n", rt);
 	  return -1;
 	}
-printf("----done----\n");
+
 	wt = pthread_create( &write_thread, &thread_attr, write_serial, (void *)&bleCentral);
 	if( wt ) {
 	  printf("ERROR write thread: Return code from pthread_create(): %d\n", wt);

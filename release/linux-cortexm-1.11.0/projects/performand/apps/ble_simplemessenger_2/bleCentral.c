@@ -24,6 +24,7 @@
 
 #include "Sensors/speedLog.h"
 #include "Sensors/wind.h"
+#include "Sensors/compass.h"
 
 void register_sig_handler();
 void sigint_handler(int sig);
@@ -107,12 +108,12 @@ int main (void)
 		                       {.ID = 0x1 << 17,
 	                            .connHandle = -1,
 	                            .connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x18, 0xD8},
-		                        .serviceHdls = NULL,
-	                            .serviceHdlsCount = 0,
-	                            .initialize = NULL,
-	                            .parseDataCB = NULL,
+		                        .serviceHdls = Compass_Services,
+	                            .serviceHdlsCount = Compass_ServiceCount,
+	                            .initialize = Compass_initialize,
+	                            .parseDataCB = Compass_parseData,
 		                        ._connected = 0,
-		                        ._defined = 0
+		                        ._defined = 1
 		                       },
 		                       {.ID = 0x1 << 18,
 	                            .connHandle = -1,

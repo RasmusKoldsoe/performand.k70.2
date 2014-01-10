@@ -78,8 +78,8 @@ int HCI_Parse(void)
 			int esg = (int)(evtCode & 0x380);
 			esg = (int)(esg >> 7);
 
-			debug(3, "Event:\t(%02X %02X)\n", (unsigned int)evtCode >> 8 & 0xFF, (unsigned int)evtCode & 0xFF);
-			debug(3, "Status:\t(%02X) %s\n",(unsigned int)success & 0xFF, getSuccessString(success, esg));
+			debug(3, "Event:\t(0x%02X%02X)\n", (unsigned int)evtCode >> 8 & 0xFF, (unsigned int)evtCode & 0xFF);
+			debug(3, "Status:\t(0x%02X) %s\n", (unsigned int)success & 0xFF, getSuccessString(success, esg));
 
 			switch(evtCode) {
 			case GAP_HCI_ExtentionCommandStatus:
@@ -88,6 +88,7 @@ int HCI_Parse(void)
 
 					long opCode = 0;
 					opCode = unload_16_bit(datagram.data, &i, 1);
+					debug(3, "OpCode:\t(%02X %02X)\n", (unsigned int)opCode >> 8 & 0xFF, (unsigned int)opCode & 0xFF);
 
 					switch(opCode) {
 					case GATT_WriteCharValue:

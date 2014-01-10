@@ -238,8 +238,8 @@ int GATT_Parse(void)
 	int esg = (int)(evtCode & 0x380);
 	esg = (int)(esg >> 7);
 
-	debug(3, "Event:\t(%02X %02X)\n", (unsigned int)evtCode >> 8 & 0xFF, (unsigned int)evtCode & 0xFF);
-	debug(3, "Status:\t(%02X) %s\n",(unsigned int)success & 0xFF, getSuccessString(success, esg));
+//	debug(3, "Event:\t(%02X %02X)\n", (unsigned int)evtCode >> 8 & 0xFF, (unsigned int)evtCode & 0xFF);
+//	debug(3, "Status:\t(%02X) %s\n",(unsigned int)success & 0xFF, getSuccessString(success, esg));
 
 	switch(evtCode) {
 	case GAP_DeviceInitDone:
@@ -366,6 +366,7 @@ int GATT_Parse(void)
 			//debug(1, "ATT_HandleValueNotifiction return %s\n", getSuccessString(success, esg));
 
 			long connHandle = unload_16_bit(datagram.data, &i, 1);
+			debug(3, "ConnHandle:\t(%#04X) %d\n", (unsigned int)connHandle & 0xFFFF, connHandle);
 
 			BLE_Peripheral_t *curr_device;
 			curr_device = findDeviceByConnHandle(bleCentral, connHandle);

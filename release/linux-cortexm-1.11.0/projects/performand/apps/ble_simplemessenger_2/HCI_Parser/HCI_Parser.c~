@@ -78,32 +78,33 @@ int HCI_Parse(void)
 			int esg = (int)(evtCode & 0x380);
 			esg = (int)(esg >> 7);
 
-			debug(3, "Event:\t(%02X %02X)\n", (unsigned int)evtCode >> 8 & 0xFF, (unsigned int)evtCode & 0xFF);
-			debug(3, "Status:\t(%02X) %s\n",(unsigned int)success & 0xFF, getSuccessString(success, esg));
+			debug(3, "Event:\t(0x%02X%02X)\n", (unsigned int)evtCode >> 8 & 0xFF, (unsigned int)evtCode & 0xFF);
+			debug(3, "Status:\t(0x%02X) %s\n", (unsigned int)success & 0xFF, getSuccessString(success, esg));
 
 			switch(evtCode) {
 			case GAP_HCI_ExtentionCommandStatus:
 				{
-					debug(1, "GAP_HCI_ExtentionCommandStatus ");
+					debug(1, "GAP_HCI_ExtentionCommandStatus return %s for ", getSuccessString(success, esg));
 
 					long opCode = 0;
 					opCode = unload_16_bit(datagram.data, &i, 1);
+					debug(3, "OpCode:\t(%02X %02X)\n", (unsigned int)opCode >> 8 & 0xFF, (unsigned int)opCode & 0xFF);
 
 					switch(opCode) {
 					case GATT_WriteCharValue:
-						debug(1, "return %s for WriteCharValue\n", getSuccessString(success, esg));
+						debug(1, "WriteCharValue\n");
 						break;
 					case GAP_DeviceInit:
-						debug(1, "return %s for DeviceInit\n", getSuccessString(success, esg));
+						debug(1, "DeviceInit\n");
 						break;
 					case GAP_EstablishLinkRequest:
-						debug(1, "return %s for EstablishLinkRequest\n", getSuccessString(success, esg));
+						debug(1, "EstablishLinkRequest\n");
 						break;
 					case GAP_TerminateLinkRequest:
-						debug(1, "return %s for TerminateLinkRequest\n", getSuccessString(success, esg));
+						debug(1, "TerminateLinkRequest\n");
 						break;
 					default:
-						debug(1, "return %s for unknown opcode %04X\n", getSuccessString(success, esg), (unsigned int)opCode);
+						debug(1, "unknown opcode %04X\n", (unsigned int)opCode);
 					}
 					APP_ClearTimerByEvent(HCI_TaskID, HCI_COMMAND_TIMEOUT | HCI_TX_DATA_READY);
 					break;

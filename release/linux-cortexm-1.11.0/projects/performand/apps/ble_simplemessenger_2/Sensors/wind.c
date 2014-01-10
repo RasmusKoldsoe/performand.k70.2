@@ -66,7 +66,8 @@ int Wind_parseData(datagram_t* datagram, int *i)
 	char mm_str[100], d_str[12];
 	memset(mm_str, '\0', sizeof(mm_str));
 	memset(d_str, '\0', sizeof(d_str));
-	format_timespec(mm_str, &datagram->timestamp);
+	strcat(mm_str, "$WIND,");
+	format_timespec(mm_str+strlen(mm_str), &datagram->timestamp);
 
 	if( index < 3 ) { // Wind attribute of type float_u
 		int j;

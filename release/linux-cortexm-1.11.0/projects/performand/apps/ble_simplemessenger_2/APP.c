@@ -17,6 +17,7 @@
 #include "dev_tools.h"
 #include "HCI_Parser/HCI_Parser.h"
 #include "GATT_Parser/GATT_Parser.h"
+#include "../Common/utils.h"
 #include "APP.h"
 
 #define BLE_DEVICE_COUNT 3 //sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t)
@@ -29,7 +30,7 @@ const eventHandlerFcn taskArr[] = {
 	APP_ProcessEvent
 };
 
-#define delayedEvents_MaxCount 10
+#define delayedEvents_MaxCount 20
 struct delayedEvent_t {
 	int _enabled;
 	long taskID;
@@ -161,7 +162,7 @@ int APP_Init(BLE_Central_t *b)
 
 	devices = 0;
 	devices |= bleCentral->devices[0].ID; // Log
-	//devices |= bleCentral->devices[1].ID; // KeyFob
+	devices |= bleCentral->devices[1].ID; // Compass
 	devices |= bleCentral->devices[2].ID; // Wind sensor
 
 	for(i=0; i<BLE_DEVICE_COUNT; i++) {
@@ -262,8 +263,8 @@ int APP_StartTimer(int taskID, long events, int timeout)
 	char str_a[100], str_b[100];
 	struct timespec ts;
 	clock_gettime(CLOCK_REALTIME, &ts);
-	format_time_of_day(str_a, &ts);
-	format_time_of_day(str_b, &delayedEvents[newIndex].timestamp);
+	format_timespec(str_a, &ts);
+	format_timespec(str_b, &delayedEvents[newIndex].timestamp);
 	printf("%s Timer %d Started with timeout %s\n", str_a, newIndex, str_b);
 #endif
 	return 0;
@@ -279,7 +280,7 @@ int APP_ClearTimer(int index)
 	struct timespec ts;
 	char str[100];
 	clock_gettime(CLOCK_REALTIME, &ts);
-	format_time_of_day(str, &ts);
+	format_timespec(str, &ts);
 	printf("%s Timer %d Removed\n", str, index);
 #endif
 	return 0;

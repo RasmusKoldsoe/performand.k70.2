@@ -174,6 +174,7 @@ long GATT_ProcessEvent(int taskID, long events)
 				char data[] = {0x00, 0x01};
 				for(j=0; j<bleCentral->devices[i].serviceHdlsCount; j++) {
 					get_GATT_WriteCharValue(&datagram, bleCentral->devices[i].connHandle, bleCentral->devices[i].serviceHdls[j].handle, data, 2);
+printf("Enabeling attribute %s\n", bleCentral->devices[i].serviceHdls[j].description);
 					GATT_Transmit_Datagram(&datagram, GATT_ENABLE_SERVICES | bleCentral->devices[i].ID);
 				}
 				return events ^ bleCentral->devices[i].ID;
@@ -237,8 +238,8 @@ int GATT_Parse(void)
 	int esg = (int)(evtCode & 0x380);
 	esg = (int)(esg >> 7);
 
-	debug(3, "Event:\t(%02X %02X)\n", (unsigned int)evtCode >> 8 & 0xFF, (unsigned int)evtCode & 0xFF);
-	debug(3, "Status:\t(%02X) %s\n",(unsigned int)success & 0xFF, getSuccessString(success, esg));
+//	debug(3, "Event:\t(%02X %02X)\n", (unsigned int)evtCode >> 8 & 0xFF, (unsigned int)evtCode & 0xFF);
+//	debug(3, "Status:\t(%02X) %s\n",(unsigned int)success & 0xFF, getSuccessString(success, esg));
 
 	switch(evtCode) {
 	case GAP_DeviceInitDone:
@@ -349,9 +350,9 @@ int GATT_Parse(void)
 		}
 	case ATT_WriteRsp:
 		{
-			debug(1, "ATT_WriteResponce return %s\n", getSuccessString(success, esg));
 			long connHandle = unload_16_bit(datagram.data, &i, 1);
-
+			debug(1, "ATT_WriteResponce return %s for connHandle 0x%04X\n", getSuccessString(success, esg), connHandle);
+			
 			BLE_Peripheral_t* device = findDeviceByConnHandle(bleCentral, connHandle);
 			if(device != NULL) {
 				APP_ClearTimerByEvent(GATT_TaskID, GATT_ENABLE_SERVICES | device->ID);
@@ -365,6 +366,7 @@ int GATT_Parse(void)
 			//debug(1, "ATT_HandleValueNotifiction return %s\n", getSuccessString(success, esg));
 
 			long connHandle = unload_16_bit(datagram.data, &i, 1);
+			debug(3, "ConnHandle:\t(%04X) %d\n", (unsigned int)connHandle & 0xFFFF, connHandle);
 
 			BLE_Peripheral_t *curr_device;
 			curr_device = findDeviceByConnHandle(bleCentral, connHandle);

@@ -32,7 +32,8 @@ OBJS = dev_tools.o \
        GATT_Parser.o \
        APP.o \
        speedLog.o \
-       wind.o
+       wind.o \
+       compass.o
 
 all : bleCentral
 
@@ -75,14 +76,17 @@ speedLog.o : $(SENSORS_DIR)/speedLog.c
 wind.o : $(SENSORS_DIR)/wind.c
 	$(CC) $(CFLAGS) -c $(SENSORS_DIR)/wind.c
 
+compass.o : $(SENSORS_DIR)/compass.c
+	$(CC) $(CFLAGS) -c $(SENSORS_DIR)/compass.c
+
 gpio_api.o : $(GPIO_DIR)/gpio_api.c
 	$(CC) $(CFLAGS) -c $(GPIO_DIR)/gpio_api.c
 
 memory_map.o : $(MEMORY_MAP_DIR)/memory_map.c
 	$(CC) $(CFLAGS) -c $(MEMORY_MAP_DIR)/memory_map.c
 
-utils.o : $(COMMON_DIR)/utils.c
-	$(CC) $(CFLAGS) -c $(COMMON_DIR)/utils.c
+utils.o : $(COMMON)/utils.c
+	$(CC) $(CFLAGS) -c $(COMMON)/utils.c
 
 
 clean:

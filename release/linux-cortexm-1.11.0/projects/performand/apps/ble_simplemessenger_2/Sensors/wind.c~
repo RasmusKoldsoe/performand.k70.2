@@ -11,6 +11,7 @@
 #include "../dev_tools.h"
 #include "../HCI_Parser/HCI_Defs.h"
 #include "../../Common/common_tools.h"
+#include "../../Common/MemoryMapping/memory_map.h"
 #include "../../Common/utils.h"
 #include "wind.h"
 
@@ -65,6 +66,7 @@ int Wind_parseData(datagram_t* datagram, int *i)
 	char mm_str[100], d_str[12];
 	memset(mm_str, '\0', sizeof(mm_str));
 	memset(d_str, '\0', sizeof(d_str));
+	strcat(mm_str, "$WIND,");
 	format_timespec(mm_str, &datagram->timestamp);
 
 	if( index < 3 ) { // Wind attribute of type float_u

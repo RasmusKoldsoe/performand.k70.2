@@ -142,18 +142,18 @@ void pretty_print_datagram(datagram_t *datagram)
 #if (defined VERBOSITY) && (VERBOSITY >= 3)
 	int i;
 
-	printf("Type:\t(%02X) %s\n", datagram->type & 0xff, datagram->type==Command?"Command":"Event");
+	printf("Type:\t(0x%02X) %s\n", datagram->type & 0xff, datagram->type==Command?"Command":"Event");
 
-	printf("Opcode:\t(");
+	printf("Opcode:\t(0x");
 	if(datagram->type == Command)
 		printf("%02X ", (char)(datagram->opcode >> 8) & 0xff);
 	printf("%02X)\n", (char)datagram->opcode & 0xff);
 
-	printf("Length:\t(%02X) %d bytes\n", datagram->data_length & 0xff, datagram->data_length);
+	printf("Length:\t(0x%02X) %d bytes\n", datagram->data_length & 0xff, datagram->data_length);
 
-	printf("Data:\t(");
+	/*printf("Data:\t(");
 	for(i=0; i<datagram->data_length; i++)
-		printf("%02X%s", datagram->data[i] & 0xff, i<datagram->data_length-1?" ":")\n");
+		printf("%02X%s", datagram->data[i] & 0xff, i<datagram->data_length-1?" ":")\n");*/
 #endif
 }
 
