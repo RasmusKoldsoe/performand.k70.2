@@ -65,5 +65,5 @@ utils.o : $(COMMON)/utils.c
 	$(CC) $(CFLAGS) -c $(COMMON)/utils.c
 
 clean:
-	rm -f *.o imu imucal
+	rm -f *.o imu imucal *.gdb
 

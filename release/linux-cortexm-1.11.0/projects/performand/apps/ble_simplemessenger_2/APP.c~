@@ -30,7 +30,7 @@ const eventHandlerFcn taskArr[] = {
 	APP_ProcessEvent
 };
 
-#define delayedEvents_MaxCount 10
+#define delayedEvents_MaxCount 20
 struct delayedEvent_t {
 	int _enabled;
 	long taskID;

@@ -456,7 +456,7 @@ static uint8_t gs_api_parseCidStr(uint8_t* cidStr){
      printf("cidStr: %X\n", (char*)cidStr);
 
      //if(sscanf((char*)cidStr, "%x", &cid)){
-     if(cid=atoi(cidStr) && cidStr=='0') { 
+     if(cid=atoi(cidStr) && *cidStr=='0') { 
           if(cid >= CID_COUNT){
                cid = GS_API_INVALID_CID;
           }

@@ -20,7 +20,7 @@
  *-------------------------------------------------------------------------*/
 /* 32-bit counter of current number of milliseconds since timer started */
 volatile uint32_t G_msTimer;
-volatile struct timeval t1,t2;
+struct timeval t1,t2;
 
 /*---------------------------------------------------------------------------*
  * Routine:  MSTimerInit

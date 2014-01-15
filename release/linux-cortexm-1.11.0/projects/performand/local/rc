@@ -55,8 +55,8 @@ echo "Starting IMU daemon ..."
 ./performand/apps/imu_daemon -b 0 -y 1 &
 #./mnt/apps/mpu*/imu -b 0 -y 1 &
 
-echo "Starting Bluetooth daemon ..."
-./performand/apps/bluetooth &
+#echo "Starting Bluetooth daemon ..."
+#./performand/apps/bluetooth &
 
 echo "Starting Wifi AP and TCP Service daemon ..."
 #./mnt/apps/wifi/main

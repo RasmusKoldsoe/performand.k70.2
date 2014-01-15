@@ -3,7 +3,7 @@
 #
 
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread
+CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=1
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
 
 VPATH = ../Common
@@ -26,14 +26,14 @@ OBJS = 	GS_API_device.o \
 	serialport.o \
 	gpio_api.o \
 	utils.o \
-	memory_map.o 
+	memory_map.o
 
-all : main write_tcp_stream
+all : GS_Initialize_wifi write_tcp_stream
 
-main : $(OBJS) main.o
-	$(CC) $(CFLAGS) $(OBJS) -I $(APIDIR) -I $(ATDIR) main.o -lm -o main
+GS_Initialize_wifi : $(OBJS) GS_Initialize_wifi.o
+	$(CC) $(CFLAGS) $(OBJS) -I $(APIDIR) -I $(ATDIR) GS_Initialize_wifi.o -lm -o GS_Initialize_wifi
 	
-write_tcp_stream : write_tcp_stream.o
+write_tcp_stream : $(OBJS) write_tcp_stream.o
 	$(CC) $(CFLAGS) $(OBJS) -I $(APIDIR) -I $(ATDIR) write_tcp_stream.o -lm -o w_tcp_str
 
 GS_API_device.o : $(APIDIR)/GS_API_device.c
@@ -67,4 +67,4 @@ gpio_api.o : $(GPIO_DIR)/gpio_api.c
 	$(CC) $(CFLAGS) -c $(GPIO_DIR)/gpio_api.c
 
 clean:
-	rm -f *.o gs
+	rm -f *.o gs GS_Initialize_wifi w_tcp_str *.gdb

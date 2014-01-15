@@ -73,7 +73,7 @@ void GATT_Transmit_Datagram(datagram_t *dgm, long event)
 	}
 	enqueue(&HCI_Tx_Queue, dgm);
 	APP_SetEvent(HCI_TaskID, HCI_TX_DATA_READY);
-	APP_StartTimer(GATT_TaskID, GATT_COMMAND_TIMEOUT | event, 30000);
+	APP_StartTimer(GATT_TaskID, GATT_COMMAND_TIMEOUT | event, 20000);
 }
 
 long GATT_ProcessEvent(int taskID, long events)
@@ -174,7 +174,7 @@ long GATT_ProcessEvent(int taskID, long events)
 				char data[] = {0x00, 0x01};
 				for(j=0; j<bleCentral->devices[i].serviceHdlsCount; j++) {
 					get_GATT_WriteCharValue(&datagram, bleCentral->devices[i].connHandle, bleCentral->devices[i].serviceHdls[j].handle, data, 2);
-printf("Enabeling attribute %s\n", bleCentral->devices[i].serviceHdls[j].description);
+//printf("Enabeling attribute %#04x %s\n", bleCentral->devices[i].connHandle&0xffff, bleCentral->devices[i].serviceHdls[j].description);
 					GATT_Transmit_Datagram(&datagram, GATT_ENABLE_SERVICES | bleCentral->devices[i].ID);
 				}
 				return events ^ bleCentral->devices[i].ID;

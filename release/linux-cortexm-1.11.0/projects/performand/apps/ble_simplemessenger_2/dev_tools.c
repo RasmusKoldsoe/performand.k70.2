@@ -120,31 +120,4 @@ size_t getIndexInAttributeArray(attribute_t* arr, size_t length, long token)
 	}
 	return -1;
 }
-/*
-void format_time_of_day(char* str, struct timespec *ts)
-{
-	char tmbuf[100];
-	struct tm tmp;
-
-	//time_t t = (time_t)ts->tv_sec;
-	if(localtime_r(&(ts->tv_sec), &tmp) == NULL) {
-		snprintf(str, 100, "ERROR: localtime\n");
-		return;
-	}
-
-	strftime(tmbuf, 100,  "%Y-%m-%d %H:%M:%S", &tmp);
-	snprintf(str, 100, "%s.%09ld", tmbuf, ts->tv_nsec);
-}
-*/
-
-
-
-
-
-
-
-
-
-
-
 

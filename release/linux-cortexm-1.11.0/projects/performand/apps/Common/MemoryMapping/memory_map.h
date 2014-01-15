@@ -18,6 +18,7 @@
 #include "../common_tools.h"
 
 #define DEFAULT_FILE_LENGTH 	0x1000
+#define MM_FILE_INDEX_SIZE         2
 
 typedef struct {
 	char *filename;
@@ -26,7 +27,6 @@ typedef struct {
 } h_mmapped_file;
 
 int mm_prepare_mapped_mem(h_mmapped_file *mapped_file);
-//void mm_append_to_XMLfile(int runtime_count,char *content, char *file_memory);
 int mm_get_next_available(h_mmapped_file *mapped_file, int size_required);
 void mm_append(char *content, h_mmapped_file *mapped_file);
 

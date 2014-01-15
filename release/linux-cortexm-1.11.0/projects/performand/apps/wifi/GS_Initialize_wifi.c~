@@ -56,7 +56,7 @@ static TCP_SERVER_COMMANDS commandToHandle = TCP_NO_CMD; ///< Current command to
 static char commandCID = GS_API_INVALID_CID; ///< Connection ID last command came from
 
 
-void* ledToggle( void* );
+void *ledToggle( void *tmp );
 
 /** Private Method Declarations **/
 static void gs_handle_tcp_client_data(char cid, char data);
@@ -103,7 +103,7 @@ static TCP_SERVER_COMMANDS gs_tcp_scan_for_commands(void){
   return TCP_UNKNOWN_CMD;
 }
 
-void* ledToggle( void* )
+void *ledToggle( void *tmp )
 {
 	while(1) {
 		gpio_setValue(LED_IND1,1);
@@ -128,42 +128,42 @@ int main(int argc, char **argv)
 	printf("GS1500m Daemon v0.1\n");
 
 	//Int GPIO's
-	if(!gpio_export(WIFI_RESET))
-		printf("ERROR: Exporting gpio port: %d\n", WIFI_RESET);
+	if( !gpio_export(WIFI_RESET) )
+		printf("ERROR: Exporting gpio port: %d (WIFI_RESET)\n", WIFI_RESET);
 
-	if(!gpio_export(LED_IND1) || !gpio_export(LED_IND2))
-		printf("ERROR: Exporting gpio port.");
+	if( !gpio_export(LED_IND1) || !gpio_export(LED_IND2) )
+		printf("ERROR: Exporting gpio port: LED_IND1 and/or LED_IND2\n");
 	
-	if(!gpio_setDirection(LED_IND1,0) || !gpio_setDirection(LED_IND2,0))
-		printf("ERROR: Exporting gpio port.");
+int tmp = !gpio_setDirection();//LED_IND1, GPIO_DIR_OUT) || !gpio_setDirection(LED_IND2, GPIO_DIR_OUT);
+	if(tmp)
+		printf("ERROR: Set gpio port direction: %d (LED_IND1) and/or %d (LED_IND2)\n" LED_IND1, LED_IND2);
 
 	pthread_create(&led_toggle_thread,NULL,ledToggle,NULL);
 
 	//Check if the module is ready.
-	if(!gpio_setDirection(WIFI_RESET,1))
-		printf("ERROR: Exporting gpio port.");	
+	if(!gpio_setDirection(WIFI_RESET, GPIO_DIR_IN))
+		printf("ERROR: Set gpio port direction: %d (WIFI_RESET)\n", WIFI_RESET);	
 
-	
 	if(!gpio_getValue(WIFI_RESET)) {
 		printf("ERROR: Wifi not ready.");
 		return -1;
 	}
 
 	//Reset the module is ready.
-	if(!gpio_setDirection(WIFI_RESET,0) );
-		printf("ERROR: Exporting gpio port.");	
-	if(!gpio_setValue(WIFI_RESET,0))
-		printf("ERROR: Exporting gpio port.");	
+	if(!gpio_setDirection(WIFI_RESET, GPIO_DIR_OUT) );
+		printf("ERROR: Set gpio port direction: %d (WIFI_RESET)\n", WIFI_RESET);		
+	if(!gpio_setValue(WIFI_RESET, 0))
+		printf("ERROR: Set gpio port value: %d (WIFI_RESET)\n", WIFI_RESET);	
 
 	usleep(500000);
 
 	//Now use port as input again.
-	if(!gpio_setDirection(WIFI_RESET,1));
-		printf("ERROR: Exporting gpio port.");	
+	if(!gpio_setDirection(WIFI_RESET, GPIO_DIR_IN));
+		printf("ERROR: Set gpio port direction: %d (WIFI_RESET)\n", WIFI_RESET);		
 
 	timeout=0;
 	while(!gpio_getValue(WIFI_RESET)) {
-		printf("WARN: Wifi not ready.");
+		printf("WARN: Wifi not ready.\n");
 		usleep(100000);
 		timeout++;
 		if(timeout>100) {

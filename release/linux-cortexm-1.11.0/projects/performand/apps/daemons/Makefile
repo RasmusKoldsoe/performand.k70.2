@@ -33,7 +33,7 @@ utils.o : $(COMMON)/utils.c
 	$(CC) $(CFLAGS) -c $(COMMON)/utils.c
 
 clean:
-	rm -f *.o imu_daemon gps_daemon testing
+	rm -f *.o imu_daemon gps_daemon testing *.gdb
 
 redo : clean all
 	chmod +x gps_daemon

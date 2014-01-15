@@ -3,7 +3,8 @@
 
 #define NSEC_PER_SEC	1000000000L
 #define USEC_PER_SEC    1000000L
-#define NSEC_PER_MS     1000000L
+#define NSEC_PER_MSEC   1000000L
+#define NSEC_PER_USEC   1000L
 
 extern int rw_rnt_count(void);
 extern int read_rt_count(void);

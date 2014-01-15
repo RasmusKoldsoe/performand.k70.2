@@ -54,8 +54,8 @@ uint16_t GS_HAL_uart_recv(uint8_t* rxBuf, uint16_t numToRead, bool block);
    This method is platform specific
    @param baudRate Baud Rate UART should be set to
  */
-void GS_HAL_uart_set_comm_port(uint32_t baudRate);
-
+//void GS_HAL_uart_set_comm_port(uint32_t baudRate);
+void GS_HAL_uart_set_comm_port(char* port);
 
 /**
    @brief Prints string

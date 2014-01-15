@@ -45,14 +45,6 @@ int APP_TaskID;
 static long devices;
 //static struct timespec idle, stop;
 //static int worktime, idletime;
-/*
-int timespec_subtract(struct timespec *t1, struct timespec *t2) {
-	int us_delay;
-	us_delay = (t1->tv_sec - t2->tv_sec) * 1000000;
-	us_delay += (t1->tv_nsec - t2->tv_nsec) / 1000;
-	return us_delay;
-}
-*/
 
 void APP_Run( void )
 {

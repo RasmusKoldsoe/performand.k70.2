@@ -23,6 +23,9 @@
  */
 void GS_HAL_init(char *port);
 
+void GS_HAL_Close(char *port);
+
+
 
 /**
    @brief Sends data using UART to module

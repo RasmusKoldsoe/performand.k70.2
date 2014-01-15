@@ -68,9 +68,10 @@ int Compass_parseData(datagram_t* datagram, int *i)
 	char mm_str[100], d_str[25];
 	memset(mm_str, '\0', sizeof(mm_str));
 	memset(d_str, '\0', sizeof(d_str));
-	strcat(mm_str, "$COMPASS,");
-	format_timespec(mm_str, &datagram->timestamp);
-	
+
+	format_timespec(mm_str+strlen(mm_str), &datagram->timestamp);
+	strcat(mm_str, ",$COMPASS,");
+
 	if(index == 0) { // Magnetometer value array
 		char tmp_str[8];
 		signed short value;

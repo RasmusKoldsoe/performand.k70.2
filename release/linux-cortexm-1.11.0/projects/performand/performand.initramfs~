@@ -184,7 +184,7 @@ dir /sys/kernel/debug/ 755 0 0
 
 file /performand/driver/imu.ko ${INSTALL_ROOT}/projects/${SAMPLE}/driver/imu/imu.ko 755 0 0
 file /performand/apps/gps_daemon ${INSTALL_ROOT}/projects/${SAMPLE}/apps/daemons/gps_daemon 755 0 0
-
+file /performand/apps/inc_runtime_cnt ${INSTALL_ROOT}/projects/${SAMPLE}/apps/update_runtime_counter/inc_runtime_cnt 755 0 0
 file /performand/apps/imu_daemon ${INSTALL_ROOT}/projects/${SAMPLE}/apps/mpu9150-cal/imu 755 0 0
 file /performand/apps/imucal ${INSTALL_ROOT}/projects/${SAMPLE}/apps/mpu9150-cal/imucal 755 0 0
 file /performand/apps/wifi_ap_init ${INSTALL_ROOT}/projects/${SAMPLE}/apps/wifi/main 755 0 0

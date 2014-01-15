@@ -1,8 +1,8 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
-#define NSEC_PER_SEC	1000000000L
 #define USEC_PER_SEC    1000000L
+#define NSEC_PER_SEC	1000000000L
 #define NSEC_PER_MSEC   1000000L
 #define NSEC_PER_USEC   1000L
 

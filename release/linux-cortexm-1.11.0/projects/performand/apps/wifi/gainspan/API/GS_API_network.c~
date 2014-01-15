@@ -269,7 +269,7 @@ uint8_t GS_API_CreateTcpServerConnection(char* port, GS_API_DataHandler cidDataH
           cid = gs_api_parseCidStr(cidStr);
           if(cid != GS_API_INVALID_CID){
                cidDataHandlers[cid] = cidDataHandler;
-          }
+         }
      }
   
      return cid;

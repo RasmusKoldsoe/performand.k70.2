@@ -51,6 +51,7 @@ h_mmapped_file gps_mapped_file;
 h_mmapped_file imu_mapped_file;
 h_mmapped_file wind_mapped_file;
 h_mmapped_file speedlog_mapped_file;
+h_mmapped_file compass_mapped_file;
 
 void register_sig_handler();
 void sigint_handler(int sig);
@@ -172,6 +173,15 @@ int main(int argc, char **argv)
 		return -1;	
 	}
 
+	//Prepare memory mapping for compass
+	memset(&compass_mapped_file, 0, sizeof(h_mmapped_file));	
+	compass_mapped_file.filename = "compass";
+	compass_mapped_file.size = DEFAULT_FILE_LENGTH;
+	if((mm_prepare_mapped_mem(&compass_mapped_file)) < 0) {
+		printf("Error mapping %s file.\n", compass_mapped_file.filename);
+		return -1;	
+	}
+
 	runtime_count = read_rt_count();
 
 	//pthread_create(&monitor_ConnStat_thread,&thread_attr,monitor_ConnStat,NULL);
@@ -193,7 +203,7 @@ void *ledIndication() {
 		usleep(500000);
 	}
 }
-
+/*
 void *monitor_ConnStat()
 {
 	int i = 0;
@@ -219,7 +229,7 @@ void *monitor_ConnStat()
 		fflush(stdout);
 	}
 	pthread_exit(NULL);
-}
+}*/
 
 void write_alllog_file(char *name,int runtime_count, char *receiveMessage, int len) {
 	FILE *file;
@@ -280,7 +290,7 @@ static void sendTCPStream(h_mmapped_file *mapped_file) {
 	fcntl(fd, F_SETLK, &fl); 			// set the region to unlocked
 	close(fd);
 }
-
+/*
 void send_cal_data(void) {
 	char buffer[300];
 	int len = 0;
@@ -319,7 +329,7 @@ void send_cal_data(void) {
 
 	return;
 }
-
+*/
 #define SAMPLE_PERIOD_US 500000
 
 void *sendData() {
@@ -327,9 +337,8 @@ void *sendData() {
 	ssize_t read, len;
 	char * line = NULL;
 	char sensDatindex[100];
-	struct timespec spec;
-	long ms_before, ms_after, process_time=0;
-	long s_before, s_after;
+	struct timespec spec, beginning, final;
+	long process_time=0;
 
 	//printf("Starting data service thread.\n");
 	while (!done) {
@@ -337,9 +346,7 @@ void *sendData() {
 			// Measure the time it takes to send out the 
 			// data to maintain a stable sample rate
 			//**********************************************
-			clock_gettime(CLOCK_REALTIME, &spec);
-			ms_before = (int)round(spec.tv_nsec / 1.0e6);
-			s_before = spec.tv_sec; 
+			clock_gettime(CLOCK_REALTIME, &beginning);
 
 			//printf("[%d.%d]\n", spec.tv_sec, ms_before);		
 			//**********************************************
@@ -370,6 +377,7 @@ void *sendData() {
 			sendTCPStream(&imu_mapped_file);	
 			sendTCPStream(&wind_mapped_file);
 			sendTCPStream(&speedlog_mapped_file);
+			sendTCPStream(&compass_mapped_file);
 
 			//*** **** *** *** ***						
 			//len = sprintf(sensDatindex,"\n</dataset>\n");
@@ -382,9 +390,9 @@ void *sendData() {
 
 			// How long did it take ?
 			//**********************************************
-			clock_gettime(CLOCK_REALTIME, &spec);
-			ms_after = round(spec.tv_nsec / 1.0e6);	
-			process_time = ((ms_after+(spec.tv_sec - s_before)*1000)- ms_before)*1000;
+			clock_gettime(CLOCK_REALTIME, &final);
+			spec = subtract_timespec(final, beginning);
+			process_time = spec.tv_sec * USEC_PER_SEC + spec.tv_nsec / NSEC_PER_USEC;
 			//printf("[P: %d S: %d]\n", process_time, SAMPLE_PERIOD_US - process_time);
 			//**********************************************
 		}
