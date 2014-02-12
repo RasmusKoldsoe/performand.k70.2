@@ -1,15 +1,31 @@
 #include <stdio.h>
 #include "gpio_api.h"
 
-int gpio_export(int gpio) {
+int gpio_export(int gpio)
+{
 	int fd;
-	char buf[16]; 
+	char buf[16];
+	sprintf(buf, "%d", gpio); 
 
 	fd = open("/sys/class/gpio/export", O_WRONLY);
 	if(fd<0)
 		return -1;
 
+	write(fd, buf, strlen(buf));
+	close(fd);
+
+	return 1;
+}
+
+int gpio_unexport(int gpio)
+{
+	int fd;
+	char buf[16];
 	sprintf(buf, "%d", gpio); 
+
+	fd = open("/sys/class/gpio/unexport", O_WRONLY);
+	if(fd<0)
+		return -1;
 
 	write(fd, buf, strlen(buf));
 	close(fd);

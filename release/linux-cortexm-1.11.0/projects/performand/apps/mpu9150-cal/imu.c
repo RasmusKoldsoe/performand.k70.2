@@ -197,7 +197,7 @@ void tomappedMemXMLPacket(mpudata_t *mpu, h_mmapped_file *mapped_file, int *samp
 	char buffer[600];
 
 	format_timespec(buffer, &spec);
-	if (sprintf(buffer+strlen(buffer),",$IMU,%d,%0.2f,%0.2f,%0.2f,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d\n",
+	if (sprintf(buffer+strlen(buffer),",%0.2f,%0.2f,%0.2f,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d,%d,%d,%d,%d.%d\n",
 /*"\n<imu id=\"%d\">\n\
 <Timestamp>%d.%d</Timestamp>\n\
 <Orientation>\n\
@@ -227,7 +227,6 @@ void tomappedMemXMLPacket(mpudata_t *mpu, h_mmapped_file *mapped_file, int *samp
 <time id=\"5\">%d.%d</time>\n\
 </Accelerometer>\n\
 </imu>\n",*/
-		*sample_id,
 		x_avg,
 		y_avg,
 		z_avg,		
@@ -272,7 +271,7 @@ void read_loop(unsigned int sample_rate)
 	//Prepare and initialise memory mapping
 	memset(&imu_mapped_file, 0, sizeof(h_mmapped_file));
 
-	imu_mapped_file.filename = "imu";
+	imu_mapped_file.filename = "/sensors/imu";
 	imu_mapped_file.size = DEFAULT_FILE_LENGTH;
 
 	//Prepare the mapped Memory file

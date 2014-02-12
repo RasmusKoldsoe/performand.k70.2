@@ -1,27 +1,27 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <errno.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
-#include <sys/time.h>
-#include <math.h>
 #include <signal.h>
 #include <getopt.h>
-#include <unistd.h>
 #include <math.h>
+#include <sys/ioctl.h>
 #include <sys/mman.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <sys/types.h>
 #include <time.h>
 #include <pthread.h> 
-#include <sys/ioctl.h>		/* ioctl */
 
-#include "../Common/GPIO/gpio_api.h"
+#include "gainspan/hardware/GS_HAL.h"
+#include "gainspan/API/GS_API.h"
 #include "gainspan/AT/AtCmdLib.h"
-
+#include "../Common/GPIO/gpio_api.h"
 #include "../Common/MemoryMapping/memory_map.h"
+#include "../Common/common_tools.h"
 #include "../Common/utils.h"
-
 
 #include "kinetis_adc.h"
 
@@ -80,7 +80,7 @@ void sigint_handler(int sig)
 }
 
 float get_battery_voltage(void) {
-	int file_desc, ret_val, i;
+	int file_desc, ret_val;
 	struct kinetis_adc_request adc_req;
 
 	//memset(&adc_req, 0, sizeof(strckinetis_adc_request));
@@ -254,7 +254,8 @@ void write_alllog_file(char *name,int runtime_count, char *receiveMessage, int l
 }
 
 static void sendTCPStream(h_mmapped_file *mapped_file) {
-	int fd=0,len=0, left=0, memptr=0;	
+	int fd=0, memptr=0;
+	unsigned int len=0, left=0;
 	struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };
 	
 	//LOCK !!!	
@@ -263,7 +264,7 @@ static void sendTCPStream(h_mmapped_file *mapped_file) {
 	fcntl(fd, F_SETLKW, &fl);
 
 	len = mm_get_next_available(mapped_file,0);
-	
+//	printf("%s length %d\n", mapped_file->filename, len);
 	if(len > 0) {
 		write_alllog_file("all", runtime_count, mapped_file->mem_ptr+2, len);
 
@@ -333,9 +334,8 @@ void send_cal_data(void) {
 #define SAMPLE_PERIOD_US 500000
 
 void *sendData() {
-	FILE * fp;
-	ssize_t read, len;
-	char * line = NULL;
+	//FILE * fp;
+	ssize_t len;
 	char sensDatindex[100];
 	struct timespec spec, beginning, final;
 	long process_time=0;
@@ -346,25 +346,25 @@ void *sendData() {
 			// Measure the time it takes to send out the 
 			// data to maintain a stable sample rate
 			//**********************************************
-			clock_gettime(CLOCK_REALTIME, &beginning);
+//			clock_gettime(CLOCK_REALTIME, &beginning);
 
 			//printf("[%d.%d]\n", spec.tv_sec, ms_before);		
 			//**********************************************
 
 
 			//*** Send one dataset
-			/*len = sprintf(sensDatindex,"<dataset id=\"%d\">\n<timestamp>%d.%d</timestamp>\n\
+			len = sprintf(sensDatindex,"<dataset id=\"%d\">\n<timestamp>%d.%lu</timestamp>\n\
 <system>\n\
 <bat_stat>%s</bat_stat>\n\
 <bat_volt>%1.2f</bat_volt>\n\
 <time>%s</time>\n\
 </system>\n\n",	piv_rt_count,
-		s_before,
-		ms_before,
+		(int)beginning.tv_sec,
+		beginning.tv_nsec / NSEC_PER_MSEC,
 		" N/A ",
 		(float)get_battery_voltage(),
 		" N/A ");
-			*/	
+			
 			//write_alllog_file("all", runtime_count, sensDatindex,len);		
 			//len = sprintf(sensDatindex,"Testing \n");
 			GS_API_SendTcpData(1, sensDatindex, strlen(sensDatindex));
@@ -390,13 +390,14 @@ void *sendData() {
 
 			// How long did it take ?
 			//**********************************************
-			clock_gettime(CLOCK_REALTIME, &final);
-			spec = subtract_timespec(final, beginning);
-			process_time = spec.tv_sec * USEC_PER_SEC + spec.tv_nsec / NSEC_PER_USEC;
-			//printf("[P: %d S: %d]\n", process_time, SAMPLE_PERIOD_US - process_time);
+//			clock_gettime(CLOCK_REALTIME, &final);
+//			spec = subtract_timespec(final, beginning);
+//			process_time = spec.tv_sec * USEC_PER_SEC + spec.tv_nsec / NSEC_PER_USEC;
+//			if (process_time > SAMPLE_PERIOD_US) process_time = SAMPLE_PERIOD_US;
+//			printf("[P: %ld us S: %ld us Sample p: %d us]\n", process_time, SAMPLE_PERIOD_US - process_time, SAMPLE_PERIOD_US);
 			//**********************************************
 		}
-		usleep(SAMPLE_PERIOD_US - process_time - 10000); //The 10000 is an experimental value :)
+		usleep(SAMPLE_PERIOD_US/* - process_time*/);
 	}
 	pthread_exit(NULL);
 }

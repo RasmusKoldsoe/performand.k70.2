@@ -6,6 +6,7 @@
  * Organisation: University of Southern Denmark - MCI
  */
 #include <stdio.h>
+#include <string.h>
 
 #include "../dev_tools.h"
 #include "../HCI_Parser/HCI_Defs.h"
@@ -22,7 +23,7 @@ int Compass_initialize(BLE_Peripheral_t *ble_device)
 	Compass_Device = ble_device;
 
 	//Init mapped mem ...
-	Compass_Device->mapped_mem.filename = "compass";
+	Compass_Device->mapped_mem.filename = "/sensors/compass";
 	Compass_Device->mapped_mem.size = DEFAULT_FILE_LENGTH;
 
 	//Prepare the mapped Memory file
@@ -70,7 +71,7 @@ int Compass_parseData(datagram_t* datagram, int *i)
 	memset(d_str, '\0', sizeof(d_str));
 
 	format_timespec(mm_str+strlen(mm_str), &datagram->timestamp);
-	strcat(mm_str, ",$COMPASS");
+//	strcat(mm_str, ",$COMPASS");
 
 	if(index == 0) { // Magnetometer value array
 		char tmp_str[8];
@@ -81,7 +82,7 @@ int Compass_parseData(datagram_t* datagram, int *i)
 			snprintf(tmp_str, sizeof(tmp_str), "%d%s", value, j<2?",":"");
 			strcat(d_str, tmp_str);
 		}
-		strcat(d_str, ",,");
+		strcat(d_str, ",,,");
 	}
 	else if(index == 1) { // Accelerometer value array
 		char tmp_str[8];
@@ -93,9 +94,10 @@ int Compass_parseData(datagram_t* datagram, int *i)
 			snprintf(tmp_str, sizeof(tmp_str), "%d%s", value, j<2?",":"");
 			strcat(d_str, tmp_str);
 		}
+		strcat(d_str, ",");
 	}
 	else if(index == 2) { // Battery attribute of type char
-		snprintf(d_str, sizeof(d_str), "%d", unload_8_bit(datagram->data, i));
+		snprintf(d_str, sizeof(d_str), ",,,,,,%d", unload_8_bit(datagram->data, i));
 	}
 	else { // Invalid attribute - go puke!
 		snprintf(d_str, sizeof(d_str), "Invalid Hdl");
@@ -112,7 +114,7 @@ int Compass_parseData(datagram_t* datagram, int *i)
 	debug(1, "%s", mm_str);
 
 	mm_append(mm_str, &Compass_Device->mapped_mem);
-	file_idx = write_log_file("log", runtime_count, file_idx, mm_str);
+	file_idx = write_log_file("compass", runtime_count, file_idx, mm_str);
 
 	return 0;
 }

@@ -4,7 +4,7 @@
  * Method implementations for the Hardware Abstraction Layer that are platform independent 
  */
 
-#include "../hardware/GS_HAL.h"
+#include "GS_HAL.h"
 
 /** Public Method Implementation **/
 void GS_HAL_init(char *port){

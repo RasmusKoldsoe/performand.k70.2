@@ -1,0 +1,2 @@
+8 '\n' 0 1 "<COMPASS timestamp=%s>%s<\COMPASS>" "<mag_x>%s<\mag_x>" "<mag_y>%s<\mag_y>" "<mag_z>%s<\mag_z>" "<accel_x>%s<\accel_x>" "<accel_y>%s<\accel_y>" "<accel_z>%s<\accel_z>" "<battery>%s<\battery>"
+8 ',' 1 0 "$%s,COMPASS%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s"

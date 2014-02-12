@@ -19,44 +19,29 @@
 
 int setDate(int dd, int mm, int yy, int h, int min, int sec)  // format like MMDDYY
 {
-	struct timeval tv;
-	struct tm time_to_set;
+	time_t gps_time = time(0);
+	struct tm* time_to_set = localtime(&gps_time);
 
-	time_to_set.tm_hour = h;
-	time_to_set.tm_min = min;
-	time_to_set.tm_sec = sec;
-	time_to_set.tm_year = yy - 1900;
-	time_to_set.tm_mon = mm-1;
-	time_to_set.tm_mday = dd;
+	time_to_set->tm_hour = h;
+	time_to_set->tm_min = min;
+	time_to_set->tm_sec = sec;
+	time_to_set->tm_year = yy - 1900;
+	time_to_set->tm_mon = mm-1;
+	time_to_set->tm_mday = dd;
 
 	// Make new system time.
-	if ((tv.tv_sec = mktime(&time_to_set)) == (time_t)-1) {
-		printf("Cannot convert system time\n");
-		return -1;
-	}
+	const struct timeval tv = {mktime(time_to_set), 0};
 
 	// Set new system time.
-	if (settimeofday(&tv, NULL) != 0){
+	if (settimeofday(&tv, 0) < 0){
 		printf("Cannot set system time\n");
 		return -1;
 	}
 
-	// Get current date & time since Epoch.
-	if (gettimeofday(&tv, NULL) != 0) {
-		printf("Cannot get current date & time since Epoch.\n");
-		return -1;
-	}
-
-	// Calculate local time.
-	if (localtime_r(&tv.tv_sec, &time_to_set) != &time_to_set) {
-		printf("Cannot convert file time to local file time.\n");
-		return -1;
-	}
-
 	debug(1, "Set new date/time from GPS: %d.%02d.%02d - %02d:%02d:%02d\r\n",
-	time_to_set.tm_year + 1900, time_to_set.tm_mon + 1,
-	time_to_set.tm_mday, time_to_set.tm_hour, time_to_set.tm_min,
-	time_to_set.tm_sec);
+	time_to_set->tm_year + 1900, time_to_set->tm_mon + 1,
+	time_to_set->tm_mday, time_to_set->tm_hour, time_to_set->tm_min,
+	time_to_set->tm_sec);
 
 	return 0;
 }
@@ -107,7 +92,6 @@ struct timespec subtract_timespec(struct timespec lhs, struct timespec rhs)
 
 void format_timespec(char* str, struct timespec *ts)
 {
-	char tmbuf[100];
 	struct tm tmp;
 
 	if(localtime_r(&(ts->tv_sec), &tmp) == NULL) {
@@ -116,9 +100,7 @@ void format_timespec(char* str, struct timespec *ts)
 		return;
 	}
 
-	//strftime(tmbuf, sizeof(tmbuf),  "%Y-%m-%d %H:%M:%S", &tmp);
-	//sprintf(str, "%s.%03ld", tmbuf, ts->tv_nsec/NSEC_PER_MSEC);
-	sprintf(str, "%d.%03ld", ts->tv_sec, ts->tv_nsec/NSEC_PER_MSEC);
+	sprintf(str, "%d.%03ld", (int)ts->tv_sec, ts->tv_nsec/NSEC_PER_MSEC);
 }
 
 void print_byte_array(char *buff, int length, int offset)
@@ -143,7 +125,6 @@ int write_log_file(char *name, int runtime_count, int file_idx, char *receiveMes
 	FILE *file;
 	int size=0;
  	struct statfs _statfs;
-	long usedBytes;
 
 	//if(statfs("/dev/mmcblk0p1", &_statfs)<0)
 	//	printf("Error can't determine remain capacity on SD-Card\n");
@@ -176,31 +157,22 @@ int write_log_file(char *name, int runtime_count, int file_idx, char *receiveMes
 int read_rt_count(void) {
 		FILE *ptr_myfile;
 		int runtime_count = 0;
-		char * line = NULL;
-		size_t len = 0;
-		ssize_t read;
 
-		ptr_myfile=fopen("/sdcard/runtime_cnt.bin","rb");
-		if (!ptr_myfile)
-		{
-			fprintf(stderr, "Error reading runtime count.\n");
+		ptr_myfile = fopen("/sdcard/runtime_cnt.bin", "rb");
+		if (!ptr_myfile) {
+			fprintf(stderr, "Error opening runtime count file.\n");
 			return -1;
-		} else {
-			fread(&runtime_count, sizeof(int), 1, ptr_myfile);
-			printf("Runtime count: %d\n",runtime_count);
 		}
-		fclose(ptr_myfile);
-		
+
+		fread(&runtime_count, sizeof(int), 1, ptr_myfile);
+
+		fclose(ptr_myfile);	
 		return runtime_count;
 }
 
 int rw_rnt_count(void) {
 		FILE *ptr_myfile;
 		int runtime_count = 0;
-
-		char * line = NULL;
-		size_t len = 0;
-		ssize_t read;
 
 		ptr_myfile=fopen("/sdcard/runtime_cnt.bin","rb");
 		if (!ptr_myfile)

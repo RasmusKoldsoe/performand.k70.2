@@ -689,7 +689,7 @@ AtLibGs_BatteryChkStart (uint32_t interval)
   HOST_APP_MSG_ID_E rxMsgId;
 
   /* Construct the AT command */
-  sprintf (G_ATCmdBuf, "AT+BCHKSTRT=" _F32_ "\r\n", interval);
+  sprintf (G_ATCmdBuf, "AT+BCHKSTRT=" _F32_ "\r\n", (long)interval);
 
   /* Send command to S2w App node */
   rxMsgId = AtLib_CommandSend ();
@@ -721,8 +721,8 @@ AtLibGs_GotoSTNDBy (uint32_t msec, uint32_t dealy,
 
   /* Construct the AT command */
   sprintf (G_ATCmdBuf,
-	   "AT+PSSTBY=" _F32_ "," _F32_ "," _F32_ "," _F32_ "\r\n", msec,
-	   dealy, alarm1_Pol, alarm2_Pol);
+	   "AT+PSSTBY=" _F32_ "," _F32_ "," _F32_ "," _F32_ "\r\n", (long)msec,
+	   (long)dealy, (long)alarm1_Pol, (long)alarm2_Pol);
 
   /* Send command to S2w App node */
   AtLib_CommandSendNoResponse ();
@@ -1029,7 +1029,7 @@ AtLibGs_FWUpgrade (int8_t * pSrvip, uint32_t srvport,
 
   /* Construct the AT command */
   sprintf (G_ATCmdBuf, "AT+FWUP=%s," _F32_ "," _F32_ ",%s\r\n", pSrvip,
-	   srvport, srcPort, pSrcIP);
+	   (long)srvport, (long)srcPort, pSrcIP);
 
   /* Send command to S2w App node */
   rxMsgId = AtLib_CommandSend ();
@@ -1140,7 +1140,7 @@ AtLibGs_Mode (uint32_t mode)
   HOST_APP_MSG_ID_E rxMsgId;
 
   /* Construct the AT command */
-  sprintf (G_ATCmdBuf, "AT+WM=" _F32_ "\r\n", mode);
+  sprintf (G_ATCmdBuf, "AT+WM=" _F32_ "\r\n", (long)mode);
 
   /* Send command to S2w App node */
   rxMsgId = AtLib_CommandSend ();
@@ -1286,7 +1286,7 @@ AtLibGs_SetWRetryCount (uint32_t count)
   HOST_APP_MSG_ID_E rxMsgId;
 
   /* Construct the AT command */
-  sprintf (G_ATCmdBuf, "AT+WRETRY=" _F32_ "\r\n", count);
+  sprintf (G_ATCmdBuf, "AT+WRETRY=" _F32_ "\r\n", (long)count);
 
   /* Send command to S2w App node */
   rxMsgId = AtLib_CommandSend ();
@@ -1523,7 +1523,7 @@ AtLibGs_SetTxPower (uint32_t power)
   HOST_APP_MSG_ID_E rxMsgId;
 
   /* Construct the AT command */
-  sprintf (G_ATCmdBuf, "AT+WP=" _F32_ "\r\n", power);
+  sprintf (G_ATCmdBuf, "AT+WP=" _F32_ "\r\n", (long)power);
 
   /* Send command to S2w App node */
   rxMsgId = AtLib_CommandSend ();

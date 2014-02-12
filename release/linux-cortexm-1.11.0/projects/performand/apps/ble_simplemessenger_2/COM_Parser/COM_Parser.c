@@ -47,7 +47,9 @@ ssize_t COM_parse_data(datagram_t *datagram, char *data, int length, int *offset
 			}
 			else {
 				fprintf(stderr, "Unknown type token: %02X\n", data[*offset] & 0xff);
-				_continue = 0;
+fprintf(stderr, "Buffer trace (strlen %d/ len %d / offset %d): %s\n", strlen(data), length, *offset, data); 
+//				_continue = 0;
+return -1;
 			}
 			break;
 

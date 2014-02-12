@@ -28,7 +28,7 @@ int Wind_initialize(BLE_Peripheral_t *ble_device)
 	Wind_Device = ble_device;
 
 	//Init mapped mem ...
-	Wind_Device->mapped_mem.filename = "wind";
+	Wind_Device->mapped_mem.filename = "/sensors/wind";
 	Wind_Device->mapped_mem.size = DEFAULT_FILE_LENGTH;
 
 	//Prepare the mapped Memory file
@@ -68,7 +68,7 @@ int Wind_parseData(datagram_t* datagram, int *i)
 	memset(d_str, '\0', sizeof(d_str));
 	
 	format_timespec(mm_str+strlen(mm_str), &datagram->timestamp);
-	strcat(mm_str, ",$WIND");
+//	strcat(mm_str, ",$WIND");
 
 	if( index < 3 ) { // Wind attribute of type float_u
 		int j;

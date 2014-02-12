@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -9,11 +10,12 @@
 #include <math.h>
 #include <signal.h>
 #include <getopt.h>
-#include <unistd.h>
 #include <math.h>
 #include <sys/mman.h>
 #include <time.h>
 #include <termios.h>
+#include <pthread.h>
+#include <semaphore.h>
 
 #include "gps_utils.h"
 #include "../Common/MemoryMapping/memory_map.h"
@@ -26,9 +28,8 @@ void register_sig_handler();
 void sigint_handler(int sig);
 
 struct RMC_DATA gprmc;
-//int fd;
 int runtime_count, file_idx = 0;
-
+static char *programName = NULL;
 int done;
 
 
@@ -40,10 +41,7 @@ static int writeMessageToPort(unsigned char* message, unsigned int messageLength
 {
 	unsigned int checksum = 0;
 	unsigned int i;
-//	unsigned char currentChar = '0';
-//	unsigned long flags;
-//	unsigned int ier;
-//	int locked = 1;
+
 	char csStr[3];
 
 	for(i=1; i<messageLength-1; i++) {
@@ -57,15 +55,15 @@ static int writeMessageToPort(unsigned char* message, unsigned int messageLength
 	message[messageLength-4] = csStr[1];
 
 	if ((i=write(tty, message, messageLength-1)) < messageLength-1)	{
-		printf("ERROR writing to port.\n\r");
+		fprintf(stderr, "[%s] ERROR writing to port\n", programName);
 		return -1;
 	}
 
 	return 0;
 }
 
-int convertIntoXml(char *buffer, RMC_DATA *gpsRMCData, int runtime_count) {
-	int strlen=0;
+int convertIntoXml(char *buffer, RMC_DATA *gpsRMCData, int runtime_count)
+{
 /*
 	strlen = sprintf(buffer,"\n<gps id=\"%d\">\n\
 <gmttime>\n\
@@ -113,27 +111,24 @@ int convertIntoXml(char *buffer, RMC_DATA *gpsRMCData, int runtime_count) {
 	gpsRMCData->courseOverGround);
 */
 
-strlen = sprintf(buffer, ",$GPS,%d,%02d,%02d,%02d,%03d,%02d,%02d,20%02d,%02d,%02d,%.3f,%c,%03d,%02d,%.3f,%c,%3.2f,%3.2f\n",
-	runtime_count,
-	gpsRMCData->timeHour, 
-	gpsRMCData->timeMinute, 
-	gpsRMCData->timeSecond,
-	gpsRMCData->timeMillisecond,
-	gpsRMCData->dateDay, 
-	gpsRMCData->dateMonth,
-	gpsRMCData->dateYear, 
-	gpsRMCData->latitudeDegrees, 
-	gpsRMCData->latitudeMinutes, 
-	gpsRMCData->latitudeSeconds, 
-	gpsRMCData->latitudeHemisphere,
-	gpsRMCData->longitudeDegrees, 
-	gpsRMCData->longitudeMinutes, 
-	gpsRMCData->longitudeSeconds, 
-	gpsRMCData->longitudeHemisphere, 
-	gpsRMCData->speedOverGround, 
-	gpsRMCData->courseOverGround );
-
-	return strlen;
+	return sprintf(buffer, ",%02d,%02d,%02d,%03d,%02d,%02d,20%02d,%02d,%02d,%.3f,%c,%03d,%02d,%.3f,%c,%3.2f,%3.2f\n",
+		gpsRMCData->timeHour, 
+		gpsRMCData->timeMinute, 
+		gpsRMCData->timeSecond,
+		gpsRMCData->timeMillisecond,
+		gpsRMCData->dateDay, 
+		gpsRMCData->dateMonth,
+		gpsRMCData->dateYear, 
+		gpsRMCData->latitudeDegrees, 
+		gpsRMCData->latitudeMinutes, 
+		gpsRMCData->latitudeSeconds, 
+		gpsRMCData->latitudeHemisphere,
+		gpsRMCData->longitudeDegrees, 
+		gpsRMCData->longitudeMinutes, 
+		gpsRMCData->longitudeSeconds, 
+		gpsRMCData->longitudeHemisphere, 
+		gpsRMCData->speedOverGround, 
+		gpsRMCData->courseOverGround );
 }
 
 void register_sig_handler()
@@ -145,7 +140,7 @@ void register_sig_handler()
 
 	if (sigaction(SIGINT, &sia, NULL) < 0) {
 		perror("sigaction(SIGINT)");
-		exit(1);
+		exit(0);
 	} 
 
 	done = 0;
@@ -153,65 +148,96 @@ void register_sig_handler()
 
 void sigint_handler(int sig)
 {
-	printf("Terminating gps daemon.\n");
+	printf("%s Terminating.\n", programName);
 	done = 1;
 }
 
+void *set_date(void *sem) {
+	sem_t *data_sem = (sem_t *)sem;
+
+	while(!done) {
+		sem_wait(data_sem);
+
+		if(gprmc.positionFix != NO_FIX_INVALID) {
+			setDate(gprmc.dateDay, gprmc.dateMonth, gprmc.dateYear+2000, gprmc.timeHour, gprmc.timeMinute, gprmc.timeSecond);
+			printf("[%s] Local time set from GPS\n", programName);
+			break;
+		}
+	}
+	return NULL;
+}
+
+
 int main(int argc, char **argv)
 {
+	{
+		char **sp = argv;
+		while( *sp != NULL ) {
+			programName = strsep(sp, "/");
+		}
+	}
+
 	struct termios tio;
 	int tty_fd;
-	fd_set rdset;
-	unsigned char c=0;
 	char buffer[850]; 
 	char *bufptr; 
 	int nbytes; 
-	int pos=0;
-	int len=0;
-	char rxData = 0;
-	RMC_DATA gpsRMCData;
 	int runtime_counter = 0;
 	struct timespec ts_begin, ts_end, ts_interval;
 	long process_time=0;
 	int time_updated = 0;
+	int sd_tp;
+	pthread_t set_date_thread;
+	pthread_attr_t thread_attr;
+	sem_t data_sem;
+
+	pthread_attr_init(&thread_attr);
+	pthread_attr_setdetachstate(&thread_attr, PTHREAD_CREATE_JOINABLE);
+	sem_init(&data_sem, 0, 0);
+
+	sd_tp = pthread_create( &set_date_thread, &thread_attr, set_date, (void *)&data_sem);
+	if( sd_tp ) {
+	  printf("[%s] ERROR read thread: Return code from pthread_create(): %d\n", programName, sd_tp);
+	  return -1;
+	}
 
 	//Prepare and initialise memory mapping
 	h_mmapped_file gps_mapped_file;
 	memset(&gps_mapped_file, 0, sizeof(h_mmapped_file));
-
-	gps_mapped_file.filename = "gps";
+	gps_mapped_file.filename = "/sensors/gps";
 	gps_mapped_file.size = DEFAULT_FILE_LENGTH;
-
-	runtime_counter = read_rt_count();
-	usleep(10000);
 
 	//Prepare the mapped Memory file
 	if((mm_prepare_mapped_mem(&gps_mapped_file)) < 0) {
-		printf("Error mapping %s file.\n",gps_mapped_file.filename);
+		printf("[%s] ERROR mapping %s file.\n", programName, gps_mapped_file.filename);
 		return -1;	
 	}
-	
-	register_sig_handler();
+
+//	usleep(10000);
 
 	//Prepare serial port for tty data retrieval.
 	memset(&tio, 0, sizeof(tio));
 	tio.c_iflag=0;
-	tio.c_oflag &= ~OPOST; //0;
+	tio.c_oflag &= ~OPOST;
 	tio.c_cflag &= CREAD|CLOCAL;
-	tio.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG); // (ICANON | ECHO | ECHOE);
+	tio.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 	tio.c_cc[VMIN]=0;
 	tio.c_cc[VTIME]=0;
 
 	tty_fd=open("/dev/ttyS1", O_RDWR | O_NONBLOCK);
 	cfsetospeed(&tio,B9600);
 	cfsetispeed(&tio,B9600);
-	tcsetattr(tty_fd,TCSANOW,&tio);
+	tcsetattr(tty_fd, TCSANOW, &tio);
 
+	// Setup GAINSPAN Wifi chip
 	writeMessageToPort(enableTenHz, sizeof(enableTenHz), tty_fd);
 	writeMessageToPort(disableAllMessages, sizeof(disableAllMessages), tty_fd);
 	writeMessageToPort(enableRMC, sizeof(enableRMC), tty_fd);
 
 	bufptr = buffer; 
+
+	register_sig_handler();
+	runtime_counter = read_rt_count();
 
 	while(!done) {
 		while( (nbytes=read(tty_fd, bufptr, buffer+sizeof(buffer)-bufptr-1) ) > 0)
@@ -227,37 +253,20 @@ int main(int argc, char **argv)
 				//**********************************************
 				clock_gettime(CLOCK_REALTIME, &ts_begin);
 
-								
-
-				//printf("%s\n", buffer);
+//printf("%s", buffer);
 				parseGPRMC(buffer, &gprmc);
-				//printf("%d\n", gprmc.latitudeSeconds);
+				sem_post(&data_sem);
 
+				format_timespec(buffer, &ts_begin);
 				if(gprmc.positionFix==NO_FIX_INVALID) {
-					format_timespec(buffer, &ts_begin);
-					sprintf(buffer+strlen(buffer), ",$GPS,%d,,,,,,,,,,,,,,,,,\n", runtime_count);
-
-					//setDate(gprmc.dateDay, gprmc.dateMonth, gprmc.dateYear+2000, 
-					//		gprmc.timeHour, gprmc.timeMinute, gprmc.timeSecond);			      
-					//time_updated = 0;
-
-					debug(2, "%s", buffer);
-					mm_append(buffer, &gps_mapped_file);
+					sprintf(buffer+strlen(buffer), ",,,,,,,,,,,,,,,,,\n");
 				} 
 				else {
-					//if(!time_updated) {
-					//	setDate(gprmc.dateDay, gprmc.dateMonth, gprmc.dateYear+2000, 
-					//		gprmc.timeHour, gprmc.timeMinute, gprmc.timeSecond);
-					//	time_updated = 1;
-					//}
-
-					format_timespec(buffer, &ts_begin);
 					convertIntoXml(buffer+strlen(buffer)-1, &gprmc, runtime_count);
+				}
 
-					debug(2, "%s", buffer);
-					mm_append(buffer, &gps_mapped_file);
-				} 
-
+				debug(2, "%s", buffer);
+				mm_append(buffer, &gps_mapped_file);
 				file_idx = write_log_file("gps", runtime_counter, file_idx, buffer);
 
 				// How long time did it take?
@@ -269,7 +278,7 @@ int main(int argc, char **argv)
 
 				if(process_time >= SAMPLE_PERIOD_US)
 					process_time = SAMPLE_PERIOD_US;
-				debug(2, "[T_Process: %d T_Sample: %d]\n", process_time, SAMPLE_PERIOD_US - process_time);
+				debug(2, "[T_Process: %d T_Sample: %d T_Percent: %0.1f]\n", process_time, SAMPLE_PERIOD_US - process_time, ((float)process_time/(float)SAMPLE_PERIOD_US)*100.0);
 				//**********************************************
 
 				runtime_count += 1;

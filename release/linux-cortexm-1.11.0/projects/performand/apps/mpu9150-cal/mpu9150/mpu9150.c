@@ -190,13 +190,13 @@ void mpu9150_set_accel_cal(caldata_t *cal)
 		bias[i] = -accel_cal_data.offset[i];
 	}
 
-	if (1) {
+/*	if (1) {
 		printf("\naccel cal (range : offset)\n");
 
 		for (i = 0; i < 3; i++)
 			printf("%d : %d\n", accel_cal_data.range[i], accel_cal_data.offset[i]);
 	}
-
+*/
 	mpu_set_accel_bias(bias);
 
 	use_accel_cal = 1;

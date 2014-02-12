@@ -5,4 +5,7 @@ CUSTOM_APPS	:= i2c-tools-3.1.0 driver/imu apps/daemons apps/wifi apps/mpu9150-ca
 
 include ../Rules.make
 
+# Clear temp files:
+# find . -type f -name '*~' -delete
+
 # end of file

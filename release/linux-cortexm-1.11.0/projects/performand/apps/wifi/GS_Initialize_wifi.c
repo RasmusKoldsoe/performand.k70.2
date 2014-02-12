@@ -10,7 +10,6 @@
 
 #include "../Common/GPIO/gpio_api.h"
 
-
 #define FILE_LENGTH 	0x1000	//1KB File emory
 
 #define HOST_APP_DEBUG_ENABLE
@@ -55,13 +54,14 @@ static int firmwareUpdated; ///< Firmware Update complete flag
 static TCP_SERVER_COMMANDS commandToHandle = TCP_NO_CMD; ///< Current command to handle
 static char commandCID = GS_API_INVALID_CID; ///< Connection ID last command came from
 
-
-void *ledToggle(void);
+static char* programName = NULL;
 
 /** Private Method Declarations **/
+void *ledToggle(void* _not_used);
 static void gs_handle_tcp_client_data(char cid, char data);
 static void gs_handle_tcp_server_data(char cid, char data);
 static TCP_SERVER_COMMANDS gs_tcp_scan_for_commands(void);
+
 
 static void gs_handle_tcp_server_data(char cid, char data){
 	// Save the data to the line buffer
@@ -103,18 +103,36 @@ static TCP_SERVER_COMMANDS gs_tcp_scan_for_commands(void){
   return TCP_UNKNOWN_CMD;
 }
 
-void *ledToggle(void) {
 
-	while(1) {
-		gpio_setValue(LED_IND1,1);
+void *ledToggle(void* _done)
+{
+	int* done = (int*)_done;
+
+	if(!gpio_export(LED_IND1) || !gpio_export(LED_IND2))
+		printf("[%s] ERROR: Exporting gpio port: %d LED_IND1 and/or %d LED_IND2\n", programName, LED_IND1, LED_IND2);
+	
+	if(!gpio_setDirection(LED_IND1, GPIO_DIR_OUT) || !gpio_setDirection(LED_IND2, GPIO_DIR_OUT))
+		printf("[%s]ERROR: Set gpio port direction: %d LED_IND1 and/or %d LED_IND2\n", programName, LED_IND1, LED_IND2);
+
+	while(!*done) {
+		gpio_setValue(LED_IND1, GPIO_SET_HIGH);
 		usleep(100000);
-		gpio_setValue(LED_IND1,0);
+		gpio_setValue(LED_IND1, GPIO_SET_LOW);
 		usleep(250000);
 	}
+
+	if(!gpio_unexport(LED_IND1) || !gpio_unexport(LED_IND2))
+		printf("[%s] ERROR: UnExporting gpio port: %d LED_IND1 and/or %d LED_IND2\n", programName, LED_IND1, LED_IND2);
 }
 
 int main(int argc, char **argv)
 {
+	const char delim = '/';
+	char **sp = argv;
+	while( *sp != NULL ) {
+		programName = strsep(sp, &delim);
+	}
+
 	char tcpClientCID = 1;
 
 	FILE * fp;
@@ -122,82 +140,81 @@ int main(int argc, char **argv)
 	size_t len = 0;
 	ssize_t read;
 	int timeout=0;
+	int done = 0;
 
 	pthread_t led_toggle_thread;
-
-	printf("GS1500m Daemon v0.1\n");
+	pthread_create(&led_toggle_thread, NULL, ledToggle, (void *)&done);
 
 	//Int GPIO's
 	if(!gpio_export(WIFI_RESET))
-		printf("ERROR: Exporting gpio port: %d\n", WIFI_RESET);
-
-	if(!gpio_export(LED_IND1) || !gpio_export(LED_IND2))
-		printf("ERROR: Exporting gpio port.");
+		printf("[%s] ERROR: Exporting gpio port: %d WIFI_RESET\n", programName, WIFI_RESET);
 	
-	if(!gpio_setDirection(LED_IND1,0) || !gpio_setDirection(LED_IND2,0))
-		printf("ERROR: Exporting gpio port.");
-
-	pthread_create(&led_toggle_thread,NULL,ledToggle,NULL);
-
 	//Check if the module is ready.
-	if(!gpio_setDirection(WIFI_RESET,1))
-		printf("ERROR: Exporting gpio port.");	
-
+	if(!gpio_setDirection(WIFI_RESET, GPIO_DIR_IN))
+		printf("[%s] ERROR: Check module ready: Set gpio port direction: %d WIFI_RESET\n", programName, WIFI_RESET);	
 	
 	if(!gpio_getValue(WIFI_RESET)) {
-		printf("ERROR: Wifi not ready.");
-		return -1;
+		printf("[%s] ERROR: Wifi not ready.\n", programName);
+		goto SAFE_EXIT;
 	}
 
 	//Reset the module is ready.
-	if(!gpio_setDirection(WIFI_RESET,0) );
-		printf("ERROR: Exporting gpio port.");	
-	if(!gpio_setValue(WIFI_RESET,0))
-		printf("ERROR: Exporting gpio port.");	
+	if(!gpio_setDirection(WIFI_RESET, GPIO_DIR_OUT) );
+		printf("[%s] ERROR: Module Reset: Set gpio port direction: %d WIFI_RESET\n", programName, WIFI_RESET);	
+	if(!gpio_setValue(WIFI_RESET, GPIO_SET_LOW))
+		printf("[%s] ERROR: Set gpio port value: %d WIFI_RESET\n", programName, WIFI_RESET);	
 
 	usleep(500000);
 
 	//Now use port as input again.
-	if(!gpio_setDirection(WIFI_RESET,1));
-		printf("ERROR: Exporting gpio port.");	
+	if(!gpio_setDirection(WIFI_RESET, GPIO_DIR_IN));
+		printf("[%s] ERROR: Set gpio port direction: %d WIFI_RESET\n", programName, WIFI_RESET);	
 
-	timeout=0;
+	timeout = 0;
 	while(!gpio_getValue(WIFI_RESET)) {
-		printf("WARN: Wifi not ready.");
+		printf("[%s] WARN: Wifi not ready (%d/100).\n", programName, timeout);
 		usleep(100000);
 		timeout++;
 		if(timeout>100) {
-			printf("TIMEOUT ERROR: Can't reset Wifi chip.\n");
-			return -1;
+			printf("[%s] ERROR: TIMEOUT - Can't reset Wifi chip.\n", programName);
+			goto SAFE_EXIT;
 		}
 	}
 	
 	// Initialize Gainspan module, print module information and switch to client mode 
-        GS_API_Init("/dev/ttyS3");
-        GS_API_PrintModuleInformation();
+    GS_API_Init("/dev/ttyS3");
+    GS_API_PrintModuleInformation();
 	//GS_API_StopProvisioning();
 	//GS_API_DisconnectNetwork();
-     	GS_API_StartProvisioning(
-			PROVISION_SSID,
-			PROVISION_CHANNEL,
-			PROVISION_USERNAME,
-			PROVISION_PASSWORD,
-			PROVISION_IP,
-			PROVISION_SUBNET,
-			PROVISION_HOSTNAME);
-  	gpio_setValue(LED_IND1,0);
+ 	GS_API_StartProvisioning(
+		PROVISION_SSID,
+		PROVISION_CHANNEL,
+		PROVISION_USERNAME,
+		PROVISION_PASSWORD,
+		PROVISION_IP,
+		PROVISION_SUBNET,
+		PROVISION_HOSTNAME);
+  	gpio_setValue(LED_IND1, GPIO_SET_LOW);
 	// Create the TCP Server connection
 	tcpServerCID = GS_API_CreateTcpServerConnection(TCP_SERVER_PORT, gs_handle_tcp_server_data);
 	//tcpServerCID = GS_API_CreateTcpClientConnection("192.168.10.3", TCP_SERVER_PORT, gs_handle_tcp_server_data);
-	printf("TCP Server CID: %d \n", tcpServerCID);
-  	if(tcpServerCID != GS_API_INVALID_CID){
-    		printf("TCP PORT: %s\n", TCP_SERVER_PORT);
-  	}
+	printf("TCP Server CID: %d\n", tcpServerCID);
+  	if(tcpServerCID != GS_API_INVALID_CID)
+    	printf("TCP PORT: %s\n", TCP_SERVER_PORT);
 
-	gpio_setValue(LED_IND1,0);
-	gpio_setValue(LED_IND2,1);
+	gpio_setValue(LED_IND2, GPIO_SET_HIGH); // Turn on only when successfull run
 
-	exit(0);
+SAFE_EXIT:
+	done = 1;
+
+	if(!gpio_unexport(WIFI_RESET))
+		printf("[%s] ERROR: UnExporting gpio port: %d WIFI_RESET\n", programName, WIFI_RESET);
+
+	gpio_setValue(LED_IND1, GPIO_SET_LOW);
+
+	pthread_join(led_toggle_thread, NULL);
+
+	pthread_exit(NULL);
 }
 
 

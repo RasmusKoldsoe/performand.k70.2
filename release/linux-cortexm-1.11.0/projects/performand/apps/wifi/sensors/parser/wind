@@ -1,0 +1,2 @@
+5 '\n' 0 1 "<WIND timestamp=%s>%s<\WIND>" "<speed>%s<\speed>" "<direction>%s<\direction>" "<temperature>%s<\temperature>" "<battery>%s<\battery>"
+5 ',' 1 0 "$%s,$WIND%s" "%s" "%s" "%s" "%s"

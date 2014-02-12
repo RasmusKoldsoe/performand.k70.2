@@ -1,5 +1,5 @@
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=0
+CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -lrt -pthread -DVERBOSITY=1
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
 
 VPATH = ../Common
@@ -19,6 +19,11 @@ imu_daemon : $(OBJS) imu_daemon.o
 
 gps_daemon : $(OBJS) gps_daemon.o
 	$(CC) $(CFLAGS) $(OBJS) gps_daemon.o -lm -o gps_daemon
+	chmod +x gps_daemon
+
+set_time_test: set_time_test.o
+	$(CC) $(CFLAGS) $(OBJS) set_time_test.o -lm -o set_time_test
+	chmod +x set_time_test
 
 testing : $(OBJS) testing.o
 	$(CC) $(CFLAGS) $(OBJS) testing.o -lm -o testing

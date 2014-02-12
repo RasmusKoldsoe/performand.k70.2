@@ -21,8 +21,12 @@
 #define GPIO_DIR_IN      1
 #define GPIO_DIR_OUT     0
 
+#define GPIO_SET_HIGH    1
+#define GPIO_SET_LOW     0
+
 
 int gpio_export(int gpio);
+int gpio_unexport(int gpio);
 int gpio_setDirection(int gpio, int dir);
 int gpio_setValue(int gpio, int value);
 int gpio_getValue(int gpio);

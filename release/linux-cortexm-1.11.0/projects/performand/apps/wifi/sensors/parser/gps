@@ -1,0 +1,2 @@
+18 '\n' 0 1 "<GPS timestamp=%s>%s<\GPS>" "<hours>%s<\hours>" "<minutes>%s<\minutes>" "<seconds>%s<\seconds>" "<msecond>%s<\msecond>" "<day>%s<\day>" "<month>%s<\month>" "<year>%s<\year>" "<lat_deg>%s<\lat_deg>" "<lat_min>%s<\lat_min>" "<lat_sec>%s<\lat_sec>" "<lat_hem>%s<\lat_hem>" "<long_deg>%s<\long_deg>" "<long_min>%s<\long_min>" "<long_sec>%s<\long_sec>" "<long_hem>%s<\long_hem>" "<SOG>%s<\SOG>" "<COG>%s<\COG>"
+18 ',' 1 0 "$%s,$GPS%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s"

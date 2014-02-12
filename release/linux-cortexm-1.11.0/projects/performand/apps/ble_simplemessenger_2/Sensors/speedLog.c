@@ -6,6 +6,7 @@
  * Organisation: University of Southern Denmark - MCI
  */
 #include <stdio.h>
+#include <string.h>
 
 #include "../dev_tools.h"
 #include "../HCI_Parser/HCI_Defs.h"
@@ -22,7 +23,7 @@ int Log_initialize(BLE_Peripheral_t *ble_device)
 	Log_Device = ble_device;
 
 	//Init mapped mem ...
-	Log_Device->mapped_mem.filename = "speedlog";
+	Log_Device->mapped_mem.filename = "/sensors/speedlog";
 	Log_Device->mapped_mem.size = DEFAULT_FILE_LENGTH;
 
 	//Prepare the mapped Memory file
@@ -62,7 +63,7 @@ int Log_parseData(datagram_t* datagram, int *i)
 	memset(d_str, '\0', sizeof(d_str));
 
 	format_timespec(mm_str+strlen(mm_str), &datagram->timestamp);
-	strcat(mm_str, ",$LOG");
+//	strcat(mm_str, ",$LOG");
 
 	if(index == 0) { // Period attribute of type uint_16
 		snprintf(d_str, sizeof(d_str), "%d", unload_16_bit(datagram->data, i, 1));

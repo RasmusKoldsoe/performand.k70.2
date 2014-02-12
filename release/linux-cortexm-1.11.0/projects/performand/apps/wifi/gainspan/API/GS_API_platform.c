@@ -15,7 +15,7 @@ static void print_char_array(char *buff, int length, int offset)
 {
 	int i;
 	for(i=offset; i<length; i++) {
-		printf("%s", buff[i] & 0xff);
+		printf("%c", buff[i] & 0xff);
 	}
 	printf("\n");
 }

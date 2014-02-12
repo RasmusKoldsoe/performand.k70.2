@@ -1,22 +1,6 @@
 #ifndef MEMORY_MAP_H_
 #define MEMORY_MAP_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <math.h>
-#include <sys/mman.h>
-#include <time.h>
-
-#include "../common_tools.h"
-
 #define DEFAULT_FILE_LENGTH 	0x1000
 #define MM_FILE_INDEX_SIZE         2
 
@@ -26,6 +10,8 @@ typedef struct {
 	int size;
 } h_mmapped_file;
 
+//int get_mem_index(h_mmapped_file *mapped_file);
+void reset_mapped_mem(h_mmapped_file *mapped_file);
 int mm_prepare_mapped_mem(h_mmapped_file *mapped_file);
 int mm_get_next_available(h_mmapped_file *mapped_file, int size_required);
 void mm_append(char *content, h_mmapped_file *mapped_file);

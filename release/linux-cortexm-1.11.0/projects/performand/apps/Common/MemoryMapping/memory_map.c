@@ -1,36 +1,65 @@
-#include "memory_map.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <time.h>
 #include <fcntl.h>
+#include <math.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+//#include <sys/time.h>
+#include <sys/mman.h>
 
-#define MM_FILE_INDEX_SIZE         2
-
+#include "../common_tools.h"
+#include "../utils.h"
+#include "memory_map.h"
 
 int get_mem_index(h_mmapped_file *mapped_file) 
 {
-	int mem_index = *mapped_file->mem_ptr; 
-	return (mem_index<<8) + *(mapped_file->mem_ptr+1);
+//	int mem_index = *mapped_file->mem_ptr; 
+//printf("-%d ", (*(mapped_file->mem_ptr) << 8) + *(mapped_file->mem_ptr+1)); fflush(stdout);
+	return (*(mapped_file->mem_ptr) << 8) + *(mapped_file->mem_ptr+1);
 }
 
 void set_mem_index(h_mmapped_file *mapped_file, int index)
 {
 	*mapped_file->mem_ptr = (char)(( index & 0xFF00 ) >> 8 );
 	*(mapped_file->mem_ptr+1) = (char)( index & 0xFF );
+//printf("+%d ", (*(mapped_file->mem_ptr) << 8) + *(mapped_file->mem_ptr+1)); fflush(stdout);
 }
 
+void reset_mapped_mem(h_mmapped_file *mapped_file)
+{
+	int fd = 0;	
+	struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };
+
+	//LOCK_FILE(fl, mapped_file->filename, fd, O_RDWR);
+	/* ****** CRITICAL REGION *********** */
+
+	memset(mapped_file->mem_ptr, 0, mapped_file->size);
+
+	asm("dsb");
+	usleep(5000);
+
+	/* ****** END CRITICAL REGION ******* */
+	//UNLOCK_FILE(fd);
+}
 
 int mm_get_next_available(h_mmapped_file *mapped_file, int size_required)
 {
 	int mem_index_ptr = get_mem_index(mapped_file);
 
-	debug(3, "[%s daemon] File size: 0x%X\n", mapped_file->filename, mem_index_ptr);
+	debug(3, "[%s mmap daemon] File size: 0x%X\n", mapped_file->filename, mem_index_ptr);
 
 	if((mem_index_ptr + size_required + MM_FILE_INDEX_SIZE) > mapped_file->size) {
-		debug(2, "[%s daemon] Reset buffer because 0x%X > 0x%X\n", 
+		debug(1, "[%s mmap daemon] Reset buffer because 0x%X > 0x%X\n", 
 					mapped_file->filename, 
 					mem_index_ptr + size_required + MM_FILE_INDEX_SIZE, 
 					mapped_file->size);
 
-		memset(mapped_file->mem_ptr, 0, mapped_file->size);
-		mem_index_ptr = 0;	
+		reset_mapped_mem(mapped_file);
+		mem_index_ptr = 0;
 	}
 
 	return mem_index_ptr;
@@ -43,14 +72,12 @@ void mm_append(char *content, h_mmapped_file *mapped_file)
 	int len = strlen(content);
 	struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };
 	
-	//Locking !!!
-	fl.l_pid = getpid();
-	fd = open(mapped_file->filename, O_WRONLY);	// get the file descriptor	
-	fcntl(fd, F_SETLKW, &fl);					// set the lock, waiting if necessary	
-	
+
+	LOCK_FILE(fl, mapped_file->filename, fd, O_WRONLY);
 	/* ****** CRITICAL REGION *********** */
+
 	mem_index_ptr = mm_get_next_available(mapped_file, len);
-	
+
 	sprintf((char*) mapped_file->mem_ptr + MM_FILE_INDEX_SIZE + mem_index_ptr, "%s", content);
 
 	set_mem_index(mapped_file, mem_index_ptr + len);
@@ -66,12 +93,9 @@ void mm_append(char *content, h_mmapped_file *mapped_file)
 	usleep(5000);
 
 	/* ****** END CRITICAL REGION ******* */
-
-	//Unlocking !!!
-	fl.l_type   = F_UNLCK;  			// tell it to unlock the region
-	fcntl(fd, F_SETLK, &fl); 			// set the region to unlocked
-	close(fd);
+	UNLOCK_FILE(fd);
 }
+
 
 /* 
  * Prepare a memory mapped file
@@ -114,7 +138,7 @@ int mm_prepare_mapped_mem(h_mmapped_file *mapped_file)
 
 	memset(mapped_file->mem_ptr, 0, mapped_file->size);
 
-	debug(1, "[%s daemon] Buffer memory mapped at %02X [%d Bytes]\n",mapped_file->filename, mapped_file->mem_ptr, mapped_file->size);
+	debug(1, "[%s daemon] Buffer memory mapped at %p [%d Bytes]\n",mapped_file->filename, mapped_file->mem_ptr, mapped_file->size);
 
 	close(fd);
 	
