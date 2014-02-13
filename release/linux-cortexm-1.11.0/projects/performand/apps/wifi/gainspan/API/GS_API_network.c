@@ -280,12 +280,13 @@ uint8_t GS_API_CreateTcpClientConnection(char* serverIp, char* serverPort, GS_AP
      uint8_t cidStr[] = " ";
      uint16_t cid = GS_API_INVALID_CID;
 
-     if(!gs_api_handle_cmd_resp(AtLibGs_TcpClientStart((int8_t*) serverIp, (int8_t*) serverPort)))
+     if(!gs_api_handle_cmd_resp(AtLibGs_TcpClientStart((int8_t*) serverIp, (int8_t*) serverPort))) {
+	  printf("ERROR: WIFI TCP CLIENT SETUP ERROR.\n");
           return cid;
+	}
 
      if(AtLib_ParseTcpServerStartResponse(cidStr)){
           // need to convert from ASCII to numeric
-	  printf("CID Str: %s", cidStr);
           cid = gs_api_parseCidStr(cidStr);
           if(cid != GS_API_INVALID_CID){
                cidDataHandlers[cid] = cidDataHandler;

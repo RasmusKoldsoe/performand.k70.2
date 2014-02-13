@@ -12,7 +12,7 @@
 
 #define FILE_LENGTH 	0x1000	//1KB File emory
 
-#define HOST_APP_DEBUG_ENABLE
+//#define HOST_APP_DEBUG_ENABLE
 
 /** Private Defines **/
 #define PROVISION_SSID "DataBoy2.0" ///< SSID for limited AP network that will be created
@@ -28,6 +28,9 @@
 
 /** Private Defines **/
 #define TCP_SERVER_PORT "2000" ///< Port TCP Server will use
+#define TCP_SERVER_IP "192.168.10.100" ///< Port TCP Server will use
+
+
 #define TCP_CLIENT_SEND_INTERVAL 1000 ///< Time to wait between sending temperature
 #define TCP_MAX_CLIENT_CONNECTION (15) ///< Maximum possible TCP Server client connections (16 available - 1 TCP server connection)
 #define TCP_CLIENT_DATA_STR  "Temperature: %3dC\r\n" ///< Formatted string for sending Temperature
@@ -129,6 +132,8 @@ int main(int argc, char **argv)
 {
 	const char delim = '/';
 	char **sp = argv;
+	char test_data[5]="Hello";
+
 	while( *sp != NULL ) {
 		programName = strsep(sp, &delim);
 	}
@@ -195,24 +200,43 @@ int main(int argc, char **argv)
 		PROVISION_SUBNET,
 		PROVISION_HOSTNAME);
   	gpio_setValue(LED_IND1, GPIO_SET_LOW);
+
 	// Create the TCP Server connection
-	tcpServerCID = GS_API_CreateTcpServerConnection(TCP_SERVER_PORT, gs_handle_tcp_server_data);
-	//tcpServerCID = GS_API_CreateTcpClientConnection("192.168.10.3", TCP_SERVER_PORT, gs_handle_tcp_server_data);
-	printf("TCP Server CID: %d\n", tcpServerCID);
-  	if(tcpServerCID != GS_API_INVALID_CID)
-    	printf("TCP PORT: %s\n", TCP_SERVER_PORT);
+	//tcpServerCID = GS_API_CreateTcpServerConnection(TCP_SERVER_PORT, gs_handle_tcp_server_data);
+	
+	// Create the TCP Client connection  //	
+	usleep(5000000);
+	tcpServerCID = GS_API_CreateTcpClientConnection(TCP_SERVER_IP, TCP_SERVER_PORT, gs_handle_tcp_server_data);
+	// ******************************** //
+  	
+	printf("\nTCP CLIENT - Tyring to connect %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
+	if(tcpServerCID != GS_API_INVALID_CID) {
+ 	    	printf("TCP CLIENT - CONNECTED %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
+		gpio_setValue(LED_IND2, GPIO_SET_HIGH); // Turn on only when successfull run
+	}
+	else {
+		printf("ERROR: TCP CLIENT - CANNOT CONNECT %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
+		gpio_setValue(LED_IND1, GPIO_SET_LOW);
+		goto ERROR_EXIT;
+	}
 
-	gpio_setValue(LED_IND2, GPIO_SET_HIGH); // Turn on only when successfull run
-
+	/*while(1) {
+		if(!GS_API_SendTcpData(0, test_data, 5))
+				printf("ERROR: TCP/IP Transmission\n");	
+		usleep(500000);
+	}
+*/
 SAFE_EXIT:
 	done = 1;
-
-	if(!gpio_unexport(WIFI_RESET))
-		printf("[%s] ERROR: UnExporting gpio port: %d WIFI_RESET\n", programName, WIFI_RESET);
 
 	gpio_setValue(LED_IND1, GPIO_SET_LOW);
 
 	pthread_join(led_toggle_thread, NULL);
+
+ERROR_EXIT:
+
+	if(!gpio_unexport(WIFI_RESET))
+		printf("[%s] ERROR: UnExporting gpio port: %d WIFI_RESET\n", programName, WIFI_RESET);
 
 	pthread_exit(NULL);
 }

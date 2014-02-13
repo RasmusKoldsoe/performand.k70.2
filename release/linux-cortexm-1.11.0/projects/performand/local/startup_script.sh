@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#mount -o nolock,rsize=1024 192.168.1.2:/home/rbrtbrehm/pfd/release/linux-cortexm-1.11.0/projects/performand /mnt
+#mount -o nolock,rsize=1024 192.168.1.2:/home/rbrtbrehm/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand /mnt
 mount -o nolock,rsize=1024 192.168.1.2:/home/rasmus/performand.k70.2/release/linux-cortexm-1.11.0/projects/performand /mnt
 
 echo "Set ttyS1 serial port to 9600 Baud"

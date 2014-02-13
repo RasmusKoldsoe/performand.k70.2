@@ -604,7 +604,7 @@ AtLibGs_TcpClientStart (int8_t * pRemoteTcpSrvIp, int8_t * pRemoteTcpSrvPort)
 
   /* Send command to S2w App node */
   rxMsgId = AtLib_CommandSend ();
-
+  //printf("\nReturn message: %d \n",  rxMsgId);
   return rxMsgId;
 }
 

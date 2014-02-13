@@ -57,7 +57,7 @@ int mm_get_next_available(h_mmapped_file *mapped_file, int size_required)
 					mapped_file->filename, 
 					mem_index_ptr + size_required + MM_FILE_INDEX_SIZE, 
 					mapped_file->size);
-
+			
 		reset_mapped_mem(mapped_file);
 		mem_index_ptr = 0;
 	}

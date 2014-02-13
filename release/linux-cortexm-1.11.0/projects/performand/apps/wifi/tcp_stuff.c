@@ -23,12 +23,14 @@ int tcp_send_data(char *data, int len)
 	if(len > TCP_MAX_LEN) {
 		left = len;
 		for(memptr=0; memptr < len; memptr += 1400) {	
-			GS_API_SendTcpData(1, data+memptr, (left>TCP_MAX_LEN) ? TCP_MAX_LEN : left);
+			if(!GS_API_SendTcpData(0, data+memptr, (left>TCP_MAX_LEN) ? TCP_MAX_LEN : left))
+				printf("ERROR: TCP/IP Transmission\n");
 			left -= TCP_MAX_LEN;
 		}
 	} 
 	else {
-		GS_API_SendTcpData(1, data, len);	
+		if(!GS_API_SendTcpData(0, data, len))
+			printf("ERROR: TCP/IP Transmission\n");	
 	}
 	return len;
 }
