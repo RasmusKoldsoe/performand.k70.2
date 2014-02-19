@@ -348,7 +348,8 @@ int main (int argc, char **argv)
 		sem_post(&sample_start_sem);
 		clock_gettime(CLOCK_REALTIME, &beginning);
 		/* ****** START TIMING ****** */
-
+length = snprintf(outb, STD_LINE_LENGTH, "<dataset timestamp=\"%d.%lu\">\n", (int)beginning.tv_sec, beginning.tv_nsec/NSEC_PER_MSEC);
+tcp_send_data(outb, length);
 		for( i=0; i < entryCount; i++) {
 			fp = fopen(sensors[i].fullpath, "rw");
 			if(fp == NULL) {
@@ -383,7 +384,7 @@ int main (int argc, char **argv)
 			fcntl(fileno(fp), F_SETLK, &fl);
 			fclose(fp);
 		}
-
+tcp_send_data("<\\dataset>\n", 12);
 		/* ****** END TIMING ****** */
 		clock_gettime(CLOCK_REALTIME, &final);
 		spec = subtract_timespec(final, beginning);

@@ -7,7 +7,7 @@
  */
 
 static int  Log_ServiceCount = 2;
-static attribute_t Log_Services[] = {{0x004D, 2, "\tPeriod"},
+static attribute_t Log_Services[] = {{0x004C, 2, "\tPeriod"},
                                      {0x0030, 1, "\tBattery"}
                                     };
 
