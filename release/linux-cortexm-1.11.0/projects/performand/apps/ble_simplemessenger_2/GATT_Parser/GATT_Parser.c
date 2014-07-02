@@ -73,7 +73,7 @@ void GATT_Transmit_Datagram(datagram_t *dgm, long event)
 	}
 	enqueue(&HCI_Tx_Queue, dgm);
 	APP_SetEvent(HCI_TaskID, HCI_TX_DATA_READY);
-	APP_StartTimer(GATT_TaskID, GATT_COMMAND_TIMEOUT | event, 20000);
+	APP_StartTimer(GATT_TaskID, GATT_COMMAND_TIMEOUT | event, 10000);
 }
 
 long GATT_ProcessEvent(int taskID, long events)
@@ -85,7 +85,7 @@ long GATT_ProcessEvent(int taskID, long events)
 	if( events & GATT_COMMAND_TIMEOUT ) {
 		// If CANCEL COMMAND timeout
 		if( events & GATT_CANCEL_COMMAND) {
-			debug(1, "Cancel command timed out: %08X\n", events);
+			debug(1, "Cancel command timed out: %08X\n", (unsigned int)events);
 			//APP_SetEvent(APP_TaskID, APP_SHUTDOWN_EVENT);
 			events ^= GATT_CANCEL_COMMAND;
 		}
@@ -93,14 +93,16 @@ long GATT_ProcessEvent(int taskID, long events)
 		// If INITIALIZE timeout
 		if( events & GATT_INITIALIZE) {
 			APP_SetEvent(APP_TaskID, APP_SHUTDOWN_EVENT);
-			debug(1, "Initialize timed out.");
+			debug(1, "Initialize timed out.\n");
 			events ^= GATT_INITIALIZE;
 		}
 
 		// If ESTABLISH CONNECTION timeout -> cancel request
 		if( events & GATT_ESTABLISH_CONNECTION ) {
 			APP_SetEvent(GATT_TaskID, GATT_CANCEL_COMMAND | GATT_ESTABLISH_CONNECTION);
+			debug(1, "Establish Connection timed out.\n");
 			events ^= GATT_ESTABLISH_CONNECTION;
+			events &= ~0xFFFF0000;
 		}
 		
 		// If ENABLE SERVICES timeout, schedule for later
@@ -112,7 +114,7 @@ long GATT_ProcessEvent(int taskID, long events)
 	if( events & GATT_CANCEL_COMMAND ) {
 		if( events & GATT_ESTABLISH_CONNECTION ) {
 			get_GAP_TerminateLinkRequest(&datagram, 0xFFFE); // Cancel establish connection command
-			GATT_Transmit_Datagram(&datagram, GATT_CANCEL_COMMAND | GATT_ESTABLISH_CONNECTION);
+			GATT_Transmit_Datagram(&datagram, (GATT_CANCEL_COMMAND | GATT_ESTABLISH_CONNECTION) & 0x0000FFFF);
 			events ^= GATT_ESTABLISH_CONNECTION;
 		}
 		
@@ -138,47 +140,61 @@ long GATT_ProcessEvent(int taskID, long events)
 	 * For all defined peripherals, request link if selected in 'events'. Timeout after 30 seconds  *
 	 ************************************************************************************************/
 	if( events & GATT_ESTABLISH_CONNECTION ) {
-		backupOfDevicesToConnect |= events & 0xFFFF0000;
-		int i;
+		int j;
 
-		for(i=0; i<=BLE_DEVICE_COUNT; i++, deviceIterator++) {
-			if(deviceIterator > BLE_DEVICE_COUNT) { 
-				deviceIterator = 0;
-			}
-			
-			if( events & bleCentral->devices[deviceIterator].ID ) {
-				get_GAP_EstablishLinkRequest(&datagram, bleCentral->devices[deviceIterator].connMAC);
-				GATT_Transmit_Datagram(&datagram, GATT_ESTABLISH_CONNECTION | bleCentral->devices[deviceIterator].ID);
-				lastEstablishDeviceID = bleCentral->devices[deviceIterator].ID;
+		if( events == GATT_ESTABLISH_CONNECTION) // meaning no device ID set
+			return events ^ GATT_ESTABLISH_CONNECTION;
 
-#if (defined VERBOSITY) && (VERBOSITY >= 1)
-				char mac_s[19]; int m;
-				for(m=0; m<6; m++){
-					sprintf(mac_s+(3*m), "%02X%c", (unsigned int)bleCentral->devices[deviceIterator].connMAC[m]&0xFF, (m<5)?':':'\n');
-				}
-				printf("Connecting to device %s", mac_s);
-#endif
-				events ^= bleCentral->devices[deviceIterator].ID;
+		for(j=0; j<BLE_DEVICE_COUNT; j++) {
+			if( (events & bleCentral->devices[j].ID) && (bleCentral->devices[j]._connected == 0) && (bleCentral->devices[j]._defined > 0)) {
 				break;
 			}
 		}
-		
-		return events ^ GATT_ESTABLISH_CONNECTION;
+		if(j == BLE_DEVICE_COUNT)
+			return events &= ~GATT_ESTABLISH_CONNECTION;
+
+		BLE_Peripheral_t *device = findDeviceByID(bleCentral, bleCentral->devices[j].ID); 
+
+		if( device != NULL ) { // Device ID not found
+			get_GAP_EstablishLinkRequest(&datagram, device->connMAC);
+			GATT_Transmit_Datagram(&datagram, GATT_ESTABLISH_CONNECTION | device->ID);
+
+#if (defined VERBOSITY) && (VERBOSITY >= 1)
+			char mac_s[19]; int m;
+			for(m=0; m<6; m++){
+				sprintf(mac_s+(3*m), "%02X%c", (unsigned int)device->connMAC[m]&0xFF, (m<5)?':':'\n');
+			}
+			printf("GATT_EstablishConnection: Connecting to device %s", mac_s);
+#endif
+			events &= ~device->ID;
+		}
+		else {
+			debug(0, "GATT ERROR: Device ID %#08X (e %#08X) not found\n", (unsigned int)bleCentral->devices[j].ID, (unsigned int)(events & 0xFFFF0000));
+			return events &= ~GATT_ESTABLISH_CONNECTION;
+		}
+	
+		if(events & 0xFFFF0000 != 0)
+			APP_SetEvent(GATT_TaskID, GATT_ESTABLISH_CONNECTION | (events & 0xFFFF0000));
+
+		return events &= ~GATT_ESTABLISH_CONNECTION;
+
 	}
 
 	if(events & GATT_ENABLE_SERVICES) {
-		int i, j;
+		int j;
 
-		for(i=0; i<=BLE_DEVICE_COUNT; i++) {
-			if( events & bleCentral->devices[i].ID) {
-				char data[] = {0x00, 0x01};
-				for(j=0; j<bleCentral->devices[i].serviceHdlsCount; j++) {
-					get_GATT_WriteCharValue(&datagram, bleCentral->devices[i].connHandle, bleCentral->devices[i].serviceHdls[j].handle, data, 2);
+		BLE_Peripheral_t *device = findDeviceByID(bleCentral, events & 0xFFFF0000);
+
+		if( device != NULL ) { // Device ID found
+			char data[] = {0x00, 0x01};
+
+			for(j=0; j<device->serviceHdlsCount; j++) {
+				get_GATT_WriteCharValue(&datagram, device->connHandle, device->serviceHdls[j].handle, data, 2);
+//GATT_pretty_print_datagram(&datagram);
 //printf("Enabeling attribute %#04x %s\n", bleCentral->devices[i].connHandle&0xffff, bleCentral->devices[i].serviceHdls[j].description);
-					GATT_Transmit_Datagram(&datagram, GATT_ENABLE_SERVICES | bleCentral->devices[i].ID);
-				}
-				return events ^ bleCentral->devices[i].ID;
+				GATT_Transmit_Datagram(&datagram, GATT_ENABLE_SERVICES | device->ID);
 			}
+			events &= ~device->ID;
 		}
 		return events ^ GATT_ENABLE_SERVICES;
 	}
@@ -199,22 +215,34 @@ long GATT_ProcessEvent(int taskID, long events)
 		return events ^ GATT_DISABLE_SERVICES;
 	}
 
-	if( events & GATT_TERMINATE_CONNECTION) {
+	if( events & GATT_READ_CHARACTERISTIC ) { // ONLY READS THE LAST HANDLE IN ATTRIBUTE LIST. (BATTERY VALUE)
+		BLE_Peripheral_t *device = findDeviceByID(bleCentral, events & 0xFFFF0000);
+
+		if( device != NULL ) { // Device ID found
+			get_GATT_ReadCharValue( &datagram, device->connHandle, device->serviceHdls[device->serviceHdlsCount-1].handle-1 );
+			GATT_Transmit_Datagram( &datagram, GATT_READ_CHARACTERISTIC | device->ID);
+		}
+
+		return events ^ GATT_READ_CHARACTERISTIC;
+	}
+
+	if( events & GATT_TERMINATE_CONNECTION ) {
 		int i;
 
 		for(i=0; i<=BLE_DEVICE_COUNT; i++) {
 			if( events & bleCentral->devices[i].ID && bleCentral->devices[i]._connected) {
 				get_GAP_TerminateLinkRequest(&datagram, bleCentral->devices[i].connHandle);
-				GATT_Transmit_Datagram(&datagram, GATT_TERMINATE_CONNECTION | bleCentral->devices[deviceIterator].ID);
-				return events ^ bleCentral->devices[i].ID;
+				GATT_Transmit_Datagram(&datagram, GATT_TERMINATE_CONNECTION | bleCentral->devices[i].ID);
+				events ^= bleCentral->devices[i].ID;
 			}
 		}
 
 	// No devices to terminate, schedule APP_CONNECTION_TERMINATED with no devices
-		APP_SetEvent(APP_TaskID, APP_CONNECTION_TERMINATED);
+		//APP_SetEvent(APP_TaskID, APP_CONNECTION_TERMINATED);
 
 		return events ^ GATT_TERMINATE_CONNECTION;
 	}
+
 	return 0;
 }
 
@@ -244,6 +272,7 @@ int GATT_Parse(void)
 	switch(evtCode) {
 	case GAP_DeviceInitDone:
 		{
+			APP_ClearTimerByEvent(GATT_TaskID, GATT_INITIALIZE);
 			debug(1, "GAP_DeviceInitDone return %s with MAC addr: ", getSuccessString(success, esg));
 			
 			int j;
@@ -254,7 +283,6 @@ int GATT_Parse(void)
 				debug(1, "%02X%c", (unsigned int)bleCentral->MAC[j] & 0xFF, (j<5)?':':'\n');
 			}
 
-			APP_ClearTimerByEvent(GATT_TaskID, GATT_INITIALIZE);
 			APP_SetEvent(APP_TaskID, APP_DEVICE_INIT_DONE_EVENT);
 			break;
 		}
@@ -263,20 +291,9 @@ int GATT_Parse(void)
 			debug(1, "GAP_EstablishLink return %s. ", getSuccessString(success, esg));
 
 			char address_type = unload_8_bit(datagram.data, &i);
-			char connMAC[6]; memset(connMAC, 0, sizeof(connMAC));
+			char connMAC[6];
+			memset(connMAC, 0, sizeof(connMAC));
 			unload_MAC(datagram.data, &i, connMAC);
-
-			long remainingDevices;
-			// Store a variable with a copy of the devices to connect to, excluding the one we just tried
-			remainingDevices = backupOfDevicesToConnect & ~lastEstablishDeviceID;
-
-			int j;
-			// From the devices we are connecting to, remove those that are already connected
-			for(j=0; j<=BLE_DEVICE_COUNT; j++) {
-				if( remainingDevices & bleCentral->devices[j].ID && bleCentral->devices[j]._connected) {
-					remainingDevices &= ~bleCentral->devices[j].ID;
-				}
-			}
 
 			if(success == HCI_SUCCESS) {
 				/**************************************************************************
@@ -284,45 +301,34 @@ int GATT_Parse(void)
 				 * be returned, otherwise the first unused device handle will be returned
 				 **************************************************************************/
 				BLE_Peripheral_t* device = findDeviceByMAC(bleCentral, connMAC);
-				if(device == NULL) {//No available devices: bail out
+				if(device == NULL) { // Device ID not found
 					fprintf(stderr, "ERROR: GATT Establish - No available device handles\n");
 					break;
 				}
-
+#if (defined VERBOSITY) && (VERBOSITY >= 1)
 				debug(1, "Connected to device ");
 
+				int j;
 				for(j=0; j<6; j++) {
 					debug(1, "%02X%c", (unsigned int)connMAC[j] & 0xFF, (j<5)?':':' ');
 				}
+#endif
 
 				device->_connected = 1;
 				device->connHandle = unload_16_bit(datagram.data, &i, 1);
-				debug(1, "with connHandle 0x%04X.\n", device->connHandle);
+				debug(1, "with connHandle 0x%04X.\n", (unsigned int)device->connHandle);
 
 				APP_ClearTimerByEvent(GATT_TaskID, GATT_ESTABLISH_CONNECTION | device->ID);
 				APP_SetEvent(APP_TaskID, APP_CONNECTION_ESTABLISHED | device->ID);
-
 			}
-			else if(success == HCI_ERR_RESERVED2) {
+			else if(success == HCI_ERR_RESERVED2) { // Establish link canceled
+				// Remember to clear device ID part of event. This has been set to 0xFFFE to get here.
 				debug(1, "Link Request Canceled.\n");
 				APP_ClearTimerByEvent(GATT_TaskID, GATT_CANCEL_COMMAND | GATT_ESTABLISH_CONNECTION);
-
- 				if (remainingDevices == 0){
-				// If we are only connecting to one device. Schedule a connection attempt for the same device
-					debug(1, "No other devices to connect to. Tryng again later\n");
-					APP_StartTimer(GATT_TaskID, GATT_ESTABLISH_CONNECTION | lastEstablishDeviceID, 60000); // 60 seconds
-				}
-
+				APP_SetEvent(APP_TaskID, APP_CONNECTION_CANCLED);
 			}
 			else {
 				fprintf(stderr, "WARNING: GATT EstablishLink return unknown status code\n");
-			}
-
-			if (remainingDevices) { // If unconnected devices
-				debug(1, "Connecting to remaining devices\n");
-			
-				// Establish connection to the remaining unconnected devices
-				APP_SetEvent(GATT_TaskID, GATT_ESTABLISH_CONNECTION | remainingDevices);
 			}
 
 			break;
@@ -330,6 +336,7 @@ int GATT_Parse(void)
 	case GAP_TerminateLink:
 		{
 			debug(1, "GAP_TerminateLink ");
+
 			long connHandle = unload_16_bit(datagram.data, &i, 1);
 			char reason = unload_8_bit(datagram.data, &i);
 
@@ -339,7 +346,7 @@ int GATT_Parse(void)
 			if(device != NULL) {
 				device->_connected = 0;
 				APP_ClearTimerByEvent(GATT_TaskID, GATT_TERMINATE_CONNECTION | device->ID);
-				APP_SetEvent(APP_TaskID, APP_CONNECTION_TERMINATED | device->ID);
+				APP_SetEvent(APP_TaskID, APP_CONNECTION_TERMINATED);
 			}
 			break;
 		}
@@ -348,10 +355,24 @@ int GATT_Parse(void)
 			debug(1, "ATT_ErrorResponce return %s\n", getSuccessString(success, esg));
 			break;
 		}
+	case ATT_ReadRsp:
+		{
+			long connHandle = unload_16_bit(datagram.data, &i, 1);
+			debug(1, "ATT_ReadResponce return %s for connHandle 0x%04X\n", getSuccessString(success, esg), (unsigned int)connHandle);
+			
+			BLE_Peripheral_t* device = findDeviceByConnHandle(bleCentral, connHandle);
+			if(device != NULL) {
+				APP_SetEvent(APP_TaskID, GATT_READ_CHARACTERISTIC | device->ID);
+				if( device->parseDataCB(&datagram, &i) < 0 ) {
+					fprintf(stderr, "ERROR: GATT ReadCharacteristicValue - Parse Data failed\n");
+				}
+			}
+			break;
+		}
 	case ATT_WriteRsp:
 		{
 			long connHandle = unload_16_bit(datagram.data, &i, 1);
-			debug(1, "ATT_WriteResponce return %s for connHandle 0x%04X\n", getSuccessString(success, esg), connHandle);
+			debug(1, "ATT_WriteResponce return %s for connHandle 0x%04X\n", getSuccessString(success, esg), (unsigned int)connHandle);
 			
 			BLE_Peripheral_t* device = findDeviceByConnHandle(bleCentral, connHandle);
 			if(device != NULL) {
@@ -366,14 +387,14 @@ int GATT_Parse(void)
 			//debug(1, "ATT_HandleValueNotifiction return %s\n", getSuccessString(success, esg));
 
 			long connHandle = unload_16_bit(datagram.data, &i, 1);
-			debug(3, "ConnHandle:\t(%#04X) %d\n", (unsigned int)connHandle & 0xFFFF, connHandle);
+			//debug(3, "ConnHandle:\t(%#04X) %d\n", (unsigned int)connHandle & 0xFFFF, connHandle);
 
 			BLE_Peripheral_t *curr_device;
 			curr_device = findDeviceByConnHandle(bleCentral, connHandle);
 
 			if(curr_device != NULL) {
-				//debug(0, "from connHandle %04X, handle 0x%04X at %s with data: ", \
-				//			(unsigned int)connHandle & 0xFFFF, (unsigned int)handle & 0xFFFF, str);
+				//debug(1, "from connHandle %04X, handle 0x%04X at %s with data: ", \
+							(unsigned int)connHandle & 0xFFFF, (unsigned int)handle & 0xFFFF, str);
 
 				if( curr_device->parseDataCB(&datagram, &i) < 0 ) {
 					fprintf(stderr, "ERROR: GATT HandleValueNotification - Parse Data failed\n");
@@ -382,7 +403,6 @@ int GATT_Parse(void)
 			else {
 				fprintf(stderr, "ERROR: GATT HandleValueNotification - Connection handle not identified\n");
 			}
-
 			break;
 		}
 	default:

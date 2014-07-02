@@ -59,6 +59,9 @@ int open_serial(char *port, int oflags)
 	cfsetispeed(&tio,B115200);
 	tcsetattr(fd,TCSANOW,&tio);
 
+	sleep(1); //required to make flush work, for some reason
+	tcflush(fd,TCIOFLUSH);
+
 	return fd;
 }
 

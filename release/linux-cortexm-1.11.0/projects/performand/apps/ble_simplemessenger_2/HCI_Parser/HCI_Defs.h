@@ -38,6 +38,7 @@ enum HCICmdOpcode {
 
 enum HCI_EvtOpCode {
 	ATT_ErrorRsp                   = 0x0501,
+	ATT_ReadRsp                    = 0x050B,
 	ATT_WriteRsp                   = 0x0513,
 	ATT_HandleValueNotification    = 0x051B,
 	GAP_DeviceInitDone             = 0x0600,
@@ -66,7 +67,9 @@ enum HCIExt_StatusCodes {
 	HCI_ERR_UNSUPPORTED_FEATURE_PARAM_VAL = 0x11,
 	HCI_ERR_INVALID_HCI_CMD_PARAMS = 0x12,
 	HCI_ERR_REMOTE_DEVICE_TERM_CONN_LOW_RESOURCES = 0X14,
+	HCI_ERR_REMOTE_DEVICE_TERM_CONN_POWER_OFF = 0x15,
 	HCI_ERR_CONN_TERM_BY_LOCAL_HOST = 0X16,
+	HCI_ERR_REPEATED_ATTEMPTS = 0x17,
 	HCI_ERR_RESERVED2 = 0x31
 };
 
@@ -91,6 +94,7 @@ int get_GAP_DeviceInit(datagram_t *datagram);
 int get_GAP_EstablishLinkRequest(datagram_t *datagram, char *MAC);
 int get_GAP_TerminateLinkRequest(datagram_t *datagram, long connHandle);
 int get_GATT_WriteCharValue(datagram_t *datagram, long connHandle, long handle, char *data, int length);
-
+int get_GATT_ReadCharValue( datagram_t *datagram, long connHandle, long handle);
+int get_GATT_Handle_By_UUID(datagram_t *datagram, long connHandle, short UUID);
 
 #endif /* BLE_DEFINES_H_ */

@@ -30,8 +30,14 @@ char* getSuccessString(char status, int esg){
 		case HCI_ERR_REMOTE_DEVICE_TERM_CONN_LOW_RESOURCES:
 			sprintf(sStr, "Remote device terminated connection due to low resources");
 			break;
+		case HCI_ERR_REMOTE_DEVICE_TERM_CONN_POWER_OFF:
+			sprintf(sStr, "Remote device terminated connection due to power off");
+			break;
 		case HCI_ERR_CONN_TERM_BY_LOCAL_HOST:
 			sprintf(sStr, "Connection terminated by local host");
+			break;
+		case HCI_ERR_REPEATED_ATTEMPTS:
+			sprintf(sStr, "Repeated Attempts");
 			break;
 		default:
 			sprintf(sStr, "Unknown HCI Ext Status 0x%02X", (unsigned int)status & 0xFF);
@@ -57,6 +63,9 @@ char* getSuccessString(char status, int esg){
 			break;
 		case HCI_ERR_REMOTE_DEVICE_TERM_CONN_LOW_RESOURCES:
 			sprintf(sStr, "Can't perform function when not in connection");
+			break;
+		case HCI_ERR_REMOTE_DEVICE_TERM_CONN_POWER_OFF:
+			sprintf(sStr, "Can't perform function due to device power off");
 			break;
 		case HCI_ERR_CONN_TERM_BY_LOCAL_HOST:
 			sprintf(sStr, "Waiting");
@@ -131,10 +140,11 @@ int get_GAP_TerminateLinkRequest(datagram_t *datagram, long connHandle)
 {
 	datagram->type = Command;
 	datagram->opcode = GAP_TerminateLinkRequest;
-	datagram->data_length = 2;
+	datagram->data_length = 3;
 
 	datagram->data[0] = (char)connHandle;
 	datagram->data[1] = (char)(connHandle >> 8);
+	datagram->data[2] = (char)GAP_LL_PEER_REQUESTED_TERM;
 	return 0;
 }
 
@@ -155,4 +165,36 @@ int get_GATT_WriteCharValue(datagram_t *datagram, long connHandle, long handle, 
 		datagram->data[i++] = data[j];
 	}
 	return 0;
+}
+
+int get_GATT_ReadCharValue( datagram_t *datagram, long connHandle, long handle) {
+	datagram->type = Command;
+	datagram->opcode = GATT_ReadCharValue;
+	datagram->data_length = 4;
+
+	int i=0;
+	datagram->data[i++] = (char)connHandle;
+	datagram->data[i++] = (char)(connHandle >> 8);
+	datagram->data[i++] = (char) handle;
+	datagram->data[i++] = (char)(handle >> 8);
+
+	return 0;
+}
+
+int get_GATT_Handle_By_UUID(datagram_t *datagram, long connHandle, short UUID)
+{
+	datagram->type = Command;
+	datagram->opcode = GATT_DiscCharsByUUID;
+	datagram->data_length = 8;
+
+	short start_hdl = 0x0000, end_hdl = 0xFFFF;
+	int i=0;
+	datagram->data[i++] = (char) connHandle;
+	datagram->data[i++] = (char)(connHandle >> 8);
+	datagram->data[i++] = (char) start_hdl;
+	datagram->data[i++] = (char)(start_hdl >> 8);
+	datagram->data[i++] = (char) end_hdl;
+	datagram->data[i++] = (char)(end_hdl >> 8);
+	datagram->data[i++] = (char) UUID;
+	datagram->data[i++] = (char)(UUID >> 8);
 }

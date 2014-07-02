@@ -45,16 +45,16 @@ int Log_parseData(datagram_t* datagram, int *i)
 	char index = getIndexInAttributeArray(Log_Services, Log_ServiceCount, handle+1);
 
 	if(index < 0) {
-		fprintf(stderr, "ERROR: Log - Handle %#04X not found\n", handle);
+		fprintf(stderr, "ERROR: Log - Handle %#04X not found\n", (unsigned int)handle);
 		return index;
 	}
 
 	if(pduLength < 2+Log_Services[index].length) {
-		fprintf(stderr, "ERROR: Log - Not enough data in datagram, pduLength=%d, expected %d for handle %#04X\n", pduLength, Log_Services[index].length+2, handle);
+		fprintf(stderr, "ERROR: Log - Not enough data in datagram, pduLength=%d, expected %d for handle %#04X\n", pduLength, Log_Services[index].length+2, (unsigned int)handle);
 		return -1;
 	}
 	if(pduLength > 2+Log_Services[index].length) {
-		fprintf(stderr, "WARNING: Log - Data length mismatch, pduLength=%d, expected %d for handle %#04X\n", pduLength, Log_Services[index].length+2, handle); 
+		fprintf(stderr, "WARNING: Log - Data length mismatch, pduLength=%d, expected %d for handle %#04X\n", pduLength, Log_Services[index].length+2, (unsigned int)handle); 
 		// Attempt to continue anyway.
 	}
 
@@ -66,7 +66,7 @@ int Log_parseData(datagram_t* datagram, int *i)
 //	strcat(mm_str, ",$LOG");
 
 	if(index == 0) { // Period attribute of type uint_16
-		snprintf(d_str, sizeof(d_str), "%d", unload_16_bit(datagram->data, i, 1));
+		snprintf(d_str, sizeof(d_str), "%d", (int)unload_16_bit(datagram->data, i, 1));
 	}
 	else if(index == 1) { // Battery attribute of type char
 		snprintf(d_str, sizeof(d_str), "%d", unload_8_bit(datagram->data, i));
@@ -85,9 +85,10 @@ int Log_parseData(datagram_t* datagram, int *i)
 	//strcat(mm_str, Log_Services[index].description);
 	strcat(mm_str, "\n");
 	debug(1, "%s", mm_str);
-
 	mm_append(mm_str, &Log_Device->mapped_mem);
+#if __arm__
 	file_idx = write_log_file("log", runtime_count, file_idx, mm_str);
+#endif
 
 	return 0;
 }

@@ -3,6 +3,7 @@
 
 int gpio_export(int gpio)
 {
+#if __arm__
 	int fd;
 	char buf[16];
 	sprintf(buf, "%d", gpio); 
@@ -13,12 +14,18 @@ int gpio_export(int gpio)
 
 	write(fd, buf, strlen(buf));
 	close(fd);
+#elif __i386__
+	printf("GPIO PORT %d EXPORT\n", gpio);
+#else
+#error "Target arcitechture not recognized"
+#endif
 
 	return 1;
 }
 
 int gpio_unexport(int gpio)
 {
+#if __arm__
 	int fd;
 	char buf[16];
 	sprintf(buf, "%d", gpio); 
@@ -29,11 +36,17 @@ int gpio_unexport(int gpio)
 
 	write(fd, buf, strlen(buf));
 	close(fd);
+#elif __i386__
+	printf("GPIO PORT %d UNEXPORT\n", gpio);
+#else
+#error "Target arcitechture not recognized"
+#endif
 
 	return 1;
 }
 
 int gpio_setDirection(int gpio, int dir) {
+#if __arm__
 	int fd;
 	char buf[36]; 	
 
@@ -48,10 +61,17 @@ int gpio_setDirection(int gpio, int dir) {
 		write(fd, "out", 3); 
 
 	close(fd);
+#elif __i386__
+	printf("GPIO PORT %d SET DIRECTION %s\n", gpio, dir==GPIO_DIR_IN?"IN":"OUT");
+#else
+#error "Target arcitechture not recognized"
+#endif
+
 	return 1;
 }
 
 int gpio_setValue(int gpio, int value) {
+#if __arm__
 	int fd;
 	char buf[36]; 
 
@@ -69,12 +89,21 @@ int gpio_setValue(int gpio, int value) {
 		write(fd, "0", 1); 
 
 	close(fd);
+#elif __i386__
+	printf("GPIO PORT %d SET VALUE %s\n", gpio, value==GPIO_SET_HIGH?"HIGH":"LOW");
+#else
+#error "Target arcitechture not recognized"
+#endif
+
 	return 1;
 }
 
 int gpio_getValue(int gpio) {
+	int val;
+
+#if __arm__
 	char value;
-	int val, fd;
+	int fd;
 	char buf[36]; 
 
 	sprintf(buf, "/sys/class/gpio/gpio%d/value", gpio);
@@ -95,6 +124,13 @@ int gpio_getValue(int gpio) {
 	}
 
 	close(fd);
+#elif __i386__
+	printf("GPIO PORT %d GET VALUE - Read 0\n", gpio);
+	val = 0;
+#else
+#error "Target arcitechture not recognized"
+#endif
+
 	return val;
 }
 

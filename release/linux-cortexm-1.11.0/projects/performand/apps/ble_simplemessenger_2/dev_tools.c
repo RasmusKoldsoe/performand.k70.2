@@ -8,13 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-//#include <sys/types.h>
-//#include <sys/stat.h>
-//#include <fcntl.h>
 #include <sys/time.h>
 #include <unistd.h>
-//#include <math.h>
-//#include <sys/mman.h>
 #include <time.h>
 
 #include "dev_tools.h"
@@ -53,6 +48,14 @@ void unload_MAC(char* data, int *i, char* MAC)
 	} while(MAC <= MAC_i);
 }
 
+float unload_float(char* data, int* i)
+{
+	float f;
+
+	memcpy(&f, data + *i, sizeof(float));
+
+	return f;
+}
 
 char compareMAC(const char* MAC1, const char* MAC2) 
 { 
@@ -87,7 +90,20 @@ BLE_Peripheral_t* findDeviceByConnHandle(BLE_Central_t *central, long connHandle
 		} 
 	} 
 	return NULL; 
-} 
+}
+
+BLE_Peripheral_t* findDeviceByID(BLE_Central_t *central, long id) 
+{
+	int i; 
+	for(i=0; i<MAX_PERIPHERAL_DEV; i++) { 
+		if(central->devices[i]._defined) { 
+			if(central->devices[i].ID == id) { 
+				return &(central->devices[i]); 
+			} 
+		} 
+	} 
+	return NULL; 
+}
 
 BLE_Peripheral_t* getNextAvailableDevice(BLE_Central_t *central, char *MAC) 
 {
@@ -111,12 +127,12 @@ long getDevIDbyConnHandle(BLE_Central_t *central, long connHandle)
 	return device->ID;
 }
 
-size_t getIndexInAttributeArray(attribute_t* arr, size_t length, long token)
+size_t getIndexInAttributeArray(attribute_t* arr, unsigned int length, long token)
 {
-	length--;
-	for(; length >= 0; length--) {
-		if(arr[length].handle == token)
-			return length;
+	int i;
+	for(i=0; i<length; i++) {
+		if(arr[i].handle == token)
+			return i;
 	}
 	return -1;
 }

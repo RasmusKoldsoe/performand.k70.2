@@ -15,42 +15,57 @@
 #include "../utils.h"
 #include "memory_map.h"
 
-int get_mem_index(h_mmapped_file *mapped_file) 
+union cShort {
+	short s;
+	char c[2];
+};
+
+unsigned int get_mem_index(h_mmapped_file *mapped_file) 
 {
-//	int mem_index = *mapped_file->mem_ptr; 
-//printf("-%d ", (*(mapped_file->mem_ptr) << 8) + *(mapped_file->mem_ptr+1)); fflush(stdout);
-	return (*(mapped_file->mem_ptr) << 8) + *(mapped_file->mem_ptr+1);
+	union cShort cs;
+	cs.c[0] = (char)*mapped_file->mem_ptr;
+	cs.c[1] = (char)*(mapped_file->mem_ptr+1);
+
+	//printf("-%d ", cs.s); fflush(stdout);
+
+	return (unsigned int)cs.s;
 }
 
 void set_mem_index(h_mmapped_file *mapped_file, int index)
 {
-	*mapped_file->mem_ptr = (char)(( index & 0xFF00 ) >> 8 );
-	*(mapped_file->mem_ptr+1) = (char)( index & 0xFF );
-//printf("+%d ", (*(mapped_file->mem_ptr) << 8) + *(mapped_file->mem_ptr+1)); fflush(stdout);
+	union cShort cs;
+	cs.s = (unsigned short)index;
+	
+	*mapped_file->mem_ptr = cs.c[0];
+	*(mapped_file->mem_ptr+1) = cs.c[1];
+
+	//printf("+%d ", cs.s); fflush(stdout);
 }
 
 void reset_mapped_mem(h_mmapped_file *mapped_file)
 {
-	int fd = 0;	
-	struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };
+	//int fd = 0;	
+	//struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };
 
 	//LOCK_FILE(fl, mapped_file->filename, fd, O_RDWR);
 	/* ****** CRITICAL REGION *********** */
 
 	memset(mapped_file->mem_ptr, 0, mapped_file->size);
 
+#if __arm__
 	asm("dsb");
+#endif
 	usleep(5000);
 
 	/* ****** END CRITICAL REGION ******* */
 	//UNLOCK_FILE(fd);
 }
 
-int mm_get_next_available(h_mmapped_file *mapped_file, int size_required)
+unsigned int mm_get_next_available(h_mmapped_file *mapped_file, unsigned int size_required)
 {
-	int mem_index_ptr = get_mem_index(mapped_file);
+	unsigned int mem_index_ptr = get_mem_index(mapped_file);
 
-	debug(3, "[%s mmap daemon] File size: 0x%X\n", mapped_file->filename, mem_index_ptr);
+	debug(3, "[%s mmap daemon] File size: %d\n", mapped_file->filename, mem_index_ptr);
 
 	if((mem_index_ptr + size_required + MM_FILE_INDEX_SIZE) > mapped_file->size) {
 		debug(1, "[%s mmap daemon] Reset buffer because 0x%X > 0x%X\n", 
@@ -68,16 +83,18 @@ int mm_get_next_available(h_mmapped_file *mapped_file, int size_required)
 void mm_append(char *content, h_mmapped_file *mapped_file)
 {
 	int fd = 0;	
-	int mem_index_ptr = 0;
-	int len = strlen(content);
+	unsigned int mem_index_ptr = 0;
+	unsigned int len = strlen(content);
 	struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };
-	
 
 	LOCK_FILE(fl, mapped_file->filename, fd, O_WRONLY);
 	/* ****** CRITICAL REGION *********** */
 
 	mem_index_ptr = mm_get_next_available(mapped_file, len);
+	char* start_ptr = (char*) mapped_file->mem_ptr + MM_FILE_INDEX_SIZE + mem_index_ptr;
 
+	if( start_ptr >= mapped_file->mem_ptr + mapped_file->size )
+		printf("exceeding size "); fflush(stdout);
 	sprintf((char*) mapped_file->mem_ptr + MM_FILE_INDEX_SIZE + mem_index_ptr, "%s", content);
 
 	set_mem_index(mapped_file, mem_index_ptr + len);
@@ -89,7 +106,9 @@ void mm_append(char *content, h_mmapped_file *mapped_file)
 	// in program order, do not execute until the DSB instruction completes. The DSB instruction 
 	// completes when all explicit memory accesses before it complete.
 	// For safety I added a delay ...
+#if __arm__
 	asm("dsb");
+#endif
 	usleep(5000);
 
 	/* ****** END CRITICAL REGION ******* */

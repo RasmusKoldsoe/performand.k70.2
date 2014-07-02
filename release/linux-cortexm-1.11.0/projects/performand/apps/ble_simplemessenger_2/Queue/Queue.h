@@ -10,6 +10,7 @@
 
 #define MAX_QUEUE_SIZE 10
 
+#include <pthread.h>
 #include "../HCI_Parser/HCI_Defs.h"
 
 typedef struct {
@@ -17,6 +18,7 @@ typedef struct {
 	datagram_t content[MAX_QUEUE_SIZE];
 	int front;
 	int count;
+	int maxCount;
 } queue_t;
 
 extern queue_t queueCreate(void);
@@ -24,5 +26,6 @@ extern void queueDestroy(queue_t *q);
 extern int enqueue(queue_t *q, datagram_t *elem);
 extern int dequeue(queue_t *q, datagram_t *elem);
 extern int queueCount(queue_t *q);
+extern int queueMaxCount(queue_t *q);
 
 #endif /* QUEUE_H_ */

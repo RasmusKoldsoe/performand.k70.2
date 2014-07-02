@@ -164,16 +164,23 @@ void *set_date(void *sem) {
 			break;
 		}
 	}
-	return NULL;
+	return NULL	;
 }
 
 
 int main(int argc, char **argv)
 {
+	int START_TIMESYNC_THREAD = 0;
 	{
 		char **sp = argv;
 		while( *sp != NULL ) {
 			programName = strsep(sp, "/");
+		}
+
+		int i;
+		for(i=0; i<argc; i++) {
+			if (strcmp(argv[i], "WITH_TIMESYNC") == 0)
+				START_TIMESYNC_THREAD = 1;
 		}
 	}
 
@@ -195,10 +202,16 @@ int main(int argc, char **argv)
 	pthread_attr_setdetachstate(&thread_attr, PTHREAD_CREATE_JOINABLE);
 	sem_init(&data_sem, 0, 0);
 
-	sd_tp = pthread_create( &set_date_thread, &thread_attr, set_date, (void *)&data_sem);
-	if( sd_tp ) {
-	  printf("[%s] ERROR read thread: Return code from pthread_create(): %d\n", programName, sd_tp);
-	  return -1;
+	if( START_TIMESYNC_THREAD == 1) {
+		debug(1, "Starting time synchronization with GPS\n");
+		sd_tp = pthread_create( &set_date_thread, &thread_attr, set_date, (void *)&data_sem);
+		if( sd_tp ) {
+	  		printf("[%s] ERROR read thread: Return code from pthread_create(): %d\n", programName, sd_tp);
+	  		return -1;
+		}
+	}
+	else {
+		debug(1, "Starting without time synchronization. Start program with 'WITH_TIMESYNC' to enable\n");
 	}
 
 	//Prepare and initialise memory mapping
@@ -212,8 +225,6 @@ int main(int argc, char **argv)
 		printf("[%s] ERROR mapping %s file.\n", programName, gps_mapped_file.filename);
 		return -1;	
 	}
-
-//	usleep(10000);
 
 	//Prepare serial port for tty data retrieval.
 	memset(&tio, 0, sizeof(tio));

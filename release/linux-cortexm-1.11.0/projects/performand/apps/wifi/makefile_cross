@@ -1,0 +1,36 @@
+#
+# Makefile for eMPL Linux userland implementation
+# 
+
+CC = $(CROSS_COMPILE_APPS)gcc
+CFLAGS := -Os -Wall -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=1
+LDFLAGS	:= -mcpu=cortex-m3 -mthumb -lrt
+
+DIR_GUARD = @mkdir -p $(@D)
+
+BUILDDIR := build
+BINARY1 := data_parser
+BINARY2 := GS_Initialize_wifi
+SOURCETREE = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call SOURCETREE,$d/,*.c))
+EXT_SOURCES = $(call SOURCETREE,../Common/,*.c)
+GAINSPAN_SOURCES = $(call SOURCETREE,gainspan/,*.c)
+
+SOURCES := $(wildcard *.c) $(EXT_SOURCES) $(GAINSPAN_SOURCES)
+OBJECTS := $(addprefix $(BUILDDIR)/, $(notdir $(SOURCES:%.c=%.o)))
+VPATH := $(subst  ,:,$(dir $(SOURCES)))
+
+all : $(BINARY1) $(BINARY2)
+
+redo : clean all
+	
+$(BINARY1) : $(filter-out $(BUILDDIR)/$(BINARY2).o,$(OBJECTS))
+	$(CC) $(CFLAGS) $(filter-out $(BUILDDIR)/$(BINARY2).o,$(OBJECTS)) -lm -o $(BINARY1) $(LDFLAGS)
+
+$(BINARY2) : $(filter-out $(BUILDDIR)/$(BINARY1).o,$(OBJECTS))
+	$(CC) $(CFLAGS) $(filter-out $(BUILDDIR)/$(BINARY1).o,$(OBJECTS)) -lm -o $(BINARY2) $(LDFLAGS)
+
+$(BUILDDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -I$(dir $<) -c $< -o $@
+
+clean:
+	rm -rf $(OBJECTS) $(BINARY) $(BINARY).gdb

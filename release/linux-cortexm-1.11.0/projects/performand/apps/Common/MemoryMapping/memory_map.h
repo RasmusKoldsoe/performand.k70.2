@@ -13,7 +13,7 @@ typedef struct {
 //int get_mem_index(h_mmapped_file *mapped_file);
 void reset_mapped_mem(h_mmapped_file *mapped_file);
 int mm_prepare_mapped_mem(h_mmapped_file *mapped_file);
-int mm_get_next_available(h_mmapped_file *mapped_file, int size_required);
+unsigned int mm_get_next_available(h_mmapped_file *mapped_file, unsigned int size_required);
 void mm_append(char *content, h_mmapped_file *mapped_file);
 
 #endif //MEMORY_MAP_H_

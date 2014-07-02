@@ -1,6 +1,8 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
+#include <time.h>
+
 #define USEC_PER_SEC    1000000L
 #define NSEC_PER_SEC	1000000000L
 #define NSEC_PER_MSEC   1000000L
@@ -25,7 +27,7 @@ extern void print_char_array(char *buff, int length, int offset);
 extern void print_byte_array(char *buff, int length, int offset);
 extern int setDate(int dd, int mm, int yy, int h, int min, int sec);
 
-extern void set_normalized_timespec(struct timespec *ts, time_t sec, signed long nsec);
+extern void set_normalized_timespec(struct timespec *ts, signed long sec, signed long nsec);
 extern struct timespec subtract_timespec(struct timespec lhs, struct timespec rhs);
 extern void format_timespec(char* str, struct timespec *ts);
 

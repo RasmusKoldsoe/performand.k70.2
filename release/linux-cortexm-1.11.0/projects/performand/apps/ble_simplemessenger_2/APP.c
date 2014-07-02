@@ -20,29 +20,34 @@
 #include "../Common/utils.h"
 #include "APP.h"
 
+#define max(a,b) (a>b?a:b)
 #define BLE_DEVICE_COUNT 3 //sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t)
 
 void processTimeouts(void);
 #define eventHandlerFcn_Count 3
-const eventHandlerFcn taskArr[] = {
+const eventHandlerFcn taskArr[eventHandlerFcn_Count] = {
 	HCI_ProcessEvent,
 	GATT_ProcessEvent,
 	APP_ProcessEvent
 };
 
-#define delayedEvents_MaxCount 20
+#define MAX_DELAYED_EVENTS 20
 struct delayedEvent_t {
 	int _enabled;
 	long taskID;
 	long events;
 	struct timespec timestamp;
-} delayedEvents[delayedEvents_MaxCount];
+} delayedEvents[MAX_DELAYED_EVENTS];
+
 
 pthread_mutex_t app_event_mutex;
 BLE_Central_t *bleCentral;
-long AppEvents[sizeof(taskArr)];
+
 int APP_TaskID;
-static long devices;
+long AppEvents[eventHandlerFcn_Count];
+long devices;
+int deviceIterator;
+
 //static struct timespec idle, stop;
 //static int worktime, idletime;
 
@@ -62,15 +67,15 @@ void APP_Run( void )
 
 		events = APP_GetEvent(idx);
 		APP_ClearEvent(idx);
-		//debug(2, "Task ID %d events before call: %08X\n", idx, events);
+//		debug(1, "Task ID %d events before call: %08X\n", idx, events);
 		events = (taskArr[idx])(idx, events);
-		//debug(2, "Task ID %d events after call: %08X\n", idx, events);
+//		debug(1, "Task ID %d events after call: %08X\n", idx, events);
 		APP_SetEvent(idx, events);
 	}
 	else {
 //clock_gettime(CLOCK_REALTIME, &idle);
 //worktime = timespec_subtract(&idle, &stop);
-		usleep(10*STD_WAIT_TIME); // 100ms
+		usleep(100000); // 100ms
 //clock_gettime(CLOCK_REALTIME, &stop);
 //idletime = timespec_subtract(&stop, &idle);
 //printf("worktime= %dus, idletime= %dus, Workload %0.4f\n", worktime, idletime, (float)((float)worktime/((float)worktime+(float)idletime)*100.0));
@@ -95,26 +100,50 @@ long APP_ProcessEvent(int taskID, long events)
 	}
 
 	if(events & APP_DEVICE_INIT_DONE_EVENT) {
-	// When system is initialized, connect to all devices
-		printf("Devices: %d, %08X\n", MAX_PERIPHERAL_DEV, devices);
-		APP_SetEvent(GATT_TaskID, GATT_ESTABLISH_CONNECTION | devices);
+	// When system is initialized, connect to the first unconnected device.
+		APP_SetEvent(APP_TaskID, APP_CONNECT_NEXT_DEVICE);
 		return events ^ APP_DEVICE_INIT_DONE_EVENT;
+	}
+
+	if(events & APP_CONNECT_NEXT_DEVICE) {
+		int j;
+		int timer_index = APP_FindTimerByEvent(GATT_TaskID, GATT_COMMAND_TIMEOUT | GATT_ESTABLISH_CONNECTION);
+
+		if( timer_index >= 0 ) {
+			// Already performing Establish Connection. System is waiting for reply from device.
+			// If device does not answer before timeout, APP_CONNECT_NEXT_DEVICE will be called again. Thus exit without doing anything
+			return events ^ APP_CONNECT_NEXT_DEVICE;
+		}
+
+		for(j = 0; j <= BLE_DEVICE_COUNT; j++) {
+			deviceIterator++;
+			if(deviceIterator >= BLE_DEVICE_COUNT)
+				deviceIterator = 0;
+
+			if(bleCentral->devices[deviceIterator].ID & devices && bleCentral->devices[deviceIterator]._connected == 0) {
+				APP_SetEvent(GATT_TaskID, GATT_ESTABLISH_CONNECTION | bleCentral->devices[deviceIterator].ID);
+				break;
+			}
+		}
+		return events ^ APP_CONNECT_NEXT_DEVICE;
 	}
 
 	if(events & APP_CONNECTION_ESTABLISHED) {
 	// When a device is connected, enable all services
+
 		APP_SetEvent(GATT_TaskID, GATT_ENABLE_SERVICES | (events & 0xFFFF0000));
+		APP_SetEvent(APP_TaskID, APP_CONNECT_NEXT_DEVICE);
 		return events ^ (APP_CONNECTION_ESTABLISHED | (events & 0xFFFF0000));
 	}
 
 	if(events & APP_CONNECTION_TERMINATED) {
-	// When a device is disconnected, reconnect if not  terminating
-		debug(2, "CONNECTION TERMINATED %08X\n", events);
+	// When a device is disconnected, reconnect if not terminating
+		debug(2, "CONNECTION TERMINATED %08X\n", (unsigned int)events);
 
 		if(_shutdown == 1) {
 			int i;
 			int stillConnected = 0;
-			for(i=0; i<sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t); i++) {
+			for(i=0; i<BLE_DEVICE_COUNT; i++) {
 				stillConnected += bleCentral->devices[i]._connected;
 			}
 
@@ -124,18 +153,26 @@ long APP_ProcessEvent(int taskID, long events)
 			}
 		}
 		else {
-			APP_SetEvent(GATT_TaskID, GATT_ESTABLISH_CONNECTION | events & 0xFFFF0000);
+			APP_SetEvent(APP_TaskID, APP_CONNECT_NEXT_DEVICE);
 		}
 
 		return events ^ APP_CONNECTION_TERMINATED;
 	}
 
+	if(events & APP_CONNECTION_CANCLED) {
+		APP_SetEvent(APP_TaskID, APP_CONNECT_NEXT_DEVICE);
+		return events ^ APP_CONNECTION_CANCLED;
+	}
+
 	return 0;
 }
 
-int APP_Init(BLE_Central_t *b)
+int APP_Init(BLE_Central_t *b, long dev)
 {
 	bleCentral = b;
+	devices = dev;
+	deviceIterator = BLE_DEVICE_COUNT;
+	_delayedEvents_MaxCount = 0;
 	int i;
 
 	i = pthread_mutex_init(&app_event_mutex, NULL);
@@ -151,11 +188,6 @@ int APP_Init(BLE_Central_t *b)
 	HCI_Init(t_id++, bleCentral);
 	GATT_Init(t_id++, bleCentral);
 	APP_TaskID = t_id;
-
-	devices = 0;
-	devices |= bleCentral->devices[0].ID; // Log
-	devices |= bleCentral->devices[1].ID; // Compass
-	devices |= bleCentral->devices[2].ID; // Wind sensor
 
 	for(i=0; i<BLE_DEVICE_COUNT; i++) {
 		if(devices & bleCentral->devices[i].ID) {
@@ -219,7 +251,7 @@ void processTimeouts(void)
 	struct timespec now;
 	clock_gettime(CLOCK_REALTIME, &now);
 
-	for(idx=0; idx < delayedEvents_MaxCount; idx++) {
+	for(idx=0; idx < MAX_DELAYED_EVENTS; idx++) {
 		if(delayedEvents[idx]._enabled > 0) { // if enabled
 			if(tscomp(&now, &delayedEvents[idx].timestamp) > 0) {
 				APP_SetEvent(delayedEvents[idx].taskID, delayedEvents[idx].events);
@@ -235,14 +267,16 @@ int APP_StartTimer(int taskID, long events, int timeout)
 	if(taskID > eventHandlerFcn_Count) return -1; // not a valid task number
 
 	int newIndex;
-	for(newIndex=0; newIndex < delayedEvents_MaxCount; newIndex++) {
+	for(newIndex=0; newIndex < MAX_DELAYED_EVENTS; newIndex++) {
 		if(delayedEvents[newIndex]._enabled == 0) 
 			break;
 	}
-	if(newIndex >= delayedEvents_MaxCount) {
-		fprintf(stderr, "Warning: APP - No available timers ready. Timer not initialized");
-		return -1;
+	if(newIndex >= MAX_DELAYED_EVENTS) {
+		fprintf(stderr, "Warning: APP - No available timers ready.\n");
+//		return -1;
+exit(0);
 	}
+	_delayedEvents_MaxCount = max(_delayedEvents_MaxCount, newIndex);
 
 	clock_gettime(CLOCK_REALTIME, &delayedEvents[newIndex].timestamp);
 	delayedEvents[newIndex].timestamp.tv_sec += timeout / 1000;
@@ -262,9 +296,25 @@ int APP_StartTimer(int taskID, long events, int timeout)
 	return 0;
 }
 
+int APP_FindTimerByEvent(int taskID, long events)
+{
+	int i;
+	for(i=0; i<MAX_DELAYED_EVENTS; i++) {
+//printf("ID: %d %c delayedEvents: %#08X | ID: %d events: %#08X ", delayedEvents[i].taskID, delayedEvents[i]._enabled>0?'R':'S', delayedEvents[i].events & 0x0000FFFF, taskID, events&0x0000FFFF); fflush(stdout);
+//if(delayedEvents[i]._enabled > 0) printf("Running "); fflush(stdout);
+//if(delayedEvents[i].taskID == taskID) printf("ID_Matching "); fflush(stdout);
+//if((delayedEvents[i].events & 0x0000FFFF) == (events&0x0000FFFF)) printf("Events_Matching "); fflush(stdout);
+//printf("\n");
+		if( (delayedEvents[i].taskID == taskID) && ((delayedEvents[i].events & 0x0000FFFF) == (events&0x0000FFFF)) && (delayedEvents[i]._enabled > 0) ) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 int APP_ClearTimer(int index)
 {
-	if(index > delayedEvents_MaxCount) return -1;
+	if(index > MAX_DELAYED_EVENTS) return -1;
 
 	delayedEvents[index]._enabled = 0;
 
@@ -281,7 +331,7 @@ int APP_ClearTimer(int index)
 int APP_ClearTimerByEvent(int taskID, long events)
 {
 	int i;
-	for(i=0; i<delayedEvents_MaxCount; i++) {
+	for(i=0; i<MAX_DELAYED_EVENTS; i++) {
 		if(delayedEvents[i].taskID == taskID && (delayedEvents[i].events & 0x00FF) == (events & 0x00FF) && delayedEvents[i]._enabled > 0) {
 			APP_ClearTimer(i);
 			return 0;

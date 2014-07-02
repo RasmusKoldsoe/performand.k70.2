@@ -3,7 +3,7 @@
 # 
 
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -Os -Wall -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -lrt -pthread -DVERBOSITY=1
+CFLAGS := -Os -Wall -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -lrt -pthread -DVERBOSITY=0
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
 
 VPATH = ../Common
@@ -30,7 +30,7 @@ OBJS = 	GS_API_device.o \
 	tcp_stuff.o \
 	log_stuff.o
 
-all : GS_Initialize_wifi data_parser2
+all : GS_Initialize_wifi data_parser
 
 GS_Initialize_wifi : $(OBJS) GS_Initialize_wifi.o
 	$(CC) $(CFLAGS) $(OBJS) -I $(APIDIR) -I $(ATDIR) GS_Initialize_wifi.o -lm -o GS_Initialize_wifi
@@ -38,8 +38,8 @@ GS_Initialize_wifi : $(OBJS) GS_Initialize_wifi.o
 write_tcp_stream : $(OBJS) write_tcp_stream.o
 	$(CC) $(CFLAGS) $(OBJS) -I $(APIDIR) -I $(ATDIR) write_tcp_stream.o -lm -o w_tcp_str
 
-data_parser2 : $(OBJS) data_parser_2.o
-	$(CC) $(CFLAGS) -elf2flt=-s24576 $(OBJS) -I $(APIDIR) -I $(ATDIR) data_parser_2.o -lm -o parser
+data_parser : $(OBJS) data_parser.o
+	$(CC) $(CFLAGS) -elf2flt=-s24576 $(OBJS) -I $(APIDIR) -I $(ATDIR) data_parser.o -lm -o parser
 	chmod +x parser
 
 GS_API_device.o : $(APIDIR)/GS_API_device.c

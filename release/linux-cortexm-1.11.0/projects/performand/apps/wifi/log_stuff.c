@@ -14,6 +14,7 @@ int log_init()
 	runtime_count = read_rt_count();
 	debug(2, "Runtime count: %d\n", runtime_count);
 	file_idx = 0;
+	return 0;
 }
 
 int log_store_data(char *data, int len)

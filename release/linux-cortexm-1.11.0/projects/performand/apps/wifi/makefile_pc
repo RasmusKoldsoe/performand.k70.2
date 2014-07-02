@@ -1,27 +1,27 @@
 #
-# Makefile for Cross-compilation of eMPL Linux userland implementation
-#
+# Makefile for eMPL Linux userland implementation __x86__
+# 
 
 CC = gcc
-CFLAGS := -pthread -DVERBOSITY=1 -DSTD_BUF_SIZE=64
+CFLAGS := -pthread -DVERBOSITY=1
 LDFLAGS	:= -lrt
 
 DIR_GUARD = @mkdir -p $(@D)
 
 BUILDDIR := build
-BINARY := bleCentral
+BINARY := data_parser
 SOURCETREE = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call SOURCETREE,$d/,*.c))
 EXT_SOURCES = $(call SOURCETREE,../Common/,*.c)
+GAINSPAN_SOURCES = $(call SOURCETREE,gainspan/,*.c)
 
-SOURCES := $(wildcard *.c) $(EXT_SOURCES) $(SOURCETREE) 
+SOURCES := $(wildcard *.c) $(EXT_SOURCES) $(GAINSPAN_SOURCES)
 OBJECTS := $(addprefix $(BUILDDIR)/, $(notdir $(SOURCES:%.c=%.o)))
 VPATH := $(subst  ,:,$(dir $(SOURCES)))
-
 
 all : $(BINARY)
 
 redo : clean $(BINARY)
-
+	
 $(BINARY) : $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -lm -o $(BINARY) $(LDFLAGS)
 
@@ -30,5 +30,3 @@ $(BUILDDIR)/%.o: %.c
 
 clean:
 	rm -rf $(OBJECTS) $(BINARY) $(BINARY).gdb
-
-

@@ -2736,7 +2736,7 @@ AtLib_BulkDataTransfer (uint8_t cid, const uint8_t * pData, uint32_t dataLen)
   char digits[5];
 
   /* Construct the bulk data start indication message  */
-  AtLib_ConvertNumberTo4DigitASCII (dataLen, digits);
+  AtLib_ConvertNumberTo4DigitASCII (dataLen, (int8_t *)digits);
   sprintf (&(G_ATCmdBuf[0]), "%c%c%c%s", HOST_APP_ESC_CHAR, 'Z', cid, digits);
 
  // print_ch_array(&(G_ATCmdBuf[0]), strlen (G_ATCmdBuf),0);

@@ -77,8 +77,13 @@ int reset_LED(int pin)
 
 
 
-int main (void)
+int main (int argc, char *argv[])
 {
+	if( argc < 2 ){
+		debug(0, "Need serial port as input param:\n\t%s /dev/ttyS4\n", argv[0]);
+		return -1;
+	}
+
 	if( !reset_BLE(BLE_0_RESET) )
 		return -1;
 	if( !reset_LED(LED_IND3) )
@@ -91,7 +96,7 @@ int main (void)
 	BLE_Central_t bleCentral;
 	memset(&bleCentral, 0, sizeof(BLE_Central_t));
 
-	bleCentral.port = "/dev/ttyS4"; // "/dev/ttyS3"
+	bleCentral.port = argv[1]; //"/dev/ttyS4"; // "/dev/ttyS3"
 	bleCentral._run = 1;
 	bleCentral.rxQueue = queueCreate();
 	bleCentral.txQueue = queueCreate();
@@ -107,7 +112,8 @@ int main (void)
 		                       },
 		                       {.ID = 0x1 << 17,
 	                            .connHandle = -1,
-	                            .connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x18, 0xD8},
+	                            //.connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x18, 0xD8}, // Kiel
+	                            .connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x17, 0x60},
 		                        .serviceHdls = Compass_Services,
 	                            .serviceHdlsCount = Compass_ServiceCount,
 	                            .initialize = Compass_initialize,
@@ -135,7 +141,12 @@ int main (void)
 	}
 	initNetworkStat();
 
-	APP_Init(&bleCentral);
+/*	devices |= bleCentral->devices[0].ID; // Log
+	devices |= bleCentral->devices[1].ID; // Compass
+	devices |= bleCentral->devices[2].ID; // Wind sensor*/ 
+
+	//APP_Init(&bleCentral, bleCentral.devices[0].ID|bleCentral.devices[1].ID | bleCentral.devices[2].ID); // Kiel
+	APP_Init(&bleCentral, bleCentral.devices[1].ID); // Debug
 
 	//Register signal handler.
 	register_sig_handler(); 
@@ -166,11 +177,15 @@ int main (void)
 	pthread_join(wt, NULL);
 
 	APP_Exit();
-	queueDestroy(&bleCentral.txQueue);
-	queueDestroy(&bleCentral.rxQueue);
 	close_serial(bleCentral.fd);
 
 	printNetworkStat();
+	printf("tx Queue max count: %d\n", bleCentral.txQueue.maxCount);
+	printf("rx Queue max count: %d\n", bleCentral.rxQueue.maxCount);
+	queueDestroy(&bleCentral.txQueue);
+	queueDestroy(&bleCentral.rxQueue);
+
+	printf("Delayed Events Max Count: %d\n", _delayedEvents_MaxCount); 
 
 	printf("Exiting main thread\n");
 	pthread_exit(NULL);

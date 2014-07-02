@@ -15,6 +15,8 @@
 #define GATT_TERMINATE_CONNECTION        0x0008
 #define GATT_ENABLE_SERVICES             0x0010
 #define GATT_DISABLE_SERVICES            0x0020
+#define GATT_HDL_BY_UUID				 0x0040
+#define GATT_READ_CHARACTERISTIC         0x0080
 #define GATT_CANCEL_COMMAND              0x4000
 #define GATT_COMMAND_TIMEOUT             0x8000
 

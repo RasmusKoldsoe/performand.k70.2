@@ -61,7 +61,7 @@ int setDate(int dd, int mm, int yy, int h, int min, int sec)  // format like MMD
  * For negative values only the tv_sec field is negative !
  */
 
-void set_normalized_timespec(struct timespec *ts, time_t sec, signed long nsec)
+void set_normalized_timespec(struct timespec *ts, signed long sec, signed long nsec)
 {
 	while (nsec >= NSEC_PER_SEC) {
 		/*
@@ -124,7 +124,7 @@ void print_char_array(char *buff, int length, int offset)
 int write_log_file(char *name, int runtime_count, int file_idx, char *receiveMessage) {
 	FILE *file;
 	int size=0;
- 	struct statfs _statfs;
+// 	struct statfs _statfs;
 
 	//if(statfs("/dev/mmcblk0p1", &_statfs)<0)
 	//	printf("Error can't determine remain capacity on SD-Card\n");

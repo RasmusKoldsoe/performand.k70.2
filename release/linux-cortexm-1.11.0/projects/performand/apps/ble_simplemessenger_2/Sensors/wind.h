@@ -13,11 +13,10 @@ typedef struct {
 } attribute_t;
 */
 
-static int Wind_ServiceCount = 4;
-static attribute_t Wind_Services[] = {{0x0040, 4, "\tSpeed"},
-                                      {0x0044, 4, "\tDirection"},
-                                      {0x0048, 4, "\tTemperature"},
-                                      {0x0037, 1, "\tBattery"}
+static int Wind_ServiceCount = 3;
+static attribute_t Wind_Services[] = {{0x002E, 4, "\tTemperature"},
+                                      {0x002A, 8, "\tData"},
+                                      {0x0026, 1, "\tBattery"}
                                      };
 
 int Wind_initialize(BLE_Peripheral_t *ble_device);

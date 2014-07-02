@@ -91,6 +91,9 @@ int HCI_Parse(void)
 					debug(3, "OpCode:\t(%02X %02X)\n", (unsigned int)opCode >> 8 & 0xFF, (unsigned int)opCode & 0xFF);
 
 					switch(opCode) {
+					case GATT_ReadCharValue:
+						debug(1, "ReadCharValue\n");
+						break;
 					case GATT_WriteCharValue:
 						debug(1, "WriteCharValue\n");
 						break;
@@ -106,6 +109,7 @@ int HCI_Parse(void)
 					default:
 						debug(1, "unknown opcode %04X\n", (unsigned int)opCode);
 					}
+					
 					APP_ClearTimerByEvent(HCI_TaskID, HCI_COMMAND_TIMEOUT | HCI_TX_DATA_READY);
 					break;
 				}

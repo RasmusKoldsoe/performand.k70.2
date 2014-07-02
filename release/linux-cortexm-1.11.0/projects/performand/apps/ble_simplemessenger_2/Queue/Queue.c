@@ -6,8 +6,10 @@
  */
 #include <stdio.h>
 #include <string.h>
-#include <pthread.h>
+
 #include "Queue.h"
+
+#define max(a,b) (a>b?a:b)
 
 queue_t queueCreate()
 {
@@ -15,7 +17,7 @@ queue_t queueCreate()
 
 	memset(&q, 0, sizeof(q));
 	
-	usleep(1000);
+//	usleep(1000);
 
 	int r;
 	r = pthread_mutex_init(&q.q_mutex, NULL);
@@ -44,6 +46,8 @@ int enqueue(queue_t *q, datagram_t *elem)
 	memcpy(&q->content[newIndex], elem, sizeof(*elem));
 	q->count++;
 	pthread_mutex_unlock(&q->q_mutex);
+//printf("ENQUEUE: q_count=%d\n", q->count);
+	q->maxCount = max(q->maxCount, q->count);
 
 	return 0;
 }
@@ -64,11 +68,16 @@ int dequeue(queue_t *q, datagram_t *elem)
 	q->front %= MAX_QUEUE_SIZE;
 	q->count--;
 	pthread_mutex_unlock(&q->q_mutex);
-
+//printf("DEQUEUE: q_count=%d\n", q->count);
 	return 0;
 }
 
 int queueCount(queue_t *q)
 {
 	return q->count;
+}
+
+int queueMaxCount(queue_t *q)
+{
+	return q->maxCount;
 }

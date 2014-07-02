@@ -11,14 +11,14 @@
 #include "../hardware/GS_HAL.h"
 #include "../AT/AtCmdLib.h"
 
-static void print_char_array(char *buff, int length, int offset)
+/*static void print_char_array(char *buff, int length, int offset)
 {
 	int i;
 	for(i=offset; i<length; i++) {
 		printf("%c", buff[i] & 0xff);
 	}
 	printf("\n");
-}
+}*/
 
 /** Public Method Implementation **/
 /*void GS_API_Printf(const char *format, ...){

@@ -452,12 +452,12 @@ static void gs_api_setCidDataHandler(uint8_t cid, GS_API_DataHandler cidDataHand
    @return CID as an integer, or GS_API_INVALID_CID if it couldn't be converted
 */
 static uint8_t gs_api_parseCidStr(uint8_t* cidStr){
-     uint8_t cid = GS_API_INVALID_CID;
+     int8_t cid = GS_API_INVALID_CID;
 
-     printf("cidStr: %s\n", (char*)cidStr);
+     printf("cidStr: %s\n", (char *)cidStr);
 
      //if(sscanf((char*)cidStr, "%x", &cid)){
-     if((cid = atoi(cidStr)) && *cidStr == '0') { 
+     if((cid = atoi((char *)cidStr)) && *cidStr == '0') { 
           if(cid >= CID_COUNT){
                cid = GS_API_INVALID_CID;
           }

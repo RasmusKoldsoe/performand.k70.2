@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include "../Common/GPIO/gpio_api.h"
+#include "gainspan/API/GS_API.h"
 
 #define FILE_LENGTH 	0x1000	//1KB File emory
 
@@ -51,9 +52,9 @@ typedef enum{
 static char tcpServerCID = GS_API_INVALID_CID; ///< Connection ID for TCP server
 static char line[256], command[25], value1[25], value2[25], value3[25], value4[25], value5[25]; ///< Command parsing strings
 static char argumentCount; ///< Number of arguments passed into command handler
-static char currentPos; ///< Current position in the line buffer
-static int tcpClientSentTime; ///< Timestamp of last sent TCP Client temperature packet
-static int firmwareUpdated; ///< Firmware Update complete flag
+static int currentPos; ///< Current position in the line buffer
+//static int tcpClientSentTime; ///< Timestamp of last sent TCP Client temperature packet
+//static int firmwareUpdated; ///< Firmware Update complete flag
 static TCP_SERVER_COMMANDS commandToHandle = TCP_NO_CMD; ///< Current command to handle
 static char commandCID = GS_API_INVALID_CID; ///< Connection ID last command came from
 
@@ -61,15 +62,15 @@ static char* programName = NULL;
 
 /** Private Method Declarations **/
 void *ledToggle(void* _not_used);
-static void gs_handle_tcp_client_data(char cid, char data);
-static void gs_handle_tcp_server_data(char cid, char data);
-static TCP_SERVER_COMMANDS gs_tcp_scan_for_commands(void);
+void gs_handle_tcp_client_data(char cid, char data);
+void gs_handle_tcp_server_data(char cid, char data);
+TCP_SERVER_COMMANDS gs_tcp_scan_for_commands(void);
 
 
-static void gs_handle_tcp_server_data(char cid, char data){
+void gs_handle_tcp_server_data(char cid, char data){
 	// Save the data to the line buffer
 	line[currentPos++] = data;
-	printf("data %s",data);
+	printf("data %s", &data);
 	// Check for a newline character
 	if(data == '\n'){
 		// null terminate the string so sscanf works
@@ -89,7 +90,7 @@ static void gs_handle_tcp_server_data(char cid, char data){
 @brief Scans command string for valid command
 @param
 */
-static TCP_SERVER_COMMANDS gs_tcp_scan_for_commands(void){
+TCP_SERVER_COMMANDS gs_tcp_scan_for_commands(void){
   if(argumentCount == 3 && strstr((char*)command, START_TCP_CLIENT_STR)){
     return START_TCP_CLIENT;
   }
@@ -126,24 +127,25 @@ void *ledToggle(void* _done)
 
 	if(!gpio_unexport(LED_IND1) || !gpio_unexport(LED_IND2))
 		printf("[%s] ERROR: UnExporting gpio port: %d LED_IND1 and/or %d LED_IND2\n", programName, LED_IND1, LED_IND2);
+	return NULL;
 }
 
 int main(int argc, char **argv)
 {
 	const char delim = '/';
 	char **sp = argv;
-	char test_data[5]="Hello";
+//	char test_data[5]="Hello";
 
 	while( *sp != NULL ) {
 		programName = strsep(sp, &delim);
 	}
 
-	char tcpClientCID = 1;
+//	char tcpClientCID = 1;
 
-	FILE * fp;
-	char * line = NULL;
-	size_t len = 0;
-	ssize_t read;
+//	FILE * fp;
+//	char * line = NULL;
+//	size_t len = 0;
+//	ssize_t read;
 	int timeout=0;
 	int done = 0;
 
@@ -202,20 +204,20 @@ int main(int argc, char **argv)
   	gpio_setValue(LED_IND1, GPIO_SET_LOW);
 
 	// Create the TCP Server connection
-	//tcpServerCID = GS_API_CreateTcpServerConnection(TCP_SERVER_PORT, gs_handle_tcp_server_data);
+	tcpServerCID = GS_API_CreateTcpServerConnection(TCP_SERVER_PORT, gs_handle_tcp_server_data);
 	
 	// Create the TCP Client connection  //	
-	usleep(5000000);
-	tcpServerCID = GS_API_CreateTcpClientConnection(TCP_SERVER_IP, TCP_SERVER_PORT, gs_handle_tcp_server_data);
+	//usleep(5000000);
+	//tcpServerCID = GS_API_CreateTcpClientConnection(TCP_SERVER_IP, TCP_SERVER_PORT, gs_handle_tcp_server_data);
 	// ******************************** //
   	
-	printf("\nTCP CLIENT - Tyring to connect %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
+//	printf("\nTCP SERVER - Tyring to connect %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
 	if(tcpServerCID != GS_API_INVALID_CID) {
- 	    	printf("TCP CLIENT - CONNECTED %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
+// 	    printf("TCP SERVER - CONNECTED %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
 		gpio_setValue(LED_IND2, GPIO_SET_HIGH); // Turn on only when successfull run
 	}
 	else {
-		printf("ERROR: TCP CLIENT - CANNOT CONNECT %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
+//		printf("ERROR: TCP SERVER - CANNOT CONNECT %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
 		gpio_setValue(LED_IND1, GPIO_SET_LOW);
 		goto ERROR_EXIT;
 	}

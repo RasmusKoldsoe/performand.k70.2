@@ -23,8 +23,15 @@
 //#define MAXSIZE 40
 //#define MAXTOKEN 20
 
-#define SENSOR_DIR_PATH   "/sensors/"
-#define PARSER_DIR_PATH   "/nand/parser/"
+
+#if __arm__
+  #define SENSOR_DIR_PATH   "/sensors/"
+  #define PARSER_DIR_PATH   "/nand/parser/"
+#elif __i386__
+  #define SENSOR_DIR_PATH   "/sensors/"
+  #define PARSER_DIR_PATH   "/sensors/parser/"
+#endif
+
 #define MAX_SENSOR_COUNT  5
 #define MAX_PARSER_COUNT  2
 #define MAX_TOKEN_COUNT   29
@@ -32,8 +39,8 @@
 #define STD_LINE_LENGTH  700
 #define START_TOKEN       '$'
 #define LS_LINE_OFFSET    57
-//#define NAME_MAX MAX_TOKEN_LENGTH
 #define SAMPLE_PERIOD_US 500000
+
 /*
 #define LOCK_FILE(file_name, fd) { fl.l_pid = getpid(); \
 					  			   fd = open(file_name, O_RDONLY); \
@@ -143,6 +150,12 @@ int read_parser_line( struct parse_element *element, char *line, struct sensor_e
 	for(count=0; count < element->token_count && rcount < orig_len; count++) { 
 		sscanf(line+rcount, "\"%[^\"]\"",  element->parse_str[count]);
 		rcount += strlen(element->parse_str[count]) + 3; 
+		if(count == 0){
+			int k;
+			for(k=0; k<strlen(element->parse_str[count]); k++) {
+				if(element->parse_str[count][k] == '\'') element->parse_str[count][k] = '\"';
+			}
+		}
 	}
 
 	return 0;
@@ -255,15 +268,16 @@ int parse_line(char *i_str, char *o_str, struct parse_element *element)
 		if( element->show_unused_tokens == 0 && strlen(data_str[count]) == 0 )
 			continue;
 //printf("data token: %s\tline token: %s\n", d[count], s[count]);	
-		f_data_len += sprintf(f_data + f_data_len, "%s", element->delimitor);
-		f_data_len += sprintf(f_data + f_data_len, element->parse_str[count], data_str[count] );
+		f_data_len += sprintf(f_data + f_data_len, "%s", element->delimitor); // Insert delimitor
+		f_data_len += sprintf(f_data + f_data_len, element->parse_str[count], data_str[count] ); // Insert the actual formatted data
 	}
 
 	if( element->delim_at_final_token > 0 ) {
 		f_data_len += sprintf(f_data + f_data_len, "%s", element->delimitor);
 	}
 
-	int i = sprintf(o_str, element->parse_str[0], data_str[0], f_data);
+// Inserting the data into the Node tag, and formatting the timestamp as well
+	int i = sprintf(o_str, element->parse_str[0], data_str[0], f_data); 
 	strcat(o_str, "\r\n");
 
 	return i+2;
@@ -348,8 +362,11 @@ int main (int argc, char **argv)
 		sem_post(&sample_start_sem);
 		clock_gettime(CLOCK_REALTIME, &beginning);
 		/* ****** START TIMING ****** */
-length = snprintf(outb, STD_LINE_LENGTH, "<dataset timestamp=\"%d.%lu\">\n", (int)beginning.tv_sec, beginning.tv_nsec/NSEC_PER_MSEC);
-tcp_send_data(outb, length);
+
+		length = snprintf(outb, STD_LINE_LENGTH, "<dataset timestamp=\"%d.%lu\">\r\n", (int)beginning.tv_sec, beginning.tv_nsec/NSEC_PER_MSEC);
+		tcp_send_data(outb, length);
+		log_store_data(outb, length);
+
 		for( i=0; i < entryCount; i++) {
 			fp = fopen(sensors[i].fullpath, "rw");
 			if(fp == NULL) {
@@ -384,7 +401,11 @@ tcp_send_data(outb, length);
 			fcntl(fileno(fp), F_SETLK, &fl);
 			fclose(fp);
 		}
-tcp_send_data("<\\dataset>\n", 12);
+
+		length = sprintf(outb, "</dataset>\r\n");
+		tcp_send_data(outb, length);
+		log_store_data(outb, length);
+
 		/* ****** END TIMING ****** */
 		clock_gettime(CLOCK_REALTIME, &final);
 		spec = subtract_timespec(final, beginning);
