@@ -21,6 +21,7 @@
 #include "SerialLogic/serialLogic.h"
 #include "APP.h"
 #include "../Common/GPIO/gpio_api.h"
+#include "../Common/utils.h"
 
 #include "Sensors/speedLog.h"
 #include "Sensors/wind.h"
@@ -33,22 +34,22 @@ int reset_BLE(int pin)
 {
 //init GPIO:
 	if( !gpio_export(pin) ) {
-		printf("ERROR: Exporting gpio port: %d\n", pin);
+		fprintf(stderr, "[Bluetooth] ERROR: Exporting gpio port: %d\n", pin);
 		return 0;
 	}
 //set direction 1=in 0=out
 	if( !gpio_setDirection(pin, GPIO_DIR_OUT) ) {
-		printf("ERROR: Set gpio port direction\n");
+		fprintf(stderr, "[Bluetooth] ERROR: Set gpio port direction\n");
 		return 0;
 	}
 //set GPIO value low:
 	if( !gpio_setValue(pin, 0) ) {
-		printf("ERROR: Set gpio port state low\n");
+		fprintf(stderr, "[Bluetooth] ERROR: Set gpio port state low\n");
 		return 0;
 	}
 //set GPIO value high:
 	if( !gpio_setValue(pin, 1) ) {
-		printf("ERROR: Set gpio port state high\n");
+		fprintf(stderr, "[Bluetooth] ERROR: Set gpio port state high\n");
 		return 0;
 	}
 // Time between setting low and high is measured to ~900us. Minimum reset_n
@@ -59,17 +60,17 @@ int reset_BLE(int pin)
 int reset_LED(int pin)
 {
 	if( !gpio_export(pin) ) {
-		printf("ERROR: Exporting gpio port: %d\n", BLE_0_RESET);
+		fprintf(stderr, "[Bluetooth] ERROR: Exporting gpio port: %d\n", BLE_0_RESET);
 		return 0;
 	}
 
 	if( !gpio_setDirection(pin, GPIO_DIR_OUT) ) {
-		printf("ERROR: Set gpio port direction.\n");
+		fprintf(stderr, "[Bluetooth] ERROR: Set gpio port direction.\n");
 		return 0;
 	}
 
-	if( !gpio_setValue(pin, 0) ) {
-		printf("ERROR: Exporting gpio port.");
+	if( !gpio_setValue(pin, 1) ) {
+		fprintf(stderr, "[Bluetooth] ERROR: Exporting gpio port.");
 		return 0;
 	}
 	return 1;
@@ -93,6 +94,7 @@ int main (int argc, char *argv[])
 	int rt, wt;
 	pthread_t read_thread, write_thread;
 	pthread_attr_t thread_attr;
+	int runtime_count = read_rt_count();
 	BLE_Central_t bleCentral;
 	memset(&bleCentral, 0, sizeof(BLE_Central_t));
 
@@ -100,43 +102,50 @@ int main (int argc, char *argv[])
 	bleCentral._run = 1;
 	bleCentral.rxQueue = queueCreate();
 	bleCentral.txQueue = queueCreate();
+
 	BLE_Peripheral_t dev[] = { {.ID = 0x1 << 16, // bitwise id - lowest id available
 	                            .connHandle = -1,
 	                            .connMAC = {0x78, 0xC5, 0xE5, 0xA0, 0x14, 0x12},
+	                            .log = &Log_SdLog,
 		                        .serviceHdls = Log_Services,
 	                            .serviceHdlsCount = Log_ServiceCount,
 	                            .initialize = Log_initialize,
 	                            .parseDataCB = Log_parseData,
+	                            .finalize = Log_finalize,
 		                        ._connected = 0,
 		                        ._defined = 1
 		                       },
 		                       {.ID = 0x1 << 17,
 	                            .connHandle = -1,
-	                            //.connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x18, 0xD8}, // Kiel
-	                            .connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x17, 0x60},
+	                            //.connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x18, 0xD8}, 
+	                            .connMAC = {0xBC, 0x6A, 0x29, 0xAB, 0x17, 0x60}, // New for Kiel
+	                            .log = &Compass_SdLog,
 		                        .serviceHdls = Compass_Services,
 	                            .serviceHdlsCount = Compass_ServiceCount,
 	                            .initialize = Compass_initialize,
 	                            .parseDataCB = Compass_parseData,
+	                            .finalize = Compass_finalize,
 		                        ._connected = 0,
 		                        ._defined = 1
 		                       },
 		                       {.ID = 0x1 << 18,
 	                            .connHandle = -1,
 	                            .connMAC = {0x90, 0x59, 0xaf, 0x09, 0xd5, 0x9f},
+	                            .log = &Wind_SdLog,
 		                        .serviceHdls = Wind_Services,
 	                            .serviceHdlsCount = Wind_ServiceCount,
 	                            .initialize = Wind_initialize,
 							    .parseDataCB = Wind_parseData,
+	                            .finalize = Wind_finalize,
 		                        ._connected = 0,
 		                        ._defined = 1
 		                       }
 		                     };
-		
+
 	bleCentral.devices = dev;
 	bleCentral.fd = open_serial(bleCentral.port, O_RDWR);
 	if(bleCentral.fd < 0){
-		printf("ERROR Opening port: %d\n", bleCentral.fd);
+		fprintf(stderr, "[Bluetooth] ERROR Opening port: %d\n", bleCentral.fd);
 		return -1;
 	}
 	initNetworkStat();
@@ -145,8 +154,8 @@ int main (int argc, char *argv[])
 	devices |= bleCentral->devices[1].ID; // Compass
 	devices |= bleCentral->devices[2].ID; // Wind sensor*/ 
 
-	//APP_Init(&bleCentral, bleCentral.devices[0].ID|bleCentral.devices[1].ID | bleCentral.devices[2].ID); // Kiel
-	APP_Init(&bleCentral, bleCentral.devices[1].ID); // Debug
+	APP_Init(&bleCentral, bleCentral.devices[0].ID | bleCentral.devices[1].ID | bleCentral.devices[2].ID); // Kiel
+	//APP_Init(&bleCentral, bleCentral.devices[1].ID); // Debug
 
 	//Register signal handler.
 	register_sig_handler(); 
@@ -156,13 +165,13 @@ int main (int argc, char *argv[])
 
 	rt = pthread_create( &read_thread, &thread_attr, read_serial, (void *)&bleCentral);
 	if( rt ) {
-	  printf("ERROR read thread: Return code from pthread_create(): %d\n", rt);
+	  fprintf(stderr, "[Bluetooth] ERROR read thread: Return code from pthread_create(): %d\n", rt);
 	  return -1;
 	}
 
 	wt = pthread_create( &write_thread, &thread_attr, write_serial, (void *)&bleCentral);
 	if( wt ) {
-	  printf("ERROR write thread: Return code from pthread_create(): %d\n", wt);
+	  fprintf(stderr, "[Bluetooth] ERROR write thread: Return code from pthread_create(): %d\n", wt);
 	  return -1;
 	}
 

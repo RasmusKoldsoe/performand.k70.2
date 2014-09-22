@@ -29,6 +29,9 @@
 #define MAG_SENSOR_RANGE 	4096
 #define ACCEL_SENSOR_RANGE 	32000
 
+
+#define MAG_SENSOR_SENSITIVITY	0.3 //13 bit (0.3μT per LSB) Full scale measurement range is ±1200μT
+
 // Somewhat arbitrary limits here. The values are samples per second.
 // The MIN comes from the way we are timing our loop in imu and imucal.
 // That's easily worked around, but no one probably cares.
@@ -41,8 +44,9 @@
 #define MAX_SAMPLE_RATE 100
 
 typedef struct {
-	short offset[3];
-	short range[3];
+	float offset[3];
+	float range[3];
+	float comp[9];
 } caldata_t;
 
 typedef struct {
@@ -54,17 +58,30 @@ typedef struct {
 	short rawMag[3];
 	unsigned long magTimestamp;
 
-	short calibratedAccel[3];
-	short calibratedMag[3];
+	double calibratedAccel[3];
+	double calibratedMag[3];
+	double absoluteMag[3];
+	double normMag[3];
+	double M;
 
 	quaternion_t fusedQuat;
 	vector3d_t fusedEuler;
 
 	float lastDMPYaw;
 	float lastYaw;
+
+	double heading;
+	double ema_heading;
+	double ema_alpha;
+
+	double pitch;
+	double kalman_pitch;
+	double roll;
+	double kalman_roll;
+
 } mpudata_t;
 
-
+int data_ready( void );
 void mpu9150_set_debug(int on);
 int mpu9150_init(int i2c_bus, int sample_rate, int yaw_mixing_factor);
 void mpu9150_exit();
@@ -73,6 +90,7 @@ int mpu9150_read_dmp(mpudata_t *mpu);
 int mpu9150_read_mag(mpudata_t *mpu);
 void mpu9150_set_accel_cal(caldata_t *cal);
 void mpu9150_set_mag_cal(caldata_t *cal);
+void mpu9150_set_config(double *val);
 
 #endif /* MPU9150_H */
 

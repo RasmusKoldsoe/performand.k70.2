@@ -116,12 +116,12 @@ been enabled, more detailed usage information will also be available.</p>
 <pre>
         [, [[, awk, cal, cat, chat, chmod, chown, cp, cttyhack, cut, date,
         df, dmesg, dnsdomainname, echo, egrep, fdisk, fgrep, flash_eraseall,
-        flashcp, ftpd, ftpget, ftpput, getty, grep, halt, hostname, httpd,
-        hush, ifconfig, init, insmod, kill, ln, login, ls, lsmod, mkdir,
-        modinfo, modprobe, mount, mv, netstat, nslookup, ntpd, ping,
+        flashcp, free, ftpd, ftpget, ftpput, getty, grep, halt, hostname,
+        httpd, hush, ifconfig, init, insmod, kill, ln, login, ls, lsmod,
+        mkdir, modinfo, modprobe, mount, mv, netstat, nslookup, ntpd, ping,
         poweroff, ps, pwd, reboot, rm, rmmod, route, sed, sh, sleep, sort,
-        split, stty, tail, telnet, telnetd, test, time, top, tr, traceroute,
-        udhcpc, umount, uname, vi, wc, wget</pre>
+        split, stty, sync, tail, tee, telnet, telnetd, test, time, top, tr,
+        traceroute, udhcpc, umount, uname, uptime, vi, wc, wget</pre>
 <p>
 </p>
 <hr />
@@ -322,6 +322,12 @@ Starting interactive shell from boot shell script:</p>
 <p>Options:</p>
 <pre>
         -v      Verbose</pre>
+</dd>
+<dt><strong><a name="free" class="item"><strong>free</strong></a></strong></dt>
+
+<dd>
+<p>free</p>
+<p>Display the amount of free and used system memory</p>
 </dd>
 <dt><strong><a name="ftpd" class="item"><strong>ftpd</strong></a></strong></dt>
 
@@ -815,6 +821,12 @@ and deviations from stty sane</p>
         -g              Print in stty-readable form
         [SETTING]       See manpage</pre>
 </dd>
+<dt><strong><a name="sync" class="item"><strong>sync</strong></a></strong></dt>
+
+<dd>
+<p>sync</p>
+<p>Write all buffered blocks to disk</p>
+</dd>
 <dt><strong><a name="tail" class="item"><strong>tail</strong></a></strong></dt>
 
 <dd>
@@ -832,6 +844,16 @@ With more than one FILE, precede each with a filename header.</p>
 <p>N may be suffixed by k (x1024), b (x512), or m (x1024^2).
 If N starts with a '+', output begins with the Nth item from the start
 of each file, not from the end.</p>
+</dd>
+<dt><strong><a name="tee" class="item"><strong>tee</strong></a></strong></dt>
+
+<dd>
+<p>tee [OPTIONS] [FILE]...</p>
+<p>Copy stdin to each FILE, and also to stdout</p>
+<p>Options:</p>
+<pre>
+        -a      Append to the given FILEs, don't overwrite
+        -i      Ignore interrupt signals (SIGINT)</pre>
 </dd>
 <dt><strong><a name="telnet" class="item"><strong>telnet</strong></a></strong></dt>
 
@@ -973,6 +995,12 @@ and display a screenful of them.</p>
         -s      OS name (default)
         -p      Processor type
         -v      OS version</pre>
+</dd>
+<dt><strong><a name="uptime" class="item"><strong>uptime</strong></a></strong></dt>
+
+<dd>
+<p>uptime</p>
+<p>Display the time since the last boot</p>
 </dd>
 <dt><strong><a name="vi" class="item"><strong>vi</strong></a></strong></dt>
 

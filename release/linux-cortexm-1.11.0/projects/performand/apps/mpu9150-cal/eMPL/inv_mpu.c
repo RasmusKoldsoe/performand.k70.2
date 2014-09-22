@@ -124,27 +124,27 @@ static inline int reg_int_cb(struct int_param_s *int_param)
  * #define AK8963_SECONDARY
  */
 #if defined MPU9150
-#ifndef MPU6050
-#define MPU6050
-#endif                          /* #ifndef MPU6050 */
-#if defined AK8963_SECONDARY
-#error "MPU9150 and AK8963_SECONDARY cannot both be defined."
-#elif !defined AK8975_SECONDARY /* #if defined AK8963_SECONDARY */
-#define AK8975_SECONDARY
-#endif                          /* #if defined AK8963_SECONDARY */
+ #ifndef MPU6050
+  #define MPU6050
+ #endif                          /* #ifndef MPU6050 */
+ #if defined AK8963_SECONDARY
+  #error "MPU9150 and AK8963_SECONDARY cannot both be defined."
+ #elif !defined AK8975_SECONDARY /* #if defined AK8963_SECONDARY */
+  #define AK8975_SECONDARY
+ #endif                          /* #if defined AK8963_SECONDARY */
 #elif defined MPU9250           /* #if defined MPU9150 */
-#ifndef MPU6500
-#define MPU6500
-#endif                          /* #ifndef MPU6500 */
-#if defined AK8975_SECONDARY
-#error "MPU9250 and AK8975_SECONDARY cannot both be defined."
-#elif !defined AK8963_SECONDARY /* #if defined AK8975_SECONDARY */
-#define AK8963_SECONDARY
-#endif                          /* #if defined AK8975_SECONDARY */
+ #ifndef MPU6500
+  #define MPU6500
+ #endif                          /* #ifndef MPU6500 */
+ #if defined AK8975_SECONDARY
+  #error "MPU9250 and AK8975_SECONDARY cannot both be defined."
+ #elif !defined AK8963_SECONDARY /* #if defined AK8975_SECONDARY */
+  #define AK8963_SECONDARY
+ #endif                          /* #if defined AK8975_SECONDARY */
 #endif                          /* #if defined MPU9150 */
 
 #if defined AK8975_SECONDARY || defined AK8963_SECONDARY
-#define AK89xx_SECONDARY
+ #define AK89xx_SECONDARY
 #else
 /* #warning "No compass = less profit for Invensense. Lame." */
 #endif
@@ -785,7 +785,7 @@ int mpu_init(struct int_param_s *int_param)
         return -1;
     if (mpu_set_lpf(42))
         return -1;
-    if (mpu_set_sample_rate(50))
+    if (mpu_set_sample_rate(10))
         return -1;
     if (mpu_configure_fifo(0))
         return -1;
@@ -1332,11 +1332,11 @@ int mpu_set_sample_rate(unsigned short rate)
             return -1;
 
         st.chip_cfg.sample_rate = 1000 / (1 + data);
-
+/*
 #ifdef AK89xx_SECONDARY
         mpu_set_compass_sample_rate(min(st.chip_cfg.compass_sample_rate, MAX_COMPASS_SAMPLE_RATE));
 #endif
-
+*/
         /* Automatically set LPF to 1/2 sampling rate. */
         mpu_set_lpf(st.chip_cfg.sample_rate >> 1);
         return 0;
@@ -1539,6 +1539,7 @@ int mpu_set_sensors(unsigned char sensors)
         data = 0;
     else
         data = BIT_SLEEP;
+
     if (i2c_write(st.hw->addr, st.reg->pwr_mgmt_1, 1, &data)) {
         st.chip_cfg.sensors = 0;
         return -1;
@@ -2473,33 +2474,32 @@ int mpu_get_compass_reg(short *data, unsigned long *timestamp)
 {
 #ifdef AK89xx_SECONDARY
     unsigned char tmp[9];
-
     if (!(st.chip_cfg.sensors & INV_XYZ_COMPASS))
         return -1;
 
 #ifdef AK89xx_BYPASS
     if (i2c_read(st.chip_cfg.compass_addr, AKM_REG_ST1, 8, tmp))
-        return -1;
+        return -2;
     tmp[8] = AKM_SINGLE_MEASUREMENT;
     if (i2c_write(st.chip_cfg.compass_addr, AKM_REG_CNTL, 1, tmp+8))
-        return -1;
+        return -3;
 #else
     if (i2c_read(st.hw->addr, st.reg->raw_compass, 8, tmp))
-        return -1;
+        return -4;
 #endif
 
 #if defined AK8975_SECONDARY
     /* AK8975 doesn't have the overrun error bit. */
     if (!(tmp[0] & AKM_DATA_READY))
-        return -2;
+        return -5;
     if ((tmp[7] & AKM_OVERFLOW) || (tmp[7] & AKM_DATA_ERROR))
-        return -3;
+        return -6;
 #elif defined AK8963_SECONDARY
     /* AK8963 doesn't have the data read error bit. */
     if (!(tmp[0] & AKM_DATA_READY) || (tmp[0] & AKM_DATA_OVERRUN))
-        return -2;
+        return -7;
     if (tmp[7] & AKM_OVERFLOW)
-        return -3;
+        return -8;
 #endif
     data[0] = (tmp[2] << 8) | tmp[1];
     data[1] = (tmp[4] << 8) | tmp[3];
@@ -2511,9 +2511,10 @@ int mpu_get_compass_reg(short *data, unsigned long *timestamp)
 
     if (timestamp)
         get_ms(timestamp);
+
     return 0;
 #else
-    return -1;
+    return -9;
 #endif
 }
 

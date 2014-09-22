@@ -1,3 +1,4 @@
+#include <stdint.h>
 
 #define TCP_MAX_LEN 1400
 

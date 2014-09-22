@@ -41,8 +41,8 @@ static inline int reg_int_cb(struct int_param_s *int_param)
 #define i2c_read	linux_i2c_read
 #define delay_ms	linux_delay_ms
 #define get_ms		linux_get_ms
-#define log_i		printf
-#define log_e		printf
+#define log_i(str, ...)		{ fprintf(stderr, "[IMU_daemon] WARNING: " str, ## __VA_ARGS__); }
+#define log_e(str, ...)		{ fprintf(stderr, "[IMU_daemon] ERROR: " str, ## __VA_ARGS__); }
 #define min(a, b) 	((a < b) ? a : b)
 
 void __no_operation(void);

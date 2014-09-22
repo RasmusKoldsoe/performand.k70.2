@@ -122,6 +122,8 @@ slink /bin/ping busybox 777 0 0
 slink /bin/ifconfig busybox 777 0 0
 slink /bin/telnetd busybox 777 0 0
 slink /bin/wc busybox 777 0 0
+slink /bin/top busybox 777 0 0
+slink /bin/uptime busybox 777 0 0
 
 slink /bin/netstat busybox 777 0 0
 slink /bin/nslookup busybox 777 0 0

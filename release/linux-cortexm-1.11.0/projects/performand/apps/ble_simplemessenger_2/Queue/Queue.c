@@ -16,13 +16,11 @@ queue_t queueCreate()
 	queue_t q;
 
 	memset(&q, 0, sizeof(q));
-	
-//	usleep(1000);
 
 	int r;
 	r = pthread_mutex_init(&q.q_mutex, NULL);
 	if(r < 0) {
-		printf("Error initializing queue mutex\n");
+		fprintf(stderr, "[Bluetooth] Error initializing queue mutex\n");
 	}
 	return q;
 }
@@ -36,17 +34,20 @@ void queueDestroy(queue_t *q)
 
 int enqueue(queue_t *q, datagram_t *elem)
 {
-	if(q->count > MAX_QUEUE_SIZE) {
-		printf("Enqueue on full queue\n");
-		return -1;
-	}
-
 	pthread_mutex_lock(&q->q_mutex);
+
+	if(q->count > MAX_QUEUE_SIZE) {
+		fprintf(stderr, "[Bluetooth] WARNING: Enqueue on full queue. Clearing queue!\n");
+		q->count = 0;
+		q->front = 0;
+		//pthread_mutex_unlock(&q->q_mutex);
+		//return -1;
+	}
+	
 	int newIndex = (q->front + q->count) % MAX_QUEUE_SIZE;
 	memcpy(&q->content[newIndex], elem, sizeof(*elem));
 	q->count++;
 	pthread_mutex_unlock(&q->q_mutex);
-//printf("ENQUEUE: q_count=%d\n", q->count);
 	q->maxCount = max(q->maxCount, q->count);
 
 	return 0;
@@ -55,7 +56,7 @@ int enqueue(queue_t *q, datagram_t *elem)
 int dequeue(queue_t *q, datagram_t *elem)
 {
 	if(q->count <= 0){
-		printf("Dequeue from empty queue\n");
+		fprintf(stderr, "[Bluetooth] WARNING: Dequeue from empty queue\n");
 		return -1;
 	}
 	pthread_mutex_lock(&q->q_mutex);
@@ -68,7 +69,6 @@ int dequeue(queue_t *q, datagram_t *elem)
 	q->front %= MAX_QUEUE_SIZE;
 	q->count--;
 	pthread_mutex_unlock(&q->q_mutex);
-//printf("DEQUEUE: q_count=%d\n", q->count);
 	return 0;
 }
 

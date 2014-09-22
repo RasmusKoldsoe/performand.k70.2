@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.17.0
-# Thu Oct 17 13:28:16 2013
+# Thu Aug 28 14:55:40 2014
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -258,12 +258,12 @@ CONFIG_FEATURE_SPLIT_FANCY=y
 # CONFIG_FEATURE_STAT_FORMAT is not set
 CONFIG_STTY=y
 # CONFIG_SUM is not set
-# CONFIG_SYNC is not set
+CONFIG_SYNC=y
 # CONFIG_TAC is not set
 CONFIG_TAIL=y
 CONFIG_FEATURE_FANCY_TAIL=y
-# CONFIG_TEE is not set
-# CONFIG_FEATURE_TEE_USE_BLOCK_IO is not set
+CONFIG_TEE=y
+CONFIG_FEATURE_TEE_USE_BLOCK_IO=y
 # CONFIG_TOUCH is not set
 # CONFIG_TRUE is not set
 # CONFIG_TTY is not set
@@ -835,7 +835,7 @@ CONFIG_FEATURE_MIME_CHARSET=""
 # Process Utilities
 #
 # CONFIG_SMEMCAP is not set
-# CONFIG_FREE is not set
+CONFIG_FREE=y
 # CONFIG_FUSER is not set
 CONFIG_KILL=y
 # CONFIG_KILLALL is not set
@@ -861,7 +861,7 @@ CONFIG_FEATURE_TOP_DECIMALS=y
 CONFIG_FEATURE_TOP_SMP_PROCESS=y
 CONFIG_FEATURE_TOPMEM=y
 # CONFIG_FEATURE_SHOW_THREADS is not set
-# CONFIG_UPTIME is not set
+CONFIG_UPTIME=y
 # CONFIG_WATCH is not set
 
 #

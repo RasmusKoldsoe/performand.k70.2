@@ -3,13 +3,13 @@
 #
 
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -Os -mcpu=cortex-m3 -mthumb
+CFLAGS := -Os -mcpu=cortex-m3 -mthumb -DVERBOSITY=1
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb 
 
 VPATH = ../Common
 
 # add -DI2C_DEBUG for debugging
-DEFS = -DEMPL_TARGET_LINUX -DMPU9150 -DAK8975_SECONDARY -DVERBOSITY=1
+DEFS = -DEMPL_TARGET_LINUX -DMPU9150 -DAK8975_SECONDARY 
 
 EMPLDIR = eMPL
 GLUEDIR = glue
@@ -24,15 +24,18 @@ OBJS = inv_mpu.o \
        quaternion.o \
        vector3d.o \
        utils.o \
-       memory_map.o 
+       memory_map.o \
+	   logging.o
 
 all : imu imucal
 
 imu : $(OBJS) imu.o
 	$(CC) $(CFLAGS) $(OBJS) imu.o -lm -o imu
+	chmod +x imu
 
 imucal : $(OBJS) imucal.o
 	$(CC) $(CFLAGS) $(OBJS) imucal.o -lm -o imucal
+	chmod +x imucal
 
 imu.o : imu.c
 	$(CC) $(CFLAGS) -I $(EMPLDIR) -I $(GLUEDIR) -I $(MPUDIR) $(DEFS) -c imu.c
@@ -63,6 +66,9 @@ memory_map.o : $(MEMORY_MAP_DIR)/memory_map.c
 
 utils.o : $(COMMON)/utils.c
 	$(CC) $(CFLAGS) -c $(COMMON)/utils.c
+
+logging.o : $(COMMON)/logging.c
+	$(CC) $(CFLAGS) -c $(COMMON)/logging.c
 
 clean:
 	rm -f *.o imu imucal *.gdb

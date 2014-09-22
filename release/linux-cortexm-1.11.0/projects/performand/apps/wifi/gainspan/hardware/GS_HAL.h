@@ -58,6 +58,15 @@ uint16_t GS_HAL_uart_recv(uint8_t* rxBuf, uint16_t numToRead, bool block);
 void GS_HAL_uart_set_comm_port(char* port);
 
 /**
+   @brief Close UART port
+
+
+   This method is platform specific
+   @param port fd to close
+ */
+void GS_HAL_uart_close_comm_port(char *port);
+
+/**
    @brief Prints string
 
    This method is platform specific. The output can be whatever is appropriate for the 

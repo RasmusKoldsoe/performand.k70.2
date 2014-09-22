@@ -12,6 +12,7 @@
 #include "../HCI_Parser/HCI_Defs.h"
 #include "../../Common/common_tools.h"
 #include "../../Common/MemoryMapping/memory_map.h"
+#include "../../Common/logging.h"
 #include "../../Common/utils.h"
 #include "wind.h"
 
@@ -21,11 +22,17 @@ typedef union {
 } float_u;
 
 BLE_Peripheral_t *Wind_Device;
-int runtime_count, file_idx;
 
 int Wind_initialize(BLE_Peripheral_t *ble_device)
 {
 	Wind_Device = ble_device;
+
+	Wind_Device->log->runtime_count = read_rt_count();
+
+	if(creat_log(Wind_Device->log) < 0) {
+		fprintf(stderr, "[BLUETOOTH] WARNING Could not open wind log file\n");
+		return -1;
+	}
 
 	//Init mapped mem ...
 	Wind_Device->mapped_mem.filename = "/sensors/wind";
@@ -33,13 +40,16 @@ int Wind_initialize(BLE_Peripheral_t *ble_device)
 
 	//Prepare the mapped Memory file
 	if((mm_prepare_mapped_mem(&ble_device->mapped_mem)) < 0) {
-		fprintf(stderr, "ERROR: While mapping %s file.\n",ble_device->mapped_mem.filename);
-		return -1;	
+		fprintf(stderr, "[Bluetooth] ERROR: While mapping %s file.\n",ble_device->mapped_mem.filename);
+		return -2;	
 	}
 
-	runtime_count = read_rt_count();
-	
 	return 0;
+}
+
+void Wind_finalize( void )
+{
+	close_log(Wind_Device->log);
 }
 
 // First thing to do is unload pduLength, handle and data
@@ -50,7 +60,7 @@ int Wind_parseData(datagram_t* datagram, int *i)
 	char hdl_index = getIndexInAttributeArray(Wind_Services, Wind_ServiceCount, handle);
 
 	if(hdl_index < 0) {
-		fprintf(stderr, "ERROR: Wind - Handle %#04X not found\n", (unsigned int)handle);
+		fprintf(stderr, "[Bluetooth] ERROR: Wind - Handle %#04X not found\n", (unsigned int)handle);
 		return hdl_index;
 	}
 
@@ -69,20 +79,20 @@ int Wind_parseData(datagram_t* datagram, int *i)
 	if( hdl_index == 0 ) { // Wind attribute of type float_u
 		char tmp_str[10];
 		float_u dataPoint;
-		for(j=0; j<Wind_Services[hdl_index].length; j++) {
+		for(j=0; j<Wind_Services[(ssize_t)hdl_index].length; j++) {
 			dataPoint.c[j] = unload_8_bit(datagram->data, i); // Unload Wind Speed
 		}
-		snprintf(tmp_str, 10, "%3.1f,", dataPoint.f);
+		snprintf(tmp_str, 10, "%3.1f,,,", dataPoint.f);
 		strcat(mm_str, tmp_str);
 	}
 	else if( hdl_index == 1 ) { // Wind attribute of type float_u
 		char tmp_str[20];
 		float_u speed, direction;
-		for(j=0; j<Wind_Services[hdl_index].length/2; j++) {
+		for(j=0; j<Wind_Services[(ssize_t)hdl_index].length/2; j++) {
 			speed.c[j] = unload_8_bit(datagram->data, i); // Unload Wind Speed
 		}
 
-		for(j=0; j<Wind_Services[hdl_index].length/2; j++) {
+		for(j=0; j<Wind_Services[(size_t)hdl_index].length/2; j++) {
 			direction.c[j] = unload_8_bit(datagram->data, i); // Unload Wind Direction
 		}
 		snprintf(tmp_str, 20, ",%3.1f,%3.1f,", speed.f, direction.f);
@@ -98,11 +108,12 @@ int Wind_parseData(datagram_t* datagram, int *i)
 	}
 
 	strcat(mm_str, "\n");
-	debug(1, "%s", mm_str);
+	debug(1, "[%s] %s", Wind_Device->log->name, mm_str);
 	mm_append(mm_str, &Wind_Device->mapped_mem);
-#if __arm__
-	file_idx = write_log_file("wind", runtime_count, file_idx, mm_str);
-#endif
+
+	//write_log_file("wind", runtime_count, &file_idx, mm_str);
+	append_log(Wind_Device->log, mm_str, strlen(mm_str));
+
 
 	return 0;
 }

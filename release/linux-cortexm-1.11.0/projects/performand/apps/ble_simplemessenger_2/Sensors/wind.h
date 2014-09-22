@@ -19,5 +19,8 @@ static attribute_t Wind_Services[] = {{0x002E, 4, "\tTemperature"},
                                       {0x0026, 1, "\tBattery"}
                                      };
 
+static log_t Wind_SdLog = {.name="wind"};
+
 int Wind_initialize(BLE_Peripheral_t *ble_device);
 int Wind_parseData(datagram_t* datagram, int *i);
+void Wind_finalize( void );

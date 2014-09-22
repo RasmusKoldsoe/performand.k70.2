@@ -9,8 +9,9 @@
  * Includes:
  *-------------------------------------------------------------------------*/
 #include <stdbool.h>
+#include <unistd.h>
 #include <sys/time.h> 
-#include <time.h> 
+#include <time.h>
 #include <stdio.h> 
 
 #include "../hardware/GS_HAL.h"

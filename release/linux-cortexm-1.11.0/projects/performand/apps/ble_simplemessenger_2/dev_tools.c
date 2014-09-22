@@ -122,7 +122,9 @@ BLE_Peripheral_t* getNextAvailableDevice(BLE_Central_t *central, char *MAC)
 long getDevIDbyConnHandle(BLE_Central_t *central, long connHandle)
 {
 	BLE_Peripheral_t* device = findDeviceByConnHandle(central, connHandle); 
-	if (device = NULL) return -1; 
+	if (device == NULL) {
+		return -1;
+	} 
 
 	return device->ID;
 }

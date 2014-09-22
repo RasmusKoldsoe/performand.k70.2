@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdint.h>
 #include <errno.h>
 #include <string.h>
 #include <fcntl.h>
@@ -18,7 +19,7 @@
 #include "../Common/verbosity.h"
 #include "../Common/utils.h"
 #include "tcp_stuff.h"
-#include "log_stuff.h"
+#include "../Common/logging.h"
 
 //#define MAXSIZE 40
 //#define MAXTOKEN 20
@@ -57,18 +58,195 @@
 static char *programName = NULL;
 static char done;
 
-struct parse_element { char token_count;
+static struct parse_element { char token_count;
                        char delimitor[5];
                        char show_unused_tokens;
                        char delim_at_final_token;
                        char parse_str[MAX_TOKEN_COUNT][MAX_TOKEN_LENGTH];
                      };
 
-struct sensor_element { char name[NAME_MAX];
+static struct sensor_element { char name[NAME_MAX];
 						char fullpath[NAME_MAX];
-                        struct parse_element parser[MAX_PARSER_COUNT];
 						h_mmapped_file mmapped_file;
+						struct parse_element parser[MAX_PARSER_COUNT];
                       };
+
+static struct sensor_element sensors[5] = {
+	{ 
+		.name = "compass",
+		.fullpath = "/sensors/compass",
+		.parser = {{.token_count = 8,
+					.delimitor = "\r\n",
+					.show_unused_tokens = 0,
+					.delim_at_final_token = 1,
+					.parse_str = {	"<COMPASS timestamp=\"%s\">%s<\\COMPASS>",
+									"<mag_x>%s<\\mag_x>",
+									"<mag_y>%s<\\mag_y>",
+									"<mag_z>%s<\\mag_z>",
+									"<accel_x>%s<\\accel_x>",
+									"<accel_y>%s<\\accel_y>",
+									"<accel_z>%s<\\accel_z>",
+									"<battery>%s<\\battery>" }
+				},
+				{.token_count = 8,
+					.delimitor = "\r\n",
+					.show_unused_tokens = 0,
+					.delim_at_final_token = 1,
+					.parse_str = {	"<COMPASS timestamp=\"%s\">%s<\\COMPASS>",
+									"<mag_x>%s<\\mag_x>",
+									"<mag_y>%s<\\mag_y>",
+									"<mag_z>%s<\\mag_z>",
+									"<accel_x>%s<\\accel_x>",
+									"<accel_y>%s<\\accel_y>",
+									"<accel_z>%s<\\accel_z>",
+									"<battery>%s<\\battery>" }
+				}}
+	},
+	{ 
+		.name = "wind",
+		.fullpath = "/sensors/wind",
+		.parser = {{.token_count = 5,
+					.delimitor = "\r\n",
+					.show_unused_tokens = 0,
+					.delim_at_final_token = 1,
+					.parse_str = {	"<WIND timestamp=\"%s\">%s</WIND>",
+							"<temperature>%s</temperature>",
+							"<speed>%s</speed>",
+							"<direction>%s</direction>",
+							"<battery>%s</battery>"}
+				},
+				{.token_count = 5,
+					.delimitor = "\r\n",
+					.show_unused_tokens = 0,
+					.delim_at_final_token = 1,
+					.parse_str = {"<WIND timestamp=\"%s\">%s</WIND>",
+							"<temperature>%s</temperature>",
+							"<speed>%s</speed>",
+							"<direction>%s</direction>",
+							"<battery>%s</battery>"}
+				}}
+	},
+	{	 
+		.name = "speedlog",
+		.fullpath = "/sensors/speedlog",
+		.parser = {{.token_count = 3,
+					.delimitor = "\r\n",
+					.show_unused_tokens = 0,
+					.delim_at_final_token = 1,
+					.parse_str = {	"<LOG timestamp=\"%s\">%s<\LOG>",
+							"<period>%s<\period>",
+							"<battery>%s<\battery>"}
+				},
+				{.token_count = 3,
+					.delimitor = "\r\n",
+					.show_unused_tokens = 1,
+					.delim_at_final_token = 0,
+					.parse_str = {"$%s,$LOG%s",
+							"%s",
+							"%s"}
+				}}
+	},
+	{ 
+		.name = "gps",
+		.fullpath = "/sensors/gps",
+		.parser = {{.token_count = 18,
+					.delimitor = "\r\n",
+					.show_unused_tokens = 0,
+					.delim_at_final_token = 1,
+					.parse_str = {	"<GPS timestamp=\"%s\">%s<\GPS>",
+							"<hours>%s<\hours>",
+							"<minutes>%s<\minutes>",
+							"<seconds>%s<\seconds>",
+					 		"<msecond>%s<\msecond>",
+							"<day>%s<\day>",
+		 					"<month>%s<\month>",
+							"<year>%s<\year>",
+	 						"<lat_deg>%s<\lat_deg>",
+ 							"<lat_min>%s<\lat_min>",
+	 						"<lat_sec>%s<\lat_sec>",
+							"<lat_hem>%s<\lat_hem>",
+							"<long_deg>%s<\long_deg>",
+							"<long_min>%s<\long_min>",
+							"<long_sec>%s<\long_sec>",
+							"<long_hem>%s<\long_hem>",
+							"<SOG>%s<\SOG>",
+							"<COG>%s<\COG>"}
+				},
+				{.token_count = 18,
+					.delimitor = "\r\n",
+					.show_unused_tokens = 0,
+					.delim_at_final_token = 1,
+					.parse_str = {	"<GPS timestamp=\"%s\">%s<\GPS>",
+							"<hours>%s<\hours>",
+							"<minutes>%s<\minutes>",
+							"<seconds>%s<\seconds>",
+					 		"<msecond>%s<\msecond>",
+							"<day>%s<\day>",
+		 					"<month>%s<\month>",
+							"<year>%s<\year>",
+	 						"<lat_deg>%s<\lat_deg>",
+ 							"<lat_min>%s<\lat_min>",
+	 						"<lat_sec>%s<\lat_sec>",
+							"<lat_hem>%s<\lat_hem>",
+							"<long_deg>%s<\long_deg>",
+							"<long_min>%s<\long_min>",
+							"<long_sec>%s<\long_sec>",
+							"<long_hem>%s<\long_hem>",
+							"<SOG>%s<\SOG>",
+							"<COG>%s<\COG>"}
+				}}
+	},
+	{ 
+		.name = "imu",
+		.fullpath = "/sensors/imu",
+		.parser = {{.token_count = 18,
+					.delimitor = "\r\n",
+					.show_unused_tokens = 0,
+					.delim_at_final_token = 1,
+					.parse_str = {	"<IMU timestamp=\"%s\">%s<\\IMU>",
+							"<rawMag_x>%s<\\rawMag_x>",
+							"<rawMag_y>%s<\\rawMag_y>",
+							"<rawMag_z>%s<\\rawMag_z>",
+							"<rawMag_time>%s<\\rawMag_time>",
+							"<rawAccel_x>%s<\\rawAccel_x>",
+							"<rawAccel_y>%s<\\rawAccel_y>",
+							"<rawAccel_z>%s<\\rawAccel_z>",
+							"<rawAccel_time>%s<\\rawAccel_time>",
+							"<rawGyro_x>%s<\\rawGyro_x>",
+							"<rawGyro_y>%s<\\rawGyro_y>",
+							"<rawGyro_z>%s<\\rawGyro_z>",
+							"<rawGyro_time>%s<\\rawGyro_time>",
+							"<pitch>%s<\\pitch>",
+							"<roll>%s<\\roll>",
+							"<heading>%s<\\heading>",
+							"<emaHeading>%s<\\emaHeading>",
+							"<time>%s<\\time>"}
+				},
+				{.token_count = 18,
+					.delimitor = "\r\n",
+					.show_unused_tokens = 0,
+					.delim_at_final_token = 1,
+					.parse_str = {	"<IMU timestamp=\"%s\">%s<\\IMU>",
+							"<rawMag_x>%s<\\rawMag_x>",
+							"<rawMag_y>%s<\\rawMag_y>",
+							"<rawMag_z>%s<\\rawMag_z>",
+							"<rawMag_time>%s<\\rawMag_time>",
+							"<rawAccel_x>%s<\\rawAccel_x>",
+							"<rawAccel_y>%s<\\rawAccel_y>",
+							"<rawAccel_z>%s<\\rawAccel_z>",
+							"<rawAccel_time>%s<\\rawAccel_time>",
+							"<rawGyro_x>%s<\\rawGyro_x>",
+							"<rawGyro_y>%s<\\rawGyro_y>",
+							"<rawGyro_z>%s<\\rawGyro_z>",
+							"<rawGyro_time>%s<\\rawGyro_time>",
+							"<pitch>%s<\\pitch>",
+							"<roll>%s<\\roll>",
+							"<heading>%s<\\heading>",
+							"<emaHeading>%s<\\emaHeading>",
+							"<time>%s<\\time>"}
+				}}
+	}
+};
 /*
 struct output_element { char filename[NAME_MAX];
                         int fd;
@@ -104,9 +282,9 @@ void register_sig_handler()
 	done = 0;
 }
 
-void pretty_print_parse_element( struct parse_element *element )
+static void pretty_print_parse_element( struct parse_element *element )
 {
-#if VERBOSITY >= 3 
+#if VERBOSITY >= 0 
 	printf("token_count: %d\n", element->token_count);
 	printf("delimitor: %s\n", strcmp(element->delimitor, "\r\n")==0?"<cr><lf>":element->delimitor);
 	printf("show_unused_tokens: %d\n", element->show_unused_tokens);
@@ -120,7 +298,7 @@ void pretty_print_parse_element( struct parse_element *element )
 #endif
 }
 
-int read_parser_line( struct parse_element *element, char *line, struct sensor_element *sensors)
+static int read_parser_line( struct parse_element *element, char *line, struct sensor_element *sensors)
 {
 	int count, rcount;
 	const int orig_len = strlen(line);
@@ -161,9 +339,9 @@ int read_parser_line( struct parse_element *element, char *line, struct sensor_e
 	return 0;
 }
 
-int get_folder_content ( char *folderName, char entries[][NAME_MAX] )
+static int get_folder_content ( char *folderName, char entries[][NAME_MAX] )
 {
-	FILE *pp;
+	/*FILE *pp;
 	char buffer[100];
 	char lsCommandLine[100];
 	int count = 0;
@@ -177,20 +355,28 @@ int get_folder_content ( char *folderName, char entries[][NAME_MAX] )
 			sprintf(entries[count++], "%s", buffer+LS_LINE_OFFSET);
 	}
 
-	pclose(pp);
+	pclose(pp);*/
+
+	int count = 0;
+	strcpy( entries[count++], "compass");
+	strcpy( entries[count++], "gps");
+	strcpy( entries[count++], "imu");
+	strcpy( entries[count++], "speedlog");
+	strcpy( entries[count++], "wind");
+
 	return count;
 }
 
-int get_sensor_entries ( struct sensor_element *sensors )
+static int get_sensor_entries ( struct sensor_element *sensors , int entryCount)
 {
 	char sensorEntries[MAX_SENSOR_COUNT][NAME_MAX];
-	int entryCount = get_folder_content( SENSOR_DIR_PATH, sensorEntries );
+	//int entryCount = get_folder_content( SENSOR_DIR_PATH, sensorEntries );
 
 	int i;
 	for(i=0; i < entryCount; i++) {
-		strncpy(sensors[i].name, sensorEntries[i], NAME_MAX);
-		strncpy(sensors[i].fullpath, SENSOR_DIR_PATH, NAME_MAX);
-		strcat(sensors[i].fullpath, sensorEntries[i]);
+		//strncpy(sensors[i].name, sensorEntries[i], NAME_MAX);
+		//strncpy(sensors[i].fullpath, SENSOR_DIR_PATH, NAME_MAX);
+		//strcat(sensors[i].fullpath, sensorEntries[i]);
 
 		//Prepare memory mapping for sensor
 		memset(&sensors[i].mmapped_file, 0, sizeof(h_mmapped_file));	
@@ -205,9 +391,8 @@ int get_sensor_entries ( struct sensor_element *sensors )
 	return entryCount;
 }
 
-int get_parser_entries ( struct sensor_element *sensors, int sensor_count)
+static int get_parser_entries ( struct sensor_element *sensors, int sensor_count)
 {
-
 	char parserEntries[MAX_SENSOR_COUNT][NAME_MAX];
 	int entryCount = get_folder_content( PARSER_DIR_PATH, parserEntries );
 
@@ -247,7 +432,7 @@ int get_parser_entries ( struct sensor_element *sensors, int sensor_count)
 	return 0;
 }
 
-int parse_line(char *i_str, char *o_str, struct parse_element *element)
+static int parse_line(char *i_str, char *o_str, struct parse_element *element)
 {
 // At this point we can trust that i_str is \0 terminated string containing only data (= no $ token)
 	int count, rcount;
@@ -262,7 +447,7 @@ int parse_line(char *i_str, char *o_str, struct parse_element *element)
 
 	char f_data[STD_LINE_LENGTH];
 	int f_data_len = 0;
-	memset(f_data, '\0', sizeof(f_data));
+	memset(f_data, 0, STD_LINE_LENGTH);
 
 	for(count=1; count<element->token_count; count++) {
 		if( element->show_unused_tokens == 0 && strlen(data_str[count]) == 0 )
@@ -275,7 +460,7 @@ int parse_line(char *i_str, char *o_str, struct parse_element *element)
 	if( element->delim_at_final_token > 0 ) {
 		f_data_len += sprintf(f_data + f_data_len, "%s", element->delimitor);
 	}
-
+//debug(1, "%d ", f_data_len); fflush(stdout);
 // Inserting the data into the Node tag, and formatting the timestamp as well
 	int i = sprintf(o_str, element->parse_str[0], data_str[0], f_data); 
 	strcat(o_str, "\r\n");
@@ -283,7 +468,7 @@ int parse_line(char *i_str, char *o_str, struct parse_element *element)
 	return i+2;
 }
 
-void *ledIndicatorThread(void *sem) {
+static void *ledIndicatorThread(void *sem) {
 	sem_t *sample_sem = (sem_t *)sem;
 
 	if(!gpio_export(LED_IND2))
@@ -310,12 +495,26 @@ void *ledIndicatorThread(void *sem) {
 int main (int argc, char **argv)
 {
 	char **sp = argv;
+
+	unsigned long process_time;
+	int length;
+	int read_string_length = 0;
+	char buffer[STD_LINE_LENGTH];
+	char outb[STD_LINE_LENGTH];
+	struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };
+	fl.l_pid = getpid();
+	int runtime_counter = read_rt_count();
+
+	log_t log = {"all", "", runtime_counter, 0, 0};
+
 	while( *sp != NULL ) {
 		programName = strsep(sp, "/");
 	}
+	printf("[%s] 0\n", programName);
 
+	int i;
 	struct timespec spec, beginning, final;
-	struct sensor_element sensors[MAX_SENSOR_COUNT];
+//	struct sensor_element sensors[MAX_SENSOR_COUNT];
 	pthread_t ledIndication_thread;
 	sem_t sample_start_sem;
 
@@ -325,28 +524,50 @@ int main (int argc, char **argv)
 	sem_init(&sample_start_sem, 0, 0);
 
 	register_sig_handler();
-	int entryCount = get_sensor_entries ( sensors );
-	get_parser_entries( sensors, entryCount);
+printf("[%s] 1\n", programName);
+	int entryCount = 5;//get_sensor_entries ( sensors );
+/*for( i=0; i < entryCount; i++) {
+debug(1, "(%p)%s\n", sensors[i].fullpath, sensors[i].fullpath); fflush(stdout);
+debug(1, "(%p)%s\n", sensors[i].mmapped_file.filename, sensors[i].mmapped_file.filename); fflush(stdout);
+}
+*/
+printf("[%s] 2\n", programName);
+	
+//	get_parser_entries( sensors, entryCount);
 
-	int i;
+
+/*for( i=0; i < entryCount; i++) {
+debug(1, "(%p)%s\n", sensors[i].fullpath, sensors[i].fullpath); fflush(stdout);
+debug(1, "(%p)%s\n", sensors[i].mmapped_file.filename, sensors[i].mmapped_file.filename); fflush(stdout);
+}
+*/
+
+
+//3 '\n' 0 1 "<LOG timestamp='%s'>%s</LOG>" "<period>%s</period>" "<battery>%s</battery>"
+//3 '\n' 0 1 "<LOG timestamp='%s'>%s</LOG>" "<period>%s</period>" "<battery>%s</battery>"
+
+
+printf("[%s] 3\n", programName);
+
+	get_sensor_entries(&sensors, entryCount);
+
 	for(i = 0; i < entryCount; i++) {
+		
 		pretty_print_parse_element( &sensors[i].parser[0] );
-		pretty_print_parse_element( &sensors[i].parser[1] );
+		//pretty_print_parse_element( &sensors[i].parser[1] );
 	}
 // At this point we know all sensors and have loaded their parsers
+printf("[%s] 4\n", programName);
 
-	FILE *fp;
-	unsigned long process_time;
-	int length;
-	char buffer[STD_LINE_LENGTH];
-	char outb[STD_LINE_LENGTH];
-	struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };
-	fl.l_pid = getpid();
 
+	if(creat_log(&log) < 0) {
+		return -1;
+	}
+printf("[%s] 5\n", programName);fflush(stdout);
 	tcp_init("/dev/ttyS3");
-	log_init();
-
+printf("[%s] 6\n", programName);fflush(stdout);
 	pthread_create(&ledIndication_thread,&thread_attr,ledIndicatorThread, (void *)&sample_start_sem);
+	printf("[%s] 7 Start Loop\n", programName);
 
 	while ( !done ) {
 		/*
@@ -364,47 +585,46 @@ int main (int argc, char **argv)
 		/* ****** START TIMING ****** */
 
 		length = snprintf(outb, STD_LINE_LENGTH, "<dataset timestamp=\"%d.%lu\">\r\n", (int)beginning.tv_sec, beginning.tv_nsec/NSEC_PER_MSEC);
+
 		tcp_send_data(outb, length);
-		log_store_data(outb, length);
+		if ( append_log(&log, outb, length) < 0 ) {
+			fprintf(stderr, "[%s] WARNING Could not log data to SD card. Still continueuing\n", programName);
+		}
 
 		for( i=0; i < entryCount; i++) {
-			fp = fopen(sensors[i].fullpath, "rw");
-			if(fp == NULL) {
-				printe("Cannot open sensor file %s\n", sensors[i].fullpath);
-				continue;
-			}
+			//debug(1, "(%p) %s ", sensors[i].fullpath, sensors[i].fullpath); fflush(stdout);
+			//debug(1, "(%p) %s ", sensors[i].mmapped_file.filename, sensors[i].mmapped_file.filename); fflush(stdout);
+			
+			read_string_length = mm_get_line(&sensors[i].mmapped_file, buffer);
+			//printf("%d\n", read_string_length);fflush(stdout);
 
-			fl.l_type  = F_WRLCK;
-			fcntl(fileno(fp), F_SETLK, &fl);
-			fseek(fp, MM_FILE_INDEX_SIZE, SEEK_SET);
+			while(read_string_length > 0){
+			//while( (read_string_length = mm_get_line(&sensors[i].mmapped_file, buffer)) > 0) {
 
-			/* ****** CRITICAL REGION *********** */
 
-			while( fgets(buffer, STD_LINE_LENGTH, fp) != NULL) {
-				if(strlen(buffer) == 0) break;
-
-				buffer[strlen(buffer)-1] = '\0';
-
+//			debug(1, "."); fflush(stdout);
+				//printf("%d\n", read_string_length);fflush(stdout);
 				length = parse_line( buffer, outb, &sensors[i].parser[0] ); // XML Parser
 				tcp_send_data(outb, length);
-//printf("%s", outb);
+				//printf("%s\n", outb);
 
 				length = parse_line( buffer, outb, &sensors[i].parser[1] ); // Raw Parser
-				log_store_data(outb, length);
-//printf("%s", outb);
+				if ( append_log(&log, outb, length) < 0 ) {
+					fprintf(stderr, "[%s] WARNING Could not log data to SD card. Still continueuing\n", programName);
+				}
+				usleep(50000);
+				read_string_length = mm_get_line(&sensors[i].mmapped_file, buffer);
+				
+				
 			}
-
-			reset_mapped_mem(&sensors[i].mmapped_file);
-
-			/* ****** END CRITICAL REGION ******* */
-			fl.l_type  = F_UNLCK;
-			fcntl(fileno(fp), F_SETLK, &fl);
-			fclose(fp);
+//debug(1, "\n");
 		}
 
 		length = sprintf(outb, "</dataset>\r\n");
 		tcp_send_data(outb, length);
-		log_store_data(outb, length);
+		if ( append_log(&log, outb, length) < 0 ) {
+			fprintf(stderr, "[%s] WARNING Could not log data to SD card. Still continueuing\n", programName);
+		}
 
 		/* ****** END TIMING ****** */
 		clock_gettime(CLOCK_REALTIME, &final);
@@ -416,12 +636,9 @@ int main (int argc, char **argv)
 		//printf("%lu ", process_time); fflush(stdout);
 		usleep(SAMPLE_PERIOD_US - process_time);
 	}
+debug(1, "PROGRAM EXIT \n");
 
-/*	for( i=0; i<sizeof(outputs)/sizeof(struct output_element); i++) {
-		close(outputs[i].fd);
-	}*/
 	tcp_end();
-	log_end();
 
 	return 0;
 }

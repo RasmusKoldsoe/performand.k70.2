@@ -1,11 +1,10 @@
 /* Includes */
+#include <stdio.h>      /* Input/Output */
+#include <stdlib.h>     /* General Utilities */
 #include <unistd.h>     /* Symbolic Constants */
 #include <sys/types.h>  /* Primitive System Data Types */ 
 #include <errno.h>      /* Errors */
-#include <stdio.h>      /* Input/Output */
-#include <stdlib.h>     /* General Utilities */
 #include <string.h>     /* String handling */
-#include <unistd.h>     /* for close() */
 
 #include <math.h>
 #include <sys/statfs.h>
@@ -17,32 +16,71 @@
 
 #define MAX_FILE_SIZE 5242880 //5MB
 
+
+int lock_file(struct flock *fl, char *file_name, int *fd, ssize_t o_flags)
+{
+	fl->l_pid = getpid();
+	*fd = open(file_name, o_flags);
+	if(*fd < 0){ 
+		fprintf(stderr, "[UTILS] Can not open file %s\n", file_name); 
+		return -1;
+	}
+	fcntl(*fd, F_SETLKW, fl);
+	return 0;
+}
+
+void unlock_file(struct flock *fl, int *fd)
+{
+	fl->l_type  = F_UNLCK;
+	fcntl(*fd, F_SETLK, fl);
+	close(*fd);
+}
+
+
 int setDate(int dd, int mm, int yy, int h, int min, int sec)  // format like MMDDYY
 {
-	time_t gps_time = time(0);
-	struct tm* time_to_set = localtime(&gps_time);
+	time_t gps_time;
+	struct tm time_to_set;
+	struct timeval tv;
 
-	time_to_set->tm_hour = h;
-	time_to_set->tm_min = min;
-	time_to_set->tm_sec = sec;
-	time_to_set->tm_year = yy - 1900;
-	time_to_set->tm_mon = mm-1;
-	time_to_set->tm_mday = dd;
+
+	//time( &gps_time );
+	//time_to_set = localtime( &gps_time );
+//printf("gps_time (1): %lu\n", gps_time);
+
+	time_to_set.tm_hour = h;
+	time_to_set.tm_min = min;
+	time_to_set.tm_sec = sec;
+	time_to_set.tm_year = yy-1900;
+	time_to_set.tm_mon = mm-1;
+	time_to_set.tm_mday = dd;
+
+printf("Time to set: %02d/%02d %02d %02d:%02d:%02d\n", time_to_set.tm_mday, time_to_set.tm_mon+1, time_to_set.tm_year, time_to_set.tm_hour, time_to_set.tm_min, time_to_set.tm_sec);
 
 	// Make new system time.
-	const struct timeval tv = {mktime(time_to_set), 0};
+	gps_time = mktime(&time_to_set);
+
+printf("gps_time (2): %lu\n", gps_time);
+
+	
+	tv.tv_sec = gps_time;// = {mktime(time_to_set), 0};
+	tv.tv_usec = 0;
 
 	// Set new system time.
-	if (settimeofday(&tv, 0) < 0){
-		printf("Cannot set system time\n");
+	if (settimeofday(&tv, NULL) < 0){
+		int err = errno;
+		printf("Cannot set system time. Got error: "); fflush(stdout);
+		if(err == EFAULT ) printf("EFAULT\n");
+		if(err == EINVAL ) printf("EINVAL\n");
+		if(err == EPERM  ) printf("EPERM\n");
 		return -1;
 	}
 
-	debug(1, "Set new date/time from GPS: %d.%02d.%02d - %02d:%02d:%02d\r\n",
+	/*debug(1, "Set new date/time from GPS: %d.%02d.%02d - %02d:%02d:%02d\r\n",
 	time_to_set->tm_year + 1900, time_to_set->tm_mon + 1,
 	time_to_set->tm_mday, time_to_set->tm_hour, time_to_set->tm_min,
 	time_to_set->tm_sec);
-
+*/
 	return 0;
 }
 
@@ -90,17 +128,17 @@ struct timespec subtract_timespec(struct timespec lhs, struct timespec rhs)
 	return ts_delta;
 }
 
-void format_timespec(char* str, struct timespec *ts)
+int format_timespec(char* str, struct timespec *ts)
 {
 	struct tm tmp;
 
 	if(localtime_r(&(ts->tv_sec), &tmp) == NULL) {
 		fprintf(stderr, "ERROR: format_timespec - localtime_t()\n");
 		sprintf(str, " ");
-		return;
+		return -1;
 	}
 
-	sprintf(str, "%d.%03ld", (int)ts->tv_sec, ts->tv_nsec/NSEC_PER_MSEC);
+	return sprintf(str, "%d.%03ld", (int)ts->tv_sec, ts->tv_nsec/NSEC_PER_MSEC);
 }
 
 void print_byte_array(char *buff, int length, int offset)
@@ -121,86 +159,70 @@ void print_char_array(char *buff, int length, int offset)
 	printf("\n");
 }
 
-int write_log_file(char *name, int runtime_count, int file_idx, char *receiveMessage) {
-	FILE *file;
-	int size=0;
-// 	struct statfs _statfs;
+int write_log_file(char *name, int runtime_count, int* file_idx, char *receiveMessage)
+{
+	int fd;
+	char filename[40];
+	sprintf(filename,"/sdcard/datalog-%s%d.%d.txt", name, runtime_count, *file_idx);	
 
-	//if(statfs("/dev/mmcblk0p1", &_statfs)<0)
-	//	printf("Error can't determine remain capacity on SD-Card\n");
-
-	//usedBytes=(_statfs.f_blocks-_statfs.f_bfree)*_statfs.f_bsize;	 
-	//printf("SD Card Capacity: %d\n",_statfs.f_blocks);
-
-	char format[] = "/sdcard/datalog-%s" "%d.%d.txt";
-	char filename[sizeof format+10];
-	sprintf(filename,format, name, runtime_count, file_idx);	
-
-	file = fopen(filename,"a+"); 
-
-	fseek(file, 0, SEEK_END);
-   	size = ftell(file);
-	if(size >= MAX_FILE_SIZE) {
-		fclose(file);
-		file_idx+=1;
-		sprintf(filename,format, name, runtime_count, file_idx);
-		file = fopen(filename,"a+");
+// Open is not called with O_APPEND because the filepointer would then already be placed 
+// at the end of the file. Then lseek would not return the file size, just 0.
+	if((fd = open(filename, O_CREAT|O_WRONLY|O_SYNC)) < 0) {
+		fprintf(stderr, "ERROR: Could not open file %s\n", filename);
+		return -1;
 	}
-	
-	fwrite(receiveMessage,1,strlen(receiveMessage),file);
 
-	fclose(file);
+	if( lseek(fd, 0, SEEK_END) >= MAX_FILE_SIZE) {
+		close(fd);
+		*file_idx += 1;
+		sprintf(filename,"/sdcard/datalog-%s%d.%d.txt", name, runtime_count, *file_idx);
+		if((fd = open(filename, O_CREAT|O_WRONLY)) < 0) {
+			fprintf(stderr, "ERROR: Could not create new log file %s\n", filename);
+			return -2;
+		}
+	}
 
-	return file_idx;
+	write(fd, receiveMessage, strlen(receiveMessage));	
+
+	close(fd);
+
+	return 0;
 }
 
 int read_rt_count(void) {
-		FILE *ptr_myfile;
+		int fd;
 		int runtime_count = 0;
 
-		ptr_myfile = fopen("/sdcard/runtime_cnt.bin", "rb");
-		if (!ptr_myfile) {
+		if((fd = open("/sdcard/runtime_cnt.bin", O_RDONLY)) < 0) {
 			fprintf(stderr, "Error opening runtime count file.\n");
 			return -1;
 		}
 
-		fread(&runtime_count, sizeof(int), 1, ptr_myfile);
+		read(fd, &runtime_count, sizeof(int));
+		close(fd);
 
-		fclose(ptr_myfile);	
 		return runtime_count;
 }
 
 int rw_rnt_count(void) {
-		FILE *ptr_myfile;
+		int fd;
 		int runtime_count = 0;
 
-		ptr_myfile=fopen("/sdcard/runtime_cnt.bin","rb");
-		if (!ptr_myfile)
+		if ((fd = open("/sdcard/runtime_cnt.bin", O_RDWR|O_CREAT)) < 0)
 		{
-			fprintf(stdout, "Unable to open runtime count file. Creating new file.\n");
-			ptr_myfile = fopen("/sdcard/runtime_cnt.bin","wb+");
-		} else {
-			fread(&runtime_count, sizeof(int), 1, ptr_myfile);
+			fprintf(stderr, "Unable to create runtime count file. Aborting.\n");
+			return -1;
 		}
-		fclose(ptr_myfile);
+
+// Read will not read any bytes if the file pointer is at or past the file size.
+// If the file is just created, the file size will be 0 and read will thus not overwrite 
+// runtime_count, hence when incrementing runtime_count the counter will start at 1, 
+// othwise the runtime_count read will be incremented.
+		read(fd, &runtime_count, sizeof(int));
+		
 		runtime_count++;
 
-		ptr_myfile=fopen("/sdcard/runtime_cnt.bin","wb");
-
-		if (!ptr_myfile) {
-			fprintf(stderr, "Unable to open runtime count file for write.\n");
-			return -1;
-		}
-		if (!fwrite(&runtime_count, sizeof(int), 1, ptr_myfile)) {
-			fprintf(stderr, "Unable to write runtime count file.\n");
-			return -1;
-		}
-/*
-		if (!fflush(ptr_myfile)) {
-			fprintf(stderr, "Unable to flush file.\n");
-		}
-*/
-		fclose(ptr_myfile);
+		close(fd);
 
 		return runtime_count;
 }

@@ -16,7 +16,8 @@
 //#define HOST_APP_DEBUG_ENABLE
 
 /** Private Defines **/
-#define PROVISION_SSID "DataBoy2.0" ///< SSID for limited AP network that will be created
+//#define PROVISION_SSID "DataBoy2.0" ///< SSID for limited AP network that will be created
+static char** PROVISION_SSID;
 #define PROVISION_CHANNEL "8" ///< Channel for limited AP network that will be created
 #define PROVISION_USERNAME "performand" ///< Username for web configuration client login
 #define PROVISION_PASSWORD "performand" ///< Password for web configuration client login
@@ -125,6 +126,8 @@ void *ledToggle(void* _done)
 		usleep(250000);
 	}
 
+	gpio_setValue(LED_IND1, GPIO_SET_LOW);
+
 	if(!gpio_unexport(LED_IND1) || !gpio_unexport(LED_IND2))
 		printf("[%s] ERROR: UnExporting gpio port: %d LED_IND1 and/or %d LED_IND2\n", programName, LED_IND1, LED_IND2);
 	return NULL;
@@ -134,10 +137,15 @@ int main(int argc, char **argv)
 {
 	const char delim = '/';
 	char **sp = argv;
-//	char test_data[5]="Hello";
 
 	while( *sp != NULL ) {
 		programName = strsep(sp, &delim);
+	}
+	if(argc >= 2) {
+		PROVISION_SSID = &argv[1];
+	} else {
+		printf("USAGE: %s SSID\nAllways put SSID!\n", programName);
+		return -1;
 	}
 
 //	char tcpClientCID = 1;
@@ -193,8 +201,9 @@ int main(int argc, char **argv)
     GS_API_PrintModuleInformation();
 	//GS_API_StopProvisioning();
 	//GS_API_DisconnectNetwork();
+printf(" SSID %s\n", *PROVISION_SSID);
  	GS_API_StartProvisioning(
-		PROVISION_SSID,
+		*PROVISION_SSID,
 		PROVISION_CHANNEL,
 		PROVISION_USERNAME,
 		PROVISION_PASSWORD,
@@ -217,9 +226,7 @@ int main(int argc, char **argv)
 		gpio_setValue(LED_IND2, GPIO_SET_HIGH); // Turn on only when successfull run
 	}
 	else {
-//		printf("ERROR: TCP SERVER - CANNOT CONNECT %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
-		gpio_setValue(LED_IND1, GPIO_SET_LOW);
-		goto ERROR_EXIT;
+		printf("ERROR: TCP SERVER - CANNOT CONNECT %s:%s, CID: %d\n", TCP_SERVER_IP, TCP_SERVER_PORT, tcpServerCID);
 	}
 
 	/*while(1) {
@@ -231,14 +238,10 @@ int main(int argc, char **argv)
 SAFE_EXIT:
 	done = 1;
 
-	gpio_setValue(LED_IND1, GPIO_SET_LOW);
-
-	pthread_join(led_toggle_thread, NULL);
-
-ERROR_EXIT:
-
 	if(!gpio_unexport(WIFI_RESET))
 		printf("[%s] ERROR: UnExporting gpio port: %d WIFI_RESET\n", programName, WIFI_RESET);
+
+	pthread_join(led_toggle_thread, NULL);
 
 	pthread_exit(NULL);
 }

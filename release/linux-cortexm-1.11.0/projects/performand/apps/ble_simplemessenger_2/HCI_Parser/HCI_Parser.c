@@ -40,7 +40,7 @@ long HCI_ProcessEvent(int taskID, long events)
 
 	if(events & HCI_COMMAND_TIMEOUT) {
 		APP_SetEvent(APP_TaskID, APP_HCI_ERROR);
-		fprintf(stderr, "Bluetooth controller not responding\n");
+		fprintf(stderr, "[Bluetooth] ERROR Bluetooth controller not responding\n");
 		return events ^ (HCI_COMMAND_TIMEOUT | HCI_TX_DATA_READY);
 	}
 
@@ -52,12 +52,25 @@ long HCI_ProcessEvent(int taskID, long events)
 	}
 
 	if(events & HCI_TX_DATA_READY) {
-		if(queueCount(&HCI_Tx_Queue) > 0) {
+		/*if(queueCount(&HCI_Tx_Queue) > 0) {
 			APP_StartTimer(HCI_TaskID, HCI_COMMAND_TIMEOUT | HCI_TX_DATA_READY, 10000); // 10 sec
-		}
+		}*/
 		while(queueCount(&HCI_Tx_Queue) > 0) {
-			dequeue(&HCI_Tx_Queue, &datagram);
-			enqueue(&bleCentral->txQueue, &datagram);
+			if (dequeue(&HCI_Tx_Queue, &datagram) < 0) {
+				break;
+			}
+
+			if(enqueue(&bleCentral->txQueue, &datagram) < 0) {
+				// Queue will be cleared and our datagram will be enqueued as the first item.
+				fprintf(stderr, "[BLUETOOTH] WARNING HCI_Parser txQueue was full");
+			}
+
+			// Start timer only if datagram is successfully enqueued on txQueue.
+			if(APP_StartTimer(HCI_TaskID, HCI_COMMAND_TIMEOUT | HCI_TX_DATA_READY, 10000) < 0) { // 10 sec
+				// NO more timers free, thus no timer is set.
+				fprintf(stderr, "[BLUETOOTH] ERROR caused by HCI enqueue txQueue\n");
+				break;
+			}
 		}
 		return events ^ HCI_TX_DATA_READY;
 	}
@@ -110,12 +123,17 @@ int HCI_Parse(void)
 						debug(1, "unknown opcode %04X\n", (unsigned int)opCode);
 					}
 					
-					APP_ClearTimerByEvent(HCI_TaskID, HCI_COMMAND_TIMEOUT | HCI_TX_DATA_READY);
+					if(APP_ClearTimerByEvent(HCI_TaskID, HCI_COMMAND_TIMEOUT | HCI_TX_DATA_READY) < 0) {
+						debug(1, "[BLUETOOTH] WARNING No timer for HCI_Task (HCI_COMMAND_TIMEOUT | HCI_TX_DATA_READY found\n");
+					}
 					break;
 				}
 			default:
 			// If HCI don't support the OpCode, try GATT/GAP
-				enqueue(&GATT_Rx_Queue, &datagram);
+				if(enqueue(&GATT_Rx_Queue, &datagram) < 0) {
+					fprintf(stderr, "[BLUETOOTH] ERROR caused by enqueue GATT_Rx_Queue\n");
+					return -1;
+				}
 				APP_SetEvent(GATT_TaskID, GATT_DATA_READY);
 			}
 		}
@@ -126,6 +144,7 @@ int HCI_Parse(void)
 	else {
 		debug(1, "Datagram type not supported: %04X\n", datagram.type);
 	}
+	return 0;
 }
 
 

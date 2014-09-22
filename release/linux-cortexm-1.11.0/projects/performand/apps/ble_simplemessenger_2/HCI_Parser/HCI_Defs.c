@@ -197,4 +197,5 @@ int get_GATT_Handle_By_UUID(datagram_t *datagram, long connHandle, short UUID)
 	datagram->data[i++] = (char)(end_hdl >> 8);
 	datagram->data[i++] = (char) UUID;
 	datagram->data[i++] = (char)(UUID >> 8);
+	return 0;
 }

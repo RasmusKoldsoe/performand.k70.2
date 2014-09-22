@@ -164,6 +164,12 @@ slink /bin/cut busybox 777 0 0
 slink /bin/awk busybox 777 0 0
 slink /bin/chat busybox 777 0 0
 
+slink /bin/free busybox 777 0 0
+slink /bin/sync busybox 777 0 0
+slink /bin/tee busybox 777 0 0
+slink /bin/top busybox 777 0 0
+slink /bin/uptime busybox 777 0 0
+
 dir /usr/share 755 0 0
 dir /usr/share/udhcpc 755 0 0
 file /usr/share/udhcpc/default.script ${INSTALL_ROOT}/projects/${SAMPLE}/local/default.script 755 0 0
@@ -190,7 +196,7 @@ file /performand/apps/inc_runtime_cnt ${INSTALL_ROOT}/projects/${SAMPLE}/apps/up
 file /performand/apps/imu_daemon ${INSTALL_ROOT}/projects/${SAMPLE}/apps/mpu9150-cal/imu 755 0 0
 file /performand/apps/imucal ${INSTALL_ROOT}/projects/${SAMPLE}/apps/mpu9150-cal/imucal 755 0 0
 file /performand/apps/wifi_ap_init ${INSTALL_ROOT}/projects/${SAMPLE}/apps/wifi/GS_Initialize_wifi 755 0 0
-file /performand/apps/stream_data ${INSTALL_ROOT}/projects/${SAMPLE}/apps/wifi/parser 755 0 0
+file /performand/apps/stream_data ${INSTALL_ROOT}/projects/${SAMPLE}/apps/wifi/data_parser 755 0 0
 file /performand/apps/bluetooth ${INSTALL_ROOT}/projects/${SAMPLE}/apps/ble_simplemessenger_2/bleCentral 755 0 0
 
 nod /dev/imu 0600 0 0 c 168 0

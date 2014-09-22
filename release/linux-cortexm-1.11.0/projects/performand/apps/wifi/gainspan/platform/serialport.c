@@ -58,14 +58,14 @@ void GS_HAL_uart_close_comm_port(char *port) {
 	close(tty_fd);
 }
 
-static void print_char_array(char *buff, int length, int offset)
+/*static void print_char_array(char *buff, int length, int offset)
 {
 	int i;
 	for(i=offset; i<length; i++) {
 		printf("%c", buff[i] & 0xff);
 	}
 	printf("\n");
-}
+}*/
 
 int GS_HAL_uart_send(const uint8_t* txBuf, uint16_t numToWrite) {
 	int i=0;     
@@ -133,7 +133,7 @@ void USART2_IRQHandler(void) {
    @param numToRead Number of bytes to read from Rx buffer
    @return number of bytes actually read from Rx buffer
 */
-static uint16_t ReadRxBuffer(uint8_t* rxBuf, uint16_t numToRead){
+//static uint16_t ReadRxBuffer(uint8_t* rxBuf, uint16_t numToRead){
  /*    uint16_t bytesRead = 0;
 	
      while(rxTail != rxHead && bytesRead < numToRead){
@@ -141,6 +141,5 @@ static uint16_t ReadRxBuffer(uint8_t* rxBuf, uint16_t numToRead){
           bytesRead++;
      }	
 	*/
-     return 0;//bytesRead;
-
-}
+//     return 0;//bytesRead;
+//}

@@ -1,11 +1,12 @@
 #include <stdio.h>
 
-#include "../Common/MemoryMapping/memory_map.h"
 
+#include "../Common/MemoryMapping/memory_map.h"
 #include "gainspan/hardware/GS_HAL.h"
 #include "gainspan/API/GS_API.h"
 #include "tcp_stuff.h"
 
+#define min(a, b) (a<b?a:b)
 
 int tcp_init(char *port) // "/dev/ttyS3"
 {
@@ -23,22 +24,20 @@ int tcp_init(char *port) // "/dev/ttyS3"
 int tcp_send_data(char *data, int len)
 {
 #if __arm__
-	int memptr;
-	unsigned int left;
+	uint16_t left = (uint16_t)len;
 
-	if(len > TCP_MAX_LEN) {
-		left = len;
-		for(memptr=0; memptr < len; memptr += 1400) {	
-			if(!GS_API_SendTcpData(1, (uint8_t *)(data+memptr), (left>TCP_MAX_LEN) ? TCP_MAX_LEN : left))
-				//printf("ERROR: TCP/IP Transmission\n");
-			left -= TCP_MAX_LEN;
-		}
-	} 
-	else {
-GS_API_SendTcpData(1, (uint8_t *)data, len);
-//		if(!GS_API_SendTcpData(1, data, len))
-			//printf("ERROR: TCP/IP Transmission\n");	
+	while(left > 0) {
+		uint16_t to_send = min(left, TCP_MAX_LEN);
+		GS_API_SendTcpData(1, (uint8_t *)(data), to_send);
+
+/*		if(GS_API_SendTcpData(1, (uint8_t *)(data), to_send) == 0){
+			fprintf(stderr, "[TCP_STUFF] ERROR: TCP/IP Transmission failed\n");
+			return -1;
+		}*/
+		data += to_send;
+		left -= to_send;
 	}
+
 #elif __i386__
 	printf("%s", data);
 #else

@@ -61,6 +61,78 @@ void reset_mapped_mem(h_mmapped_file *mapped_file)
 	//UNLOCK_FILE(fd);
 }
 
+int mm_get_line(h_mmapped_file *mapped_file, char* user_buffer)
+{
+	int fd = 0;	
+	char* endOfLine;
+	char* endOfText;
+	unsigned short textCounter;
+	unsigned int fileSize;
+	struct flock fl = {F_WRLCK, SEEK_SET,   0,      0,     0 };
+
+	fileSize = mapped_file->size;
+	textCounter = get_mem_index(mapped_file);
+	endOfText = mapped_file->mem_ptr + MM_FILE_INDEX_SIZE + textCounter + 1;
+
+	if(textCounter <= 0) {
+		return -1;
+	}
+
+	if(lock_file(&fl, mapped_file->filename, &fd, O_RDWR) < 0) {
+		return -2;
+	}
+	/* ****** CRITICAL REGION *********** */
+	//printf("Mem_ptr: %p\n",mapped_file->mem_ptr);
+	// Search for linefeed or \0 - Return if \0
+	for (endOfLine = mapped_file->mem_ptr + MM_FILE_INDEX_SIZE; 
+		(endOfLine < endOfText) && (*endOfLine != '\n') && (*endOfLine != '\0'); 
+		endOfLine++);
+	if(*endOfLine == '\0') {
+		printf("Returning because endOfLine == '\\0' at %p (file %s begin: %p)\n", endOfLine, mapped_file->filename, mapped_file->mem_ptr + MM_FILE_INDEX_SIZE);
+		//reset_mapped_mem(mapped_file);
+		UNLOCK_FILE(fd);
+		return -1;
+	}
+
+	// Overwrite linefeed character
+	*endOfLine = '\0';
+
+	// Copy line to user buffer - Assume enough memory
+	ssize_t lineLength = (endOfLine - mapped_file->mem_ptr) - MM_FILE_INDEX_SIZE + 1;
+
+//printf("%s ", mapped_file->filename); fflush(stdout);
+//printf("lineLength: "); fflush(stdout);
+//printf("%d\n", lineLength); fflush(stdout);
+//printf("(%s)\n", mapped_file->mem_ptr + MM_FILE_INDEX_SIZE); fflush(stdout);
+//int i;
+//for(i=0; i<lineLength; i++) {printf("%02X ", mapped_file->mem_ptr[i + MM_FILE_INDEX_SIZE]); fflush(stdout); }
+//printf(")\n");
+
+	if(lineLength > DEFAULT_FILE_LENGTH) {
+		fprintf(stderr, "[mm_daemon] ERROR Detected too long line length %d\n", lineLength);
+		UNLOCK_FILE(fd);
+		return -3;
+	}
+//	else if(lineLength == 0) { // Would happen if buffer[0]=='\n'
+	else if(lineLength < 14) {
+		UNLOCK_FILE(fd);
+		return 0;
+	}
+	else {
+		memcpy(user_buffer, mapped_file->mem_ptr + MM_FILE_INDEX_SIZE, lineLength);
+	}
+
+	// Clear line from file
+	textCounter -= lineLength;
+	set_mem_index(mapped_file, textCounter);
+	memcpy(mapped_file->mem_ptr + MM_FILE_INDEX_SIZE, ++endOfLine, textCounter);
+	
+	/* ****** END CRITICAL REGION ******* */
+	UNLOCK_FILE(fd);
+
+	return lineLength;
+}
+
 unsigned int mm_get_next_available(h_mmapped_file *mapped_file, unsigned int size_required)
 {
 	unsigned int mem_index_ptr = get_mem_index(mapped_file);
@@ -91,13 +163,12 @@ void mm_append(char *content, h_mmapped_file *mapped_file)
 	/* ****** CRITICAL REGION *********** */
 
 	mem_index_ptr = mm_get_next_available(mapped_file, len);
-	char* start_ptr = (char*) mapped_file->mem_ptr + MM_FILE_INDEX_SIZE + mem_index_ptr;
-
-	if( start_ptr >= mapped_file->mem_ptr + mapped_file->size )
-		printf("exceeding size "); fflush(stdout);
+//	char* start_ptr = (char*) mapped_file->mem_ptr + MM_FILE_INDEX_SIZE + mem_index_ptr;
+//ssize_t slen = 0;
 	sprintf((char*) mapped_file->mem_ptr + MM_FILE_INDEX_SIZE + mem_index_ptr, "%s", content);
 
 	set_mem_index(mapped_file, mem_index_ptr + len);
+//printf("APPEND: len=%d, slen=%d, maplen=%d\n", len, slen, get_mem_index( mapped_file ) );
 
 	// TODO: A problem occurs here since the write may overlap the lock so the read will 
 	// quite possibly issued before the actual write is finished ?! Still to be confirmed!
@@ -133,29 +204,33 @@ int mm_prepare_mapped_mem(h_mmapped_file *mapped_file)
 
 	/* go to the location corresponding to the last byte */
 	if (lseek (fd, mapped_file->size-1, SEEK_SET) < 0) {
+		close(fd);
 		perror("ERROR: mm_prepare_mapped_mem lseek eof");
 		return -1;
 	}
 
 	/* write a dummy byte at the last location */
-	if (write (fd, "", 1) != 1) {
+	if (write (fd, "\0", 1) != 1) {
+		close(fd);
 		perror("ERROR: mm_prepare_mapped_mem write");
 		return -1;
 	}
 
 	//Go to the start of the file again
 	if(lseek (fd, 0, SEEK_SET) < 0 ) {
+		close(fd);
 		perror("ERROR: mm_prepare_mapped_mem lseek beginning of file");
 		return -1;
 	}
 
-	mapped_file->mem_ptr = (char*)mmap (0, mapped_file->size, PROT_WRITE, MAP_SHARED, fd, 0);
+	mapped_file->mem_ptr = (char*)mmap( 0, mapped_file->size, PROT_WRITE, MAP_SHARED, fd, 0 );
 	if(mapped_file->mem_ptr == MAP_FAILED) {
+		close(fd);
     	perror("ERROR: mm_prepare_mapped_mem mmap");
 		return -1;
     }
 
-	memset(mapped_file->mem_ptr, 0, mapped_file->size);
+	//memset(mapped_file->mem_ptr, 0, mapped_file->size);
 
 	debug(1, "[%s daemon] Buffer memory mapped at %p [%d Bytes]\n",mapped_file->filename, mapped_file->mem_ptr, mapped_file->size);
 

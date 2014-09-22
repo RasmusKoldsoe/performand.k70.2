@@ -42,7 +42,7 @@ typedef struct RMC_DATA{
     unsigned long longitudeMinutes;
     float longitudeSeconds;
     unsigned char longitudeHemisphere;
-    float speedOverGround;//in m/s
+    float speedOverGround;//in knots
     float courseOverGround;//in degrees
     long dateDay;
     long dateMonth;

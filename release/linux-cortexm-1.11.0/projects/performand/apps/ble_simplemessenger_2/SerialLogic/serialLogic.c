@@ -37,8 +37,8 @@ void print_b_array(char *buff, int length, int offset)
 int open_serial(char *port, int oflags)
 {
 	struct termios tio;
-	fd_set rdset;
-	unsigned char c = 0;
+	//fd_set rdset;
+	//unsigned char c = 0;
 
 	memset(&tio, 0, sizeof(tio));
 	tio.c_iflag = 0;
@@ -51,7 +51,7 @@ int open_serial(char *port, int oflags)
 	int fd;
 	fd = open(port, oflags);
 	if( fd < 0 ){
-		fprintf(stderr, "ERROR: Open port %s: %s\n", port, strerror(errno));
+		fprintf(stderr, "[BLUETOOTH] ERROR Open port %s: %s\n", port, strerror(errno));
 		return fd;
 	}
 
@@ -72,8 +72,8 @@ void close_serial(int fd)
 
 void *read_serial(void *_bleCentral)
 {
-	int n, offset=0;
-	unsigned int next, count=0; 
+	int n;
+	unsigned int count=0, offset=0; 
 	char buff[STD_BUF_SIZE]; memset(buff, 0, STD_BUF_SIZE);
 	BLE_Central_t *bleCentral = (BLE_Central_t *)_bleCentral;
 	datagram_t datagram;
@@ -85,7 +85,7 @@ void *read_serial(void *_bleCentral)
 		n = read(bleCentral->fd, buff + count, 1);
 
 		if ( n < 0 ) {
-			fprintf(stderr, "ERROR: Read message header. Read return %d %s\n", n, strerror(errno));
+			fprintf(stderr, "[BLUETOOTH] ERROR Read message header. Read return %d %s\n", n, strerror(errno));
 			break;
 		}
 		else if( n == 0 ) {
@@ -97,16 +97,25 @@ void *read_serial(void *_bleCentral)
 		updateRxStat(0, n);
 
 		previousParserState = parserState;
-		parserState = COM_parse_data(&datagram, buff, count, &offset, parserState);
+		COM_parse_data(&datagram, buff, &count, &offset, &parserState);
 
-		if( parserState == package_type_token && previousParserState != parserState ) {
+		if( parserState == ERROR_STATE ) {
+			memset(&datagram, 0, sizeof(datagram));
+			memset(buff, 0, STD_BUF_SIZE);
+			offset = 0;
+			count = 0;
+			parserState = package_type_token;
+		}
+		else if( parserState == package_type_token && previousParserState != parserState ) {
 			clock_gettime(CLOCK_REALTIME, &datagram.timestamp);
 
 			debug(2, "Datagram received ");
 			print_b_array(buff, count, 0);
 			pretty_print_datagram(&datagram);
 
-			enqueue(&bleCentral->rxQueue, &datagram);
+			if(enqueue(&bleCentral->rxQueue, &datagram) < 0) {
+				fprintf(stderr, "[BLUETOOTH] WARNING SerialLogic rxQueue was full\n");
+			}
 			APP_SetEvent(HCI_TaskID, HCI_RX_DATA_READY);
 			updateRxStat(1, 0);
 

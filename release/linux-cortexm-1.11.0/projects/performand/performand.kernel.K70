@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.33
-# Fri Oct 18 13:17:00 2013
+# Mon Sep 15 10:39:11 2014
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -1025,17 +1025,15 @@ CONFIG_ESDHC_DETECT_USE_EXTERN_IRQ7=y
 # CONFIG_ACCESSIBILITY is not set
 CONFIG_RTC_LIB=y
 CONFIG_RTC_CLASS=y
-CONFIG_RTC_HCTOSYS=y
-CONFIG_RTC_HCTOSYS_DEVICE="rtc0"
+# CONFIG_RTC_HCTOSYS is not set
 # CONFIG_RTC_DEBUG is not set
 
 #
 # RTC interfaces
 #
-CONFIG_RTC_INTF_SYSFS=y
-CONFIG_RTC_INTF_PROC=y
-CONFIG_RTC_INTF_DEV=y
-# CONFIG_RTC_INTF_DEV_UIE_EMUL is not set
+# CONFIG_RTC_INTF_SYSFS is not set
+# CONFIG_RTC_INTF_PROC is not set
+# CONFIG_RTC_INTF_DEV is not set
 # CONFIG_RTC_DRV_TEST is not set
 
 #
@@ -1089,6 +1087,7 @@ CONFIG_RTC_INTF_DEV=y
 #
 # on-CPU RTC drivers
 #
+# CONFIG_RTC_DRV_KINETIS is not set
 # CONFIG_DMADEVICES is not set
 # CONFIG_AUXDISPLAY is not set
 CONFIG_UIO=y

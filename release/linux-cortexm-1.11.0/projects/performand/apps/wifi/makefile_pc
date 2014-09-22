@@ -9,7 +9,7 @@ LDFLAGS	:= -lrt
 DIR_GUARD = @mkdir -p $(@D)
 
 BUILDDIR := build
-BINARY := data_parser
+BINARIES := data_parser
 SOURCETREE = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call SOURCETREE,$d/,*.c))
 EXT_SOURCES = $(call SOURCETREE,../Common/,*.c)
 GAINSPAN_SOURCES = $(call SOURCETREE,gainspan/,*.c)
@@ -18,12 +18,13 @@ SOURCES := $(wildcard *.c) $(EXT_SOURCES) $(GAINSPAN_SOURCES)
 OBJECTS := $(addprefix $(BUILDDIR)/, $(notdir $(SOURCES:%.c=%.o)))
 VPATH := $(subst  ,:,$(dir $(SOURCES)))
 
-all : $(BINARY)
+all : $(BINARIES)
 
-redo : clean $(BINARY)
+redo : clean $(BINARIES)
 	
-$(BINARY) : $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -lm -o $(BINARY) $(LDFLAGS)
+$(BINARIES): %: $(OBJECTS)
+	@echo "Compiling " $@
+	$(CC) $(CFLAGS) $(OBJECTS) -lm -o $@ $(LDFLAGS)
 
 $(BUILDDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -I$(dir $<) -c $< -o $@

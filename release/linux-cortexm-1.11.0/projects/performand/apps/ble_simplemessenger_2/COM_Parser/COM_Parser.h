@@ -16,11 +16,13 @@ enum parserState_t {
 	command_code_token,
 	event_code_token,
 	length_token,
-	data_token
+	data_token,
+	ERROR_STATE
 };
 
-int COM_parse_data(datagram_t *datagram, char *data, int length, int *offset, int _parserState);
-int compose_datagram(datagram_t *datagram, char data[], int *length);
+int COM_parse_data(datagram_t *datagram, char *data, unsigned int *length, unsigned int *offset, enum parserState_t *_parserState);
+
+int COM_compose_datagram(datagram_t *datagram, char data[], int *length);
 void pretty_print_datagram(datagram_t *datagram);
 
 #endif /* PARSER_H_ */

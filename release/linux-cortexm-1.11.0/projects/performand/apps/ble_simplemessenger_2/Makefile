@@ -3,7 +3,7 @@
 #
 
 CC = $(CROSS_COMPILE_APPS)gcc
-CFLAGS := -Os -mcpu=cortex-m3 -mthumb -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=1 -DSTD_BUF_SIZE=64
+CFLAGS := -Os -mcpu=cortex-m3 -mthumb -Wall -L ${INSTALL_ROOT}/A2F/root/usr/lib -pthread -DVERBOSITY=0 -DSTD_BUF_SIZE=64
 LDFLAGS	:= -mcpu=cortex-m3 -mthumb
 
 DIR_GUARD = @mkdir -p $(@D)
@@ -18,13 +18,13 @@ OBJECTS := $(addprefix $(BUILDDIR)/, $(notdir $(SOURCES:%.c=%.o)))
 VPATH := $(subst  ,:,$(dir $(SOURCES)))
 
 
-all : $(BINARY)
+all : bleCentral
 
 redo : clean $(BINARY)
-	chmod +x $(BINARY)
 
-$(BINARY) : $(OBJECTS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) -lm -o $(BINARY)
+bleCentral : $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -lm -o bleCentral $(LDFLAGS)
+	chmod +x $(BINARY)
 
 $(BUILDDIR)/%.o: %.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -I$(dir $<) -c $< -o $@

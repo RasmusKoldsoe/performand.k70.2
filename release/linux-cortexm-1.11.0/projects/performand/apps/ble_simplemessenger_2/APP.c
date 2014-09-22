@@ -24,6 +24,7 @@
 #define BLE_DEVICE_COUNT 3 //sizeof(*bleCentral->devices)/sizeof(BLE_Peripheral_t)
 
 void processTimeouts(void);
+
 #define eventHandlerFcn_Count 3
 const eventHandlerFcn taskArr[eventHandlerFcn_Count] = {
 	HCI_ProcessEvent,
@@ -75,7 +76,7 @@ void APP_Run( void )
 	else {
 //clock_gettime(CLOCK_REALTIME, &idle);
 //worktime = timespec_subtract(&idle, &stop);
-		usleep(100000); // 100ms
+		usleep(50000); // 50ms
 //clock_gettime(CLOCK_REALTIME, &stop);
 //idletime = timespec_subtract(&stop, &idle);
 //printf("worktime= %dus, idletime= %dus, Workload %0.4f\n", worktime, idletime, (float)((float)worktime/((float)worktime+(float)idletime)*100.0));
@@ -185,6 +186,7 @@ int APP_Init(BLE_Central_t *b, long dev)
 	memset(delayedEvents, 0, sizeof(delayedEvents));
 
 	int t_id=0;
+
 	HCI_Init(t_id++, bleCentral);
 	GATT_Init(t_id++, bleCentral);
 	APP_TaskID = t_id;
@@ -197,8 +199,15 @@ int APP_Init(BLE_Central_t *b, long dev)
 	return 0;
 }
 
-int APP_Exit(void)
+void APP_Exit(void)
 {
+	int i;
+	for(i=0; i<BLE_DEVICE_COUNT; i++) {
+		if(devices & bleCentral->devices[i].ID) {
+			bleCentral->devices[i].finalize();
+		}
+	}
+
 	pthread_mutex_lock(&app_event_mutex);
 	pthread_mutex_destroy(&app_event_mutex);
 }
@@ -272,9 +281,8 @@ int APP_StartTimer(int taskID, long events, int timeout)
 			break;
 	}
 	if(newIndex >= MAX_DELAYED_EVENTS) {
-		fprintf(stderr, "Warning: APP - No available timers ready.\n");
-//		return -1;
-exit(0);
+		fprintf(stderr, "[BLUETOOTO] ERROR APP - No available timers ready.\n");
+		return -1;
 	}
 	_delayedEvents_MaxCount = max(_delayedEvents_MaxCount, newIndex);
 
@@ -300,12 +308,7 @@ int APP_FindTimerByEvent(int taskID, long events)
 {
 	int i;
 	for(i=0; i<MAX_DELAYED_EVENTS; i++) {
-//printf("ID: %d %c delayedEvents: %#08X | ID: %d events: %#08X ", delayedEvents[i].taskID, delayedEvents[i]._enabled>0?'R':'S', delayedEvents[i].events & 0x0000FFFF, taskID, events&0x0000FFFF); fflush(stdout);
-//if(delayedEvents[i]._enabled > 0) printf("Running "); fflush(stdout);
-//if(delayedEvents[i].taskID == taskID) printf("ID_Matching "); fflush(stdout);
-//if((delayedEvents[i].events & 0x0000FFFF) == (events&0x0000FFFF)) printf("Events_Matching "); fflush(stdout);
-//printf("\n");
-		if( (delayedEvents[i].taskID == taskID) && ((delayedEvents[i].events & 0x0000FFFF) == (events&0x0000FFFF)) && (delayedEvents[i]._enabled > 0) ) {
+		if( (delayedEvents[i].taskID == taskID) && ((delayedEvents[i].events & 0x0000FFFF) == (events & 0x0000FFFF)) && (delayedEvents[i]._enabled > 0) ) {
 			return i;
 		}
 	}

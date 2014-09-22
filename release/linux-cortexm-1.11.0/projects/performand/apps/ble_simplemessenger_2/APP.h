@@ -36,7 +36,7 @@ extern long GATT_ProcessEvent(int taskID, long events);
 extern void APP_Run(void);
 extern long APP_ProcessEvent(int taskID, long events);
 extern int  APP_Init(BLE_Central_t *b, long dev);
-extern int  APP_Exit(void);
+extern void  APP_Exit(void);
 extern long APP_SetEvent(int taskID, long events);
 extern long APP_GetEvent(int taskID);
 extern void APP_ClearEvent(int taskID);

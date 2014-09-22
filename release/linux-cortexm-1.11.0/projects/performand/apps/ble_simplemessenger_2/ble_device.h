@@ -21,6 +21,7 @@
 #include "Queue/Queue.h"
 #include "../Common/common_tools.h"
 #include "../Common/MemoryMapping/memory_map.h"
+#include "../Common/logging.h"
 
 typedef struct {
 		long ID;
@@ -30,9 +31,10 @@ typedef struct {
 		int  serviceHdlsCount;
 		int  (*initialize)();
 		int  (*parseDataCB)();
+		void  (*finalize)();
 		char _connected;
 		char _defined;
-
+		log_t *log;
 		h_mmapped_file mapped_mem;
 } BLE_Peripheral_t;
 

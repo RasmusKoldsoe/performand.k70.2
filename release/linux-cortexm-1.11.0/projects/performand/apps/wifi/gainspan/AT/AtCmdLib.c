@@ -2690,7 +2690,7 @@ AtLib_SendUdpData (uint8_t cid, const uint8_t * txBuf, uint32_t dataLen,
       GS_HAL_send ((uint8_t *) & G_ATCmdBuf[0], strlen (G_ATCmdBuf));
     }
 }
-
+/*
 static void print_ch_array(char *buff, int length, int offset)
 {
 	int i;
@@ -2708,7 +2708,7 @@ static void print_cha_array(char *buff, int length, int offset)
 	}
 	printf("\n");
 }
-
+*/
 /*---------------------------------------------------------------------------*
  * Routine:  AtLib_BulkDataTransfer
  *---------------------------------------------------------------------------*

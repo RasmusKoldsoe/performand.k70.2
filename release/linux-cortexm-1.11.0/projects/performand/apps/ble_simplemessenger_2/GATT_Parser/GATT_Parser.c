@@ -71,9 +71,13 @@ void GATT_Transmit_Datagram(datagram_t *dgm, long event)
 	if(dgm == NULL) {
 		return;
 	}
-	enqueue(&HCI_Tx_Queue, dgm);
+	if(enqueue(&HCI_Tx_Queue, dgm) < 0) {
+		fprintf(stderr, "[BLUETOOTH] WARNING GATT_Parser HCI_Tx_Queue was full");
+	}
 	APP_SetEvent(HCI_TaskID, HCI_TX_DATA_READY);
-	APP_StartTimer(GATT_TaskID, GATT_COMMAND_TIMEOUT | event, 10000);
+	if(APP_StartTimer(GATT_TaskID, GATT_COMMAND_TIMEOUT | event, 10000) < 0) {
+		fprintf(stderr, "[BLUETOOTH] ERROR caused by GATT_Transmit_Datagram\n");
+	}
 }
 
 long GATT_ProcessEvent(int taskID, long events)
@@ -83,14 +87,14 @@ long GATT_ProcessEvent(int taskID, long events)
 	memset(&datagram, 0, sizeof(datagram_t));
 
 	if( events & GATT_COMMAND_TIMEOUT ) {
-		// If CANCEL COMMAND timeout
+		// If CANCEL COMMAND timeout -> Do nothing
 		if( events & GATT_CANCEL_COMMAND) {
 			debug(1, "Cancel command timed out: %08X\n", (unsigned int)events);
 			//APP_SetEvent(APP_TaskID, APP_SHUTDOWN_EVENT);
 			events ^= GATT_CANCEL_COMMAND;
 		}
 
-		// If INITIALIZE timeout
+		// If INITIALIZE timeout - Shut down
 		if( events & GATT_INITIALIZE) {
 			APP_SetEvent(APP_TaskID, APP_SHUTDOWN_EVENT);
 			debug(1, "Initialize timed out.\n");
@@ -169,11 +173,11 @@ long GATT_ProcessEvent(int taskID, long events)
 			events &= ~device->ID;
 		}
 		else {
-			debug(0, "GATT ERROR: Device ID %#08X (e %#08X) not found\n", (unsigned int)bleCentral->devices[j].ID, (unsigned int)(events & 0xFFFF0000));
+			fprintf(stderr, "[Bluetooth] GATT ERROR: Device ID %#08X (e %#08X) not found\n", (unsigned int)bleCentral->devices[j].ID, (unsigned int)(events & 0xFFFF0000));
 			return events &= ~GATT_ESTABLISH_CONNECTION;
 		}
 	
-		if(events & 0xFFFF0000 != 0)
+		if((events & 0xFFFF0000) != 0)
 			APP_SetEvent(GATT_TaskID, GATT_ESTABLISH_CONNECTION | (events & 0xFFFF0000));
 
 		return events &= ~GATT_ESTABLISH_CONNECTION;
@@ -190,8 +194,6 @@ long GATT_ProcessEvent(int taskID, long events)
 
 			for(j=0; j<device->serviceHdlsCount; j++) {
 				get_GATT_WriteCharValue(&datagram, device->connHandle, device->serviceHdls[j].handle, data, 2);
-//GATT_pretty_print_datagram(&datagram);
-//printf("Enabeling attribute %#04x %s\n", bleCentral->devices[i].connHandle&0xffff, bleCentral->devices[i].serviceHdls[j].description);
 				GATT_Transmit_Datagram(&datagram, GATT_ENABLE_SERVICES | device->ID);
 			}
 			events &= ~device->ID;
@@ -302,7 +304,7 @@ int GATT_Parse(void)
 				 **************************************************************************/
 				BLE_Peripheral_t* device = findDeviceByMAC(bleCentral, connMAC);
 				if(device == NULL) { // Device ID not found
-					fprintf(stderr, "ERROR: GATT Establish - No available device handles\n");
+					fprintf(stderr, "[Bluetooth] ERROR: GATT Establish - No available device handles\n");
 					break;
 				}
 #if (defined VERBOSITY) && (VERBOSITY >= 1)
@@ -328,7 +330,7 @@ int GATT_Parse(void)
 				APP_SetEvent(APP_TaskID, APP_CONNECTION_CANCLED);
 			}
 			else {
-				fprintf(stderr, "WARNING: GATT EstablishLink return unknown status code\n");
+				fprintf(stderr, "[Bluetooth] WARNING: GATT EstablishLink return unknown status code\n");
 			}
 
 			break;
@@ -364,7 +366,7 @@ int GATT_Parse(void)
 			if(device != NULL) {
 				APP_SetEvent(APP_TaskID, GATT_READ_CHARACTERISTIC | device->ID);
 				if( device->parseDataCB(&datagram, &i) < 0 ) {
-					fprintf(stderr, "ERROR: GATT ReadCharacteristicValue - Parse Data failed\n");
+					fprintf(stderr, "[Bluetooth] ERROR: GATT ReadCharacteristicValue - Parse Data failed\n");
 				}
 			}
 			break;
@@ -383,7 +385,6 @@ int GATT_Parse(void)
 		}
 	case ATT_HandleValueNotification:
 		{
-			int j;
 			//debug(1, "ATT_HandleValueNotifiction return %s\n", getSuccessString(success, esg));
 
 			long connHandle = unload_16_bit(datagram.data, &i, 1);
@@ -397,17 +398,18 @@ int GATT_Parse(void)
 							(unsigned int)connHandle & 0xFFFF, (unsigned int)handle & 0xFFFF, str);
 
 				if( curr_device->parseDataCB(&datagram, &i) < 0 ) {
-					fprintf(stderr, "ERROR: GATT HandleValueNotification - Parse Data failed\n");
+					fprintf(stderr, "[Bluetooth] ERROR: GATT HandleValueNotification - Parse Data failed\n");
 				}
 			}
 			else {
-				fprintf(stderr, "ERROR: GATT HandleValueNotification - Connection handle not identified\n");
+				fprintf(stderr, "[Bluetooth] ERROR: GATT HandleValueNotification - Connection handle not identified\n");
 			}
 			break;
 		}
 	default:
 		debug(1, "HCI_LE_ExtEvent OpCode %04X not supported by HCI or GATT\n", (unsigned int)datagram.opcode);
 	}
+	return 0;
 }
 
 
