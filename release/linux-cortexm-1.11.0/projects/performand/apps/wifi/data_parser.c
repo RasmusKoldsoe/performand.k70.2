@@ -13,6 +13,7 @@
 #include <limits.h>
 #include <pthread.h>
 #include <semaphore.h>
+#include <sys/reboot.h>
 
 #include "../Common/MemoryMapping/memory_map.h"
 #include "../Common/GPIO/gpio_api.h"
@@ -79,27 +80,27 @@ static struct sensor_element sensors[5] = {
 					.delimitor = "\r\n",
 					.show_unused_tokens = 0,
 					.delim_at_final_token = 1,
-					.parse_str = {	"<COMPASS timestamp=\"%s\">%s<\\COMPASS>",
-									"<mag_x>%s<\\mag_x>",
-									"<mag_y>%s<\\mag_y>",
-									"<mag_z>%s<\\mag_z>",
-									"<accel_x>%s<\\accel_x>",
-									"<accel_y>%s<\\accel_y>",
-									"<accel_z>%s<\\accel_z>",
-									"<battery>%s<\\battery>" }
+					.parse_str = {	"<COMPASS timestamp=\"%s\">%s</COMPASS>",
+									"<mag_x>%s</mag_x>",
+									"<mag_y>%s</mag_y>",
+									"<mag_z>%s</mag_z>",
+									"<accel_x>%s</accel_x>",
+									"<accel_y>%s</accel_y>",
+									"<accel_z>%s</accel_z>",
+									"<battery>%s</battery>" }
 				},
 				{.token_count = 8,
 					.delimitor = "\r\n",
 					.show_unused_tokens = 0,
 					.delim_at_final_token = 1,
-					.parse_str = {	"<COMPASS timestamp=\"%s\">%s<\\COMPASS>",
-									"<mag_x>%s<\\mag_x>",
-									"<mag_y>%s<\\mag_y>",
-									"<mag_z>%s<\\mag_z>",
-									"<accel_x>%s<\\accel_x>",
-									"<accel_y>%s<\\accel_y>",
-									"<accel_z>%s<\\accel_z>",
-									"<battery>%s<\\battery>" }
+					.parse_str = {	"<COMPASS timestamp=\"%s\">%s</COMPASS>",
+									"<mag_x>%s</mag_x>",
+									"<mag_y>%s</mag_y>",
+									"<mag_z>%s</mag_z>",
+									"<accel_x>%s</accel_x>",
+									"<accel_y>%s</accel_y>",
+									"<accel_z>%s</accel_z>",
+									"<battery>%s</battery>" }
 				}}
 	},
 	{ 
@@ -133,18 +134,18 @@ static struct sensor_element sensors[5] = {
 					.delimitor = "\r\n",
 					.show_unused_tokens = 0,
 					.delim_at_final_token = 1,
-					.parse_str = {	"<LOG timestamp=\"%s\">%s<\LOG>",
-							"<period>%s<\period>",
-							"<battery>%s<\battery>"}
+					.parse_str = {	"<LOG timestamp=\"%s\">%s</LOG>",
+							"<period>%s</period>",
+							"<battery>%s</battery>"}
 				},
 				{.token_count = 3,
 					.delimitor = "\r\n",
-					.show_unused_tokens = 1,
-					.delim_at_final_token = 0,
-					.parse_str = {"$%s,$LOG%s",
-							"%s",
-							"%s"}
-				}}
+					.show_unused_tokens = 0,
+					.delim_at_final_token = 1,
+					.parse_str = {	"<LOG timestamp=\"%s\">%s</LOG>",
+							"<period>%s</period>",
+							"<battery>%s</battery>"}
+				},}
 	},
 	{ 
 		.name = "gps",
@@ -153,47 +154,47 @@ static struct sensor_element sensors[5] = {
 					.delimitor = "\r\n",
 					.show_unused_tokens = 0,
 					.delim_at_final_token = 1,
-					.parse_str = {	"<GPS timestamp=\"%s\">%s<\GPS>",
-							"<hours>%s<\hours>",
-							"<minutes>%s<\minutes>",
-							"<seconds>%s<\seconds>",
-					 		"<msecond>%s<\msecond>",
-							"<day>%s<\day>",
-		 					"<month>%s<\month>",
-							"<year>%s<\year>",
-	 						"<lat_deg>%s<\lat_deg>",
- 							"<lat_min>%s<\lat_min>",
-	 						"<lat_sec>%s<\lat_sec>",
-							"<lat_hem>%s<\lat_hem>",
-							"<long_deg>%s<\long_deg>",
-							"<long_min>%s<\long_min>",
-							"<long_sec>%s<\long_sec>",
-							"<long_hem>%s<\long_hem>",
-							"<SOG>%s<\SOG>",
-							"<COG>%s<\COG>"}
+					.parse_str = {	"<GPS timestamp=\"%s\">%s</GPS>",
+							"<hours>%s</hours>",
+							"<minutes>%s</minutes>",
+							"<seconds>%s</seconds>",
+					 		"<msecond>%s</msecond>",
+							"<day>%s</day>",
+		 					"<month>%s</month>",
+							"<year>%s</year>",
+	 						"<lat_deg>%s</lat_deg>",
+ 							"<lat_min>%s</lat_min>",
+	 						"<lat_sec>%s</lat_sec>",
+							"<lat_hem>%s</lat_hem>",
+							"<long_deg>%s</long_deg>",
+							"<long_min>%s</long_min>",
+							"<long_sec>%s</long_sec>",
+							"<long_hem>%s</long_hem>",
+							"<SOG>%s</SOG>",
+							"<COG>%s</COG>"}
 				},
 				{.token_count = 18,
 					.delimitor = "\r\n",
 					.show_unused_tokens = 0,
 					.delim_at_final_token = 1,
-					.parse_str = {	"<GPS timestamp=\"%s\">%s<\GPS>",
-							"<hours>%s<\hours>",
-							"<minutes>%s<\minutes>",
-							"<seconds>%s<\seconds>",
-					 		"<msecond>%s<\msecond>",
-							"<day>%s<\day>",
-		 					"<month>%s<\month>",
-							"<year>%s<\year>",
-	 						"<lat_deg>%s<\lat_deg>",
- 							"<lat_min>%s<\lat_min>",
-	 						"<lat_sec>%s<\lat_sec>",
-							"<lat_hem>%s<\lat_hem>",
-							"<long_deg>%s<\long_deg>",
-							"<long_min>%s<\long_min>",
-							"<long_sec>%s<\long_sec>",
-							"<long_hem>%s<\long_hem>",
-							"<SOG>%s<\SOG>",
-							"<COG>%s<\COG>"}
+					.parse_str = {	"<GPS timestamp=\"%s\">%s</GPS>",
+							"<hours>%s</hours>",
+							"<minutes>%s</minutes>",
+							"<seconds>%s</seconds>",
+					 		"<msecond>%s</msecond>",
+							"<day>%s</day>",
+		 					"<month>%s</month>",
+							"<year>%s</year>",
+	 						"<lat_deg>%s</lat_deg>",
+ 							"<lat_min>%s</lat_min>",
+	 						"<lat_sec>%s</lat_sec>",
+							"<lat_hem>%s</lat_hem>",
+							"<long_deg>%s</long_deg>",
+							"<long_min>%s</long_min>",
+							"<long_sec>%s</long_sec>",
+							"<long_hem>%s</long_hem>",
+							"<SOG>%s</SOG>",
+							"<COG>%s</COG>"}
 				}}
 	},
 	{ 
@@ -203,47 +204,47 @@ static struct sensor_element sensors[5] = {
 					.delimitor = "\r\n",
 					.show_unused_tokens = 0,
 					.delim_at_final_token = 1,
-					.parse_str = {	"<IMU timestamp=\"%s\">%s<\\IMU>",
-							"<rawMag_x>%s<\\rawMag_x>",
-							"<rawMag_y>%s<\\rawMag_y>",
-							"<rawMag_z>%s<\\rawMag_z>",
-							"<rawMag_time>%s<\\rawMag_time>",
-							"<rawAccel_x>%s<\\rawAccel_x>",
-							"<rawAccel_y>%s<\\rawAccel_y>",
-							"<rawAccel_z>%s<\\rawAccel_z>",
-							"<rawAccel_time>%s<\\rawAccel_time>",
-							"<rawGyro_x>%s<\\rawGyro_x>",
-							"<rawGyro_y>%s<\\rawGyro_y>",
-							"<rawGyro_z>%s<\\rawGyro_z>",
-							"<rawGyro_time>%s<\\rawGyro_time>",
-							"<pitch>%s<\\pitch>",
-							"<roll>%s<\\roll>",
-							"<heading>%s<\\heading>",
-							"<emaHeading>%s<\\emaHeading>",
-							"<time>%s<\\time>"}
+					.parse_str = {	"<IMU timestamp=\"%s\">%s</IMU>",
+							"<rawMag_x>%s</rawMag_x>",
+							"<rawMag_y>%s</rawMag_y>",
+							"<rawMag_z>%s</rawMag_z>",
+							"<rawMag_time>%s</rawMag_time>",
+							"<rawAccel_x>%s</rawAccel_x>",
+							"<rawAccel_y>%s</rawAccel_y>",
+							"<rawAccel_z>%s</rawAccel_z>",
+							"<rawAccel_time>%s</rawAccel_time>",
+							"<rawGyro_x>%s</rawGyro_x>",
+							"<rawGyro_y>%s</rawGyro_y>",
+							"<rawGyro_z>%s</rawGyro_z>",
+							"<rawGyro_time>%s</rawGyro_time>",
+							"<pitch>%s</pitch>",
+							"<roll>%s</roll>",
+							"<heading>%s</heading>",
+							"<emaHeading>%s</emaHeading>",
+							"<time>%s</time>"}
 				},
 				{.token_count = 18,
 					.delimitor = "\r\n",
 					.show_unused_tokens = 0,
 					.delim_at_final_token = 1,
-					.parse_str = {	"<IMU timestamp=\"%s\">%s<\\IMU>",
-							"<rawMag_x>%s<\\rawMag_x>",
-							"<rawMag_y>%s<\\rawMag_y>",
-							"<rawMag_z>%s<\\rawMag_z>",
-							"<rawMag_time>%s<\\rawMag_time>",
-							"<rawAccel_x>%s<\\rawAccel_x>",
-							"<rawAccel_y>%s<\\rawAccel_y>",
-							"<rawAccel_z>%s<\\rawAccel_z>",
-							"<rawAccel_time>%s<\\rawAccel_time>",
-							"<rawGyro_x>%s<\\rawGyro_x>",
-							"<rawGyro_y>%s<\\rawGyro_y>",
-							"<rawGyro_z>%s<\\rawGyro_z>",
-							"<rawGyro_time>%s<\\rawGyro_time>",
-							"<pitch>%s<\\pitch>",
-							"<roll>%s<\\roll>",
-							"<heading>%s<\\heading>",
-							"<emaHeading>%s<\\emaHeading>",
-							"<time>%s<\\time>"}
+					.parse_str = {	"<IMU timestamp=\"%s\">%s</IMU>",
+							"<rawMag_x>%s</rawMag_x>",
+							"<rawMag_y>%s</rawMag_y>",
+							"<rawMag_z>%s</rawMag_z>",
+							"<rawMag_time>%s</rawMag_time>",
+							"<rawAccel_x>%s</rawAccel_x>",
+							"<rawAccel_y>%s</rawAccel_y>",
+							"<rawAccel_z>%s</rawAccel_z>",
+							"<rawAccel_time>%s</rawAccel_time>",
+							"<rawGyro_x>%s</rawGyro_x>",
+							"<rawGyro_y>%s</rawGyro_y>",
+							"<rawGyro_z>%s</rawGyro_z>",
+							"<rawGyro_time>%s</rawGyro_time>",
+							"<pitch>%s</pitch>",
+							"<roll>%s</roll>",
+							"<heading>%s</heading>",
+							"<emaHeading>%s</emaHeading>",
+							"<time>%s</time>"}
 				}}
 	}
 };
@@ -492,12 +493,15 @@ static void *ledIndicatorThread(void *sem) {
 	return NULL;
 }
 
+
+
 int main (int argc, char **argv)
 {
 	char **sp = argv;
 
-	unsigned long process_time;
+	unsigned long process_time, process_time_parse;
 	int length;
+	int success = 0;
 	int read_string_length = 0;
 	char buffer[STD_LINE_LENGTH];
 	char outb[STD_LINE_LENGTH];
@@ -510,10 +514,10 @@ int main (int argc, char **argv)
 	while( *sp != NULL ) {
 		programName = strsep(sp, "/");
 	}
-	printf("[%s] 0\n", programName);
+//	printf("[%s] 0\n", programName);
 
 	int i;
-	struct timespec spec, beginning, final;
+	struct timespec spec, spec_parse, beginning, beginning_parse, final, final_parse;
 //	struct sensor_element sensors[MAX_SENSOR_COUNT];
 	pthread_t ledIndication_thread;
 	sem_t sample_start_sem;
@@ -524,14 +528,14 @@ int main (int argc, char **argv)
 	sem_init(&sample_start_sem, 0, 0);
 
 	register_sig_handler();
-printf("[%s] 1\n", programName);
+//printf("[%s] 1\n", programName);
 	int entryCount = 5;//get_sensor_entries ( sensors );
 /*for( i=0; i < entryCount; i++) {
 debug(1, "(%p)%s\n", sensors[i].fullpath, sensors[i].fullpath); fflush(stdout);
 debug(1, "(%p)%s\n", sensors[i].mmapped_file.filename, sensors[i].mmapped_file.filename); fflush(stdout);
 }
 */
-printf("[%s] 2\n", programName);
+//printf("[%s] 2\n", programName);
 	
 //	get_parser_entries( sensors, entryCount);
 
@@ -547,27 +551,28 @@ debug(1, "(%p)%s\n", sensors[i].mmapped_file.filename, sensors[i].mmapped_file.f
 //3 '\n' 0 1 "<LOG timestamp='%s'>%s</LOG>" "<period>%s</period>" "<battery>%s</battery>"
 
 
-printf("[%s] 3\n", programName);
+//printf("[%s] 3\n", programName);
 
 	get_sensor_entries(&sensors, entryCount);
 
-	for(i = 0; i < entryCount; i++) {
+	//for(i = 0; i < entryCount; i++) {
 		
-		pretty_print_parse_element( &sensors[i].parser[0] );
+	//	pretty_print_parse_element( &sensors[i].parser[0] );
 		//pretty_print_parse_element( &sensors[i].parser[1] );
-	}
+	
+//}
 // At this point we know all sensors and have loaded their parsers
-printf("[%s] 4\n", programName);
+//printf("[%s] 4\n", programName);
 
 
 	if(creat_log(&log) < 0) {
 		return -1;
 	}
-printf("[%s] 5\n", programName);fflush(stdout);
+//printf("[%s] 5\n", programName);fflush(stdout);
 	tcp_init("/dev/ttyS3");
-printf("[%s] 6\n", programName);fflush(stdout);
+//printf("[%s] 6\n", programName);fflush(stdout);
 	pthread_create(&ledIndication_thread,&thread_attr,ledIndicatorThread, (void *)&sample_start_sem);
-	printf("[%s] 7 Start Loop\n", programName);
+	printf("[%s] 7 Starting Loop\n", programName);
 
 	while ( !done ) {
 		/*
@@ -585,16 +590,17 @@ printf("[%s] 6\n", programName);fflush(stdout);
 		/* ****** START TIMING ****** */
 
 		length = snprintf(outb, STD_LINE_LENGTH, "<dataset timestamp=\"%d.%lu\">\r\n", (int)beginning.tv_sec, beginning.tv_nsec/NSEC_PER_MSEC);
-
+		//if(tcp_send_data(outb, length)<0) reboot(RB_AUTOBOOT);
 		tcp_send_data(outb, length);
 		if ( append_log(&log, outb, length) < 0 ) {
 			fprintf(stderr, "[%s] WARNING Could not log data to SD card. Still continueuing\n", programName);
 		}
 
 		for( i=0; i < entryCount; i++) {
+			//clock_gettime(CLOCK_REALTIME, &beginning_parse);
 			//debug(1, "(%p) %s ", sensors[i].fullpath, sensors[i].fullpath); fflush(stdout);
 			//debug(1, "(%p) %s ", sensors[i].mmapped_file.filename, sensors[i].mmapped_file.filename); fflush(stdout);
-			
+			//memset(buffer, 0, STD_LINE_LENGTH);
 			read_string_length = mm_get_line(&sensors[i].mmapped_file, buffer);
 			//printf("%d\n", read_string_length);fflush(stdout);
 
@@ -605,6 +611,7 @@ printf("[%s] 6\n", programName);fflush(stdout);
 //			debug(1, "."); fflush(stdout);
 				//printf("%d\n", read_string_length);fflush(stdout);
 				length = parse_line( buffer, outb, &sensors[i].parser[0] ); // XML Parser
+				//if(tcp_send_data(outb, length)<0) reboot(RB_AUTOBOOT);
 				tcp_send_data(outb, length);
 				//printf("%s\n", outb);
 
@@ -612,15 +619,19 @@ printf("[%s] 6\n", programName);fflush(stdout);
 				if ( append_log(&log, outb, length) < 0 ) {
 					fprintf(stderr, "[%s] WARNING Could not log data to SD card. Still continueuing\n", programName);
 				}
-				usleep(50000);
+				//usleep(50000);
 				read_string_length = mm_get_line(&sensors[i].mmapped_file, buffer);
-				
-				
+			
 			}
+				/*clock_gettime(CLOCK_REALTIME, &final_parse);
+				spec_parse = subtract_timespec(final_parse, beginning_parse);
+				process_time_parse = spec_parse.tv_sec * USEC_PER_SEC + spec_parse.tv_nsec / NSEC_PER_USEC;
+				printf("Process time [%s]: %lu \n", &sensors[i].name, process_time_parse); fflush(stdout);*/
 //debug(1, "\n");
 		}
 
 		length = sprintf(outb, "</dataset>\r\n");
+		//if(tcp_send_data(outb, length)<0) reboot(RB_AUTOBOOT);
 		tcp_send_data(outb, length);
 		if ( append_log(&log, outb, length) < 0 ) {
 			fprintf(stderr, "[%s] WARNING Could not log data to SD card. Still continueuing\n", programName);
@@ -630,17 +641,19 @@ printf("[%s] 6\n", programName);fflush(stdout);
 		clock_gettime(CLOCK_REALTIME, &final);
 		spec = subtract_timespec(final, beginning);
 		process_time = spec.tv_sec * USEC_PER_SEC + spec.tv_nsec / NSEC_PER_USEC;
+
 		if(process_time > SAMPLE_PERIOD_US) process_time = SAMPLE_PERIOD_US;
 		else if(process_time < 0) process_time = 0;
 
-		//printf("%lu ", process_time); fflush(stdout);
+		//printf("Process time [TOTAL]: %lu - %d\n", process_time, tcp_checkconnection()); 
+		fflush(stdout);
 		usleep(SAMPLE_PERIOD_US - process_time);
 	}
-debug(1, "PROGRAM EXIT \n");
+	debug(1, "PROGRAM EXIT \n");
 
 	tcp_end();
 
-	return 0;
+	return -1;
 }
 
 

@@ -24,12 +24,13 @@ void GS_API_PrintModuleInformation( void ){
           if(AtLib_ParseVersionResponse(appVer, gepsVer, wlanVer)){
                GS_API_Printf("APP Version:");
                GS_API_Printf(appVer);
-               GS_API_Printf("GEPS Version:");
+               GS_API_Printf("\nGEPS Version:");
                GS_API_Printf(gepsVer);
-               GS_API_Printf("WLAN Version:");
+               GS_API_Printf("\nWLAN Version:");
                GS_API_Printf(wlanVer);
+               GS_API_Printf("\n");
           } else {
-               GS_API_Printf("Version Fail");
+               GS_API_Printf("Version Fail\n");
           }
      }
 }

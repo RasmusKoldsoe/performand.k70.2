@@ -78,6 +78,8 @@ int mm_get_line(h_mmapped_file *mapped_file, char* user_buffer)
 		return -1;
 	}
 
+	//printf("file %s - testCounter: %d\n",mapped_file->filename, textCounter);
+
 	if(lock_file(&fl, mapped_file->filename, &fd, O_RDWR) < 0) {
 		return -2;
 	}
@@ -98,7 +100,7 @@ int mm_get_line(h_mmapped_file *mapped_file, char* user_buffer)
 	*endOfLine = '\0';
 
 	// Copy line to user buffer - Assume enough memory
-	ssize_t lineLength = (endOfLine - mapped_file->mem_ptr) - MM_FILE_INDEX_SIZE + 1;
+	ssize_t lineLength = (endOfLine - mapped_file->mem_ptr) - MM_FILE_INDEX_SIZE +1;
 
 //printf("%s ", mapped_file->filename); fflush(stdout);
 //printf("lineLength: "); fflush(stdout);
@@ -109,12 +111,13 @@ int mm_get_line(h_mmapped_file *mapped_file, char* user_buffer)
 //printf(")\n");
 
 	if(lineLength > DEFAULT_FILE_LENGTH) {
-		fprintf(stderr, "[mm_daemon] ERROR Detected too long line length %d\n", lineLength);
+		fprintf(stderr, "[mm_daemon] ERROR line length %d longer than file\n", lineLength);
 		UNLOCK_FILE(fd);
 		return -3;
 	}
 //	else if(lineLength == 0) { // Would happen if buffer[0]=='\n'
-	else if(lineLength < 14) {
+	else if(lineLength < 9) {
+		fprintf(stderr, "[mm_daemon] ERROR Detected too short line length %d\n", lineLength);
 		UNLOCK_FILE(fd);
 		return 0;
 	}

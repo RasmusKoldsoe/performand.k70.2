@@ -288,6 +288,7 @@ void AtLib_ClearNodeResetFlag(void);
 uint8_t AtLib_IsNodeAssociated(void);
 void AtLib_SetNodeAssociationFlag(void);
 void AtLib_ClearNodeAssociationFlag(void);
+int MyAtLib_ReceiveDataHandle (void);
 
 void AtLib_ClearAllCid(void);
 void AtLib_SaveTcpCid(uint8_t cid);
@@ -302,6 +303,9 @@ int32_t AtLib_strcasecmp(const char *s1, const char *s2);
 void AtLib_ConvertNumberTo4DigitASCII(uint32_t myNum, int8_t *pStr);
 
 extern void AtLib_Init(void);
+
+bool AtLib_IsClientConnected(void);
+void AtLib_SetClientConnected(bool set);
 
 // User supplied routines
 extern void App_ProcessIncomingData(uint8_t cid, uint8_t rxData);

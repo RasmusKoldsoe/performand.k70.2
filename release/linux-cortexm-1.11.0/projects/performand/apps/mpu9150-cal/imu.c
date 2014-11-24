@@ -442,16 +442,18 @@ void read_loop(unsigned int sample_rate)
 		
 
 			//Heading - Pitch/Roll compensation 
-			double Xh = (mpu.normMag[VEC3_X] * cos(mpu.roll*M_PI/180)) 
+			float Xh = (mpu.normMag[VEC3_X] * cos(mpu.roll*M_PI/180)) 
 					- (mpu.normMag[VEC3_Z]*sin(mpu.roll*M_PI/180));
-		  	double Yh = mpu.normMag[VEC3_X] * sin(mpu.pitch*M_PI/180)*sin(mpu.roll*M_PI/180) 
-							+ mpu.normMag[VEC3_Y] *cos(mpu.pitch*M_PI/180) 
-							- mpu.normMag[VEC3_Z] *sin(mpu.pitch*M_PI/180)*cos(mpu.roll*M_PI/180);
+		  	float Yh = (mpu.normMag[VEC3_X] * sin(mpu.pitch*M_PI/180)*sin(mpu.roll*M_PI/180)) 
+							+ (mpu.normMag[VEC3_Y] *cos(mpu.pitch*M_PI/180)) 
+							- (mpu.normMag[VEC3_Z] *sin(mpu.pitch*M_PI/180)*cos(mpu.roll*M_PI/180));
   
+
 			mpu.heading = atan2(Yh, Xh);
 
-			if (mpu.heading > M_PI)
-			       mpu.heading = mpu.heading - 2*M_PI;
+			if (mpu.heading > M_PI) {
+			       mpu.heading = mpu.heading - M_PI;
+			}
 			else if (mpu.heading < -M_PI)
 			       mpu.heading = mpu.heading + 2*M_PI;
 			else if (mpu.heading < 0)
@@ -464,6 +466,8 @@ void read_loop(unsigned int sample_rate)
 
 			//time_s[i] = ts.tv_sec;
 			//time_ms[i] = ts.tv_nsec / NSEC_PER_MSEC;
+
+			//printf("Heading %f mpu.ema_heading %f\n",mpu.heading,mpu.ema_heading  );
 
 			clock_gettime(CLOCK_REALTIME, &ts_end);
 
@@ -536,7 +540,7 @@ int set_cal(int mag, char *cal_file)
 	int i;
 	FILE *f;
 	char buff[32];
-	float val[9];
+	float val[12];
 	caldata_t cal;
 
 	if (cal_file) {
@@ -583,6 +587,10 @@ int set_cal(int mag, char *cal_file)
 		return -1;
 
 	if (mag) {
+		for (i = 0; i < 12; i++) {
+			
+		}
+		
 		for (i = 0; i < 9; i++)
 			cal.comp[i] = val[i];
 

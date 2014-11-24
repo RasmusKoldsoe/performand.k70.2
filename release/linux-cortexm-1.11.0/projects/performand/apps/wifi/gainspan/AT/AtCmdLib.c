@@ -39,6 +39,7 @@
 /* Receive buffer to save async and response message from S2w App Node */
 uint8_t MRBuffer[HOST_APP_RX_CMD_MAX_SIZE];
 uint16_t MRBufferIndex = 0;
+bool clientConnected = 0;
 
 /* Command transmit buffer */
 char G_ATCmdBuf[HOST_APP_TX_CMD_MAX_SIZE];
@@ -2846,6 +2847,7 @@ AtLib_checkEOFMessage (const uint8_t * pBuffer)
   else if ((strstr ((const char *) pBuffer, "DISASSOCIATED") != NULL))
     {
       /* Reset the local flags */
+	printf("DISASSOCIATED \n");
       AtLib_ClearNodeAssociationFlag ();
       AtLib_ClearAllCid ();
       return HOST_APP_MSG_ID_DISASSOCIATION_EVENT;
@@ -2857,6 +2859,7 @@ AtLib_checkEOFMessage (const uint8_t * pBuffer)
   else if (strstr ((const char *) pBuffer, "ERROR: SOCKET FAILURE") != NULL)
     {
       /* Reset the local flags */
+      printf("Wifi: Socket FAILURE\n");
       AtLib_ClearAllCid ();
       return HOST_APP_MSG_ID_ERROR_SOCKET_FAIL;
     }
@@ -2888,12 +2891,15 @@ AtLib_checkEOFMessage (const uint8_t * pBuffer)
 	   != NULL)
     {
       /* Reset the local flags */
+	printf("Wifi: Client DISCONNECT \n");
+	clientConnected = 0;
       AtLib_ClearAllCid ();
       return HOST_APP_MSG_ID_DISCONNECT;
     }
   else if ((strstr ((const char *) pBuffer, "Disassociation Event")) != NULL)
     {
       /* reset the association flag */
+	printf("Disassociation Event!!!! \n");
       AtLib_ClearNodeAssociationFlag ();
       AtLib_ClearAllCid ();
       return HOST_APP_MSG_ID_DISASSOCIATION_EVENT;
@@ -2928,8 +2934,11 @@ AtLib_checkEOFMessage (const uint8_t * pBuffer)
     }
   else if ((strstr ((const char *) pBuffer, "CONNECT ")) != NULL
 	   && strlen (strstr ((const char *) pBuffer, "CONNECT ")) > 20)
+	
     {
       // String is formatted as CONNECT 0 1 192.168.100.200 65535
+	printf("Wifi: Client CONNECT.\n");
+	clientConnected = 1;
       return HOST_APP_MSG_ID_TCP_SERVER_CLIENT_CONNECTION;
     }
   else if ((pBuffer[0] == 'A') && (pBuffer[1] == 'T') && (pBuffer[2] == '+'))
@@ -2938,6 +2947,14 @@ AtLib_checkEOFMessage (const uint8_t * pBuffer)
     }
 
   return HOST_APP_MSG_ID_NONE;
+}
+
+bool AtLib_IsClientConnected(void) {
+	return clientConnected;
+}
+
+void AtLib_SetClientConnected(bool set) {
+	clientConnected = set;
 }
 
 /*---------------------------------------------------------------------------*
@@ -2955,14 +2972,36 @@ void
 AtLib_ReceiveDataHandle (void)
 {
   uint8_t rxData;
+  int out = 0;
+  int rtv = 0;
 
   /* Read one byte at a time - Use non-blocking call */
   while (GS_HAL_recv (&rxData, 1, 0))
     {
       /* Process the received data */
-      AtLib_ReceiveDataProcess (rxData);
+      out = AtLib_ReceiveDataProcess (rxData);
     }
+
 }
+
+int
+MyAtLib_ReceiveDataHandle (void)
+{
+  uint8_t rxData;
+  int out = 0;
+  int rtv = 0;
+
+  /* Read one byte at a time - Use non-blocking call */
+  while (GS_HAL_recv (&rxData, 1, 0))
+    {
+      /* Process the received data */
+      rtv=AtLib_ReceiveDataProcess (rxData);
+      if(rtv)
+		out = rtv;
+    }
+   return out;
+}
+
 
 /*---------------------------------------------------------------------------*
  * Routine:  AtLib_ReceiveDataProcess

@@ -228,7 +228,7 @@ void mpu9150_set_mag_cal(caldata_t *cal)
 			mag_cal_data.offset[i] = -MAG_SENSOR_RANGE;
 		else if (mag_cal_data.offset[i] > MAG_SENSOR_RANGE)
 			mag_cal_data.offset[i] = MAG_SENSOR_RANGE;
-	}
+	}*/
 
 	printf("Mag cal matrix:\n");
 	printf("%0.5f,%0.5f,%0.5f\n",mag_cal_data.comp[0],mag_cal_data.comp[1],mag_cal_data.comp[2]);
@@ -236,7 +236,7 @@ void mpu9150_set_mag_cal(caldata_t *cal)
 	printf("%0.5f,%0.5f,%0.5f\n",mag_cal_data.comp[6],mag_cal_data.comp[7],mag_cal_data.comp[8]);
 	printf("Mag offset vector:\n");
 	printf("%0.5f,%0.5f,%0.5f\n",mag_cal_data.offset[VEC3_X],mag_cal_data.offset[VEC3_Y],
-			mag_cal_data.offset[VEC3_Z]);*/
+			mag_cal_data.offset[VEC3_Z]);
 	use_mag_cal = 1;
 }
 

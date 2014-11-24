@@ -5,3 +5,5 @@
 int tcp_init(char *port);
 int tcp_send_data(char *data, int len);
 void tcp_end();
+int tcp_checkconnection();
+void initWifi(void);
